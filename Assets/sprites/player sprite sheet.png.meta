@@ -1,0 +1,546 @@
+fileFormatVersion: 2
+guid: cf6ab22494cedd54ca42972c68e0d808
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8737253185402685541
+    second: player sprite sheet_0
+  - first:
+      213: 4134300109547305254
+    second: player sprite sheet_1
+  - first:
+      213: -1924769311510180605
+    second: player sprite sheet_2
+  - first:
+      213: 8255786654359283716
+    second: player sprite sheet_3
+  - first:
+      213: -1468881785758361569
+    second: player sprite sheet_4
+  - first:
+      213: -5519567458402458862
+    second: player sprite sheet_5
+  - first:
+      213: 6047523871138035508
+    second: player sprite sheet_6
+  - first:
+      213: 2906341720966242779
+    second: player sprite sheet_7
+  - first:
+      213: 2234021865791275212
+    second: player sprite sheet_8
+  - first:
+      213: 6189870985902107503
+    second: player sprite sheet_9
+  - first:
+      213: 1570239684905071379
+    second: player sprite sheet_10
+  - first:
+      213: -6292506141253328796
+    second: player sprite sheet_11
+  - first:
+      213: 3450608496375332989
+    second: player sprite sheet_12
+  - first:
+      213: 8494862598366338121
+    second: player sprite sheet_13
+  - first:
+      213: -1236759452862182059
+    second: player sprite sheet_14
+  - first:
+      213: -4132704408041565751
+    second: player sprite sheet_15
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: player sprite walk down 1
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 820
+        width: 157
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 568c39cea75f04970800000000000000
+      internalID: 8737253185402685541
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk down 2
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 811
+        width: 158
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 629fc609b0cff5930800000000000000
+      internalID: 4134300109547305254
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk down 3
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 820
+        width: 158
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 30dccd05288d945e0800000000000000
+      internalID: -1924769311510180605
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk down 4
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 811
+        width: 156
+        height: 232
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 408ee7a9832729270800000000000000
+      internalID: 8255786654359283716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk left 1
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 550
+        width: 149
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f18d4de5ccb7d9be0800000000000000
+      internalID: -1468881785758361569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk left 2
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 550
+        width: 149
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 213ad18f3ae8663b0800000000000000
+      internalID: -5519567458402458862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk left 3
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 550
+        width: 149
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 437b0ed6bee1de350800000000000000
+      internalID: 6047523871138035508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk left 4
+      rect:
+        serializedVersion: 2
+        x: 871
+        y: 558
+        width: 147
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd127129566655820800000000000000
+      internalID: 2906341720966242779
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk right 1
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 280
+        width: 150
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc0c1f2fc07d00f10800000000000000
+      internalID: 2234021865791275212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk right 2
+      rect:
+        serializedVersion: 2
+        x: 330
+        y: 280
+        width: 150
+        height: 216
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f6b2138cdd6d6e550800000000000000
+      internalID: 6189870985902107503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk right 3
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 280
+        width: 150
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 313fcf68cac9ac510800000000000000
+      internalID: 1570239684905071379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk right 4
+      rect:
+        serializedVersion: 2
+        x: 870
+        y: 288
+        width: 148
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 460a1afe0078ca8a0800000000000000
+      internalID: -6292506141253328796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk up 1
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 10
+        width: 157
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d708565352603ef20800000000000000
+      internalID: 3450608496375332989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk up 2
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 3
+        width: 158
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94c90678680d3e570800000000000000
+      internalID: 8494862598366338121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk up 3
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 10
+        width: 158
+        height: 208
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55d0b8b84d526dee0800000000000000
+      internalID: -1236759452862182059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player sprite walk up 4
+      rect:
+        serializedVersion: 2
+        x: 862
+        y: 3
+        width: 156
+        height: 223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c1ddf4ac3fa5a6c0800000000000000
+      internalID: -4132704408041565751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 63db015a70fedd041b83cecda4e860db
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      player sprite walk down 1: 8737253185402685541
+      player sprite walk down 2: 4134300109547305254
+      player sprite walk down 3: -1924769311510180605
+      player sprite walk down 4: 8255786654359283716
+      player sprite walk left 1: -1468881785758361569
+      player sprite walk left 2: -5519567458402458862
+      player sprite walk left 3: 6047523871138035508
+      player sprite walk left 4: 2906341720966242779
+      player sprite walk right 1: 2234021865791275212
+      player sprite walk right 2: 6189870985902107503
+      player sprite walk right 3: 1570239684905071379
+      player sprite walk right 4: -6292506141253328796
+      player sprite walk up 1: 3450608496375332989
+      player sprite walk up 2: 8494862598366338121
+      player sprite walk up 3: -1236759452862182059
+      player sprite walk up 4: -4132704408041565751
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

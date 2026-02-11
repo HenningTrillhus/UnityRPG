@@ -1,0 +1,48 @@
+{
+    "messages": 
+    [
+        {
+            "id": 10,
+            "speaker": "Aldric Woodrow",
+            "text": "Ah… greetings, traveler. Ye've the look of one strong and able… might I trouble ye with a small task?",
+            "choices": [
+                { "text": "You look like you could use a hand. What's the trouble?", "next_id": 11 },
+                { "text": "Aye… you don't look as spry as you once were. Tell me what needs done.", "next_id": 12 }
+            ]
+        },
+        {
+            "id": 11,
+            "speaker": "Aldric Woodrow",
+            "text": "Ah… 'tis good of ye to offer! My shoulder's ailing, and I can't swing an axe like I used to. There are trees near the edge of the woods that need felling 'fore the winter frost sets in. I'd be grateful for a strong arm such as yours.",
+            "nextID": 13
+        },
+        {
+            "id": 12,
+            "speaker": "Aldric Woodrow",
+            "text": "Ha… sharp eyes you have, traveler. 'Tis true, these old bones are not what they once were. I must chop timber for my hearth before the snow buries it all, but the task proves too much alone. If ye'd lend your strength, it would ease this old man's burden greatly",
+            "nextID": 13
+        },
+        {
+            "id": 13,
+            "speaker": "Aldric Woodrow",
+            "text": "Aye… ye've sharp eyes and a strong arm, both will serve well. I need twenty-five logs from the oak trees near the edge of the woods. 'Tis more than these old bones can manage alone. Here—take my old axe. She's seen many winters, but she'll bite through timber just fine. With your help, my hearth will burn bright before the frost sets in.",
+            "choices": [
+                { "text": "Very well. I'll gather the twenty-five logs for you. The axe will serve me well, I'm sure.", "next_id": 14 },
+                { "text": "I'm afraid I cannot help you this time. The woods will have to wait for another hand.", "next_id": 15 }
+            ]
+        },
+        {
+            "id": 14,
+            "speaker": "Aldric Woodrow",
+            "text": "Bless thee, kind soul! May your arms stay strong and your cuts be true. I'll keep a warm hearth for your return.",
+            "nextID": 0,
+            "QuestID": 1
+        },
+        {
+            "id": 15,
+            "speaker": "Aldric Woodrow",
+            "text": "Ah… I understand. 'Tis a harsh time for all, I suppose. May the road treat ye kindly, traveler.",
+            "nextID": 0
+        }
+    ]
+}

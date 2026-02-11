@@ -1,0 +1,23 @@
+{
+    "quests":
+    [
+        {
+            "id": 1,
+            "type": "Gather",
+            "materialToGather": 
+            [
+                {"material": "Wood Log", "amount": 25}
+            ],
+            
+            "questTexts": 
+            [
+                {"text": "gather 25 wood logs"}
+            ],
+
+            "startingLoot":
+            [
+                {"item": "wooden aks", "amount": 1}
+            ]      
+        }
+    ]
+}
