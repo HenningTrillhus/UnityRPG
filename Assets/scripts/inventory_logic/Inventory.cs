@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// this shit is fucking stupid
+/// </summary>
 [System.Serializable]
 public class ItemForBackEndInventory
 {
