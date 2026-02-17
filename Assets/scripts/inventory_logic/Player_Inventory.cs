@@ -6,10 +6,15 @@ public class Player_Inventory : MonoBehaviour
     public ItemData stoneItem; // drag your Stone asset here in Inspector
 
     public Inventory inventory; // this is the logic object
+    public InventoryV2 inventoryV2; // this is the new logic object
+
+
+    
 
     void Awake()
     {
         inventory = new Inventory(10); // 10 slots to start
+        inventoryV2 = new InventoryV2(); // initialize the new inventory
     }
 
     void Update()
@@ -21,7 +26,16 @@ public class Player_Inventory : MonoBehaviour
         }*/
         if (Input.GetKeyDown(KeyCode.G))
         { 
-            inventory.AddItem(stoneItem, 3); // adds 3 Stone
+            //inventory.AddItem(stoneItem, 3); // adds 3 Stone
+            inventoryV2.AddItemV2(woodItem,60); // adds 1 item to the new inventory
+            //inventoryV2.RemoveItemV2(woodItem, 1); // removes 1 item from the new inventory
+            //PrintInventory();
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        { 
+            //inventory.AddItem(stoneItem, 3); // adds 3 Stone
+            //inventoryV2.AddItemV2(woodItem,60); // adds 1 item to the new inventory
+            inventoryV2.RemoveItemV2(woodItem, 5); // removes 1 item from the new inventory
             //PrintInventory();
         }
     }

@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Stone Brick
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Stone Brick
+  itemType: Material
+  itemIsTool: 0
+  rarity: Common
+  valueInGameCurrency: 2
   icon: {fileID: 3525358477972416981, guid: a512d2c5b4bc3a14d972d1a85aac3f8b, type: 3}
   stackable: 1
   maxStack: 50

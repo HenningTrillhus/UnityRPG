@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Wood Log
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: Wood Log
+  itemType: Material
+  itemIsTool: 0
+  rarity: Common
+  valueInGameCurrency: 1
   icon: {fileID: -4274588824088413323, guid: 68a0321e43419794cac3433673afd078, type: 3}
   stackable: 1
   maxStack: 99
