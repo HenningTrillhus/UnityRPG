@@ -29,64 +29,77 @@ public class InventoryV2
 
     public void AddItemV2(ItemData item, int amount = 1)
     {
+        int stackRotation = 1; //start at stack number one if that is full go to next
+
+        bool ItemExistsInInv = NewInventory.Any(i => i.Name == item.itemName);
+
         //if inventory is empty just add to list
         if (!NewInventory.Any())
         {
-            Debug.Log("inventory is empty, adding new item");
+            Debug.Log("added new stack of : " + item.itemName + " with amount of " + amount);
             NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
         }
         else
         {
             //check if item is stackable
-            if (item.stackable)
+            if (item.stackable && ItemExistsInInv)
             {
                 //go trough all items in inventory that are stackable
                 foreach (InventoryV2 itemInInventory in NewInventory)
                 {
                     //check for mathing name, checks if stack is full, if it is then we skip it
-                    if (itemInInventory.Name == item.itemName && itemInInventory.stackFull == false)
+                    if (itemInInventory.Name == item.itemName && itemInInventory.stackFull == false &&  itemInInventory.stack == stackRotation)
                     {
                         //pluss the old amount pluss the new to check if the amount bypass the max, then creat new stack
                         int quantityLeftOver = (itemInInventory.Quantity + amount) - itemInInventory.MaxStack;
                         if (quantityLeftOver > 0)
                         {
                             //if bypass set quantity to max and mark as full stac
-                            //also make sure its above 0 if just max stack still needs tro be able to remove from it, so only set to fullstack if it has more stacks
+                            //also make sure its above 0 if just max stack still needs to be able to remove from it, so only set to fullstack if it has more stacks
                             itemInInventory.Quantity = itemInInventory.MaxStack;
                             itemInInventory.stackFull = true;
 
                             //creat new stack now with stack pluss one
-                            Debug.Log("bypass max, creat new stack of the new item with the left over amount");
+                            Debug.Log("bypass max, creat new stack of the new item with the left over amount witch is " + quantityLeftOver + " this is stack number " + (itemInInventory.stack + 1));
                             NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = quantityLeftOver, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = itemInInventory.stack+1, stackFull = false});
+                            FixChanges();
                             return;
                         }
                         else
                         {
                             //if not bypass just add the amount to the stack
                             itemInInventory.Quantity += amount;
+                            Debug.Log("added amount to existing stack of item: " + item.itemName + " with amount of " + amount + " now has " + itemInInventory.Quantity + " this is stack number " + itemInInventory.stack);
                         }
                         return;
                     }
                     //if stack is full, skip to next stack.
                     if (itemInInventory.Name == item.itemName && itemInInventory.stackFull == true)
                     {
+                        Debug.Log("stack number " + itemInInventory.stack + " is full, skip to next stack if exist");
+                        stackRotation++;
                         continue;
                     }
-                    else
+                    /*if (itemInInventory.Name != item.itemName)
                     {
-                        //if no match creat new stack of the new item
-                        Debug.Log("no match, creat new stack of the new item");
-                        NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
-                    }
+                        
+                    }*/
                     
                 }
-                return; 
-
+            }
+            if (item.stackable && !ItemExistsInInv)
+            {
+                //if no match creat new stack of the new item and set stack to stackRotation
+                Debug.Log("no match, creat new stack of the new item of " + item.itemName + " with amount of " + amount + " this is stack number " + stackRotation);
+                NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
+                FixChanges();
+                return;
             }
             //if item is not stackable
             else
             {
-                //wtf
+                Debug.Log("item is not stackable, creat new stack of the new item");
+                NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = true});
             }
         }
         
@@ -110,24 +123,57 @@ public class InventoryV2
                     //if the amount leads to 0 remove the whole item form the inventory.
                     if (itemInInventory.Quantity == 0)
                     {
-                        Debug.Log("removed item becuse item is now just 0 nothing more or less");
+                        int stackNumber = itemInInventory.stack;
+                        Debug.Log("Item " + itemInInventory.Name + " is now 0, removing from inventory, it was stack number " + itemInInventory.stack);
+                        Debug.Log("!removing code1!");
                         NewInventory.Remove(itemInInventory);
-                        //clean up the slots and position in the inventory after change
-                        FixChanges();
+
+                        //if its multiple stacks go back to last stack and set it to not fullstack so we can remove from it when that is needed. 
+                        Debug.Log("checking for more stacks of this item, looking for stack number " + (stackNumber - 1));
+                        if (stackNumber > 1)
+                        {
+
+                            for (int i = 0; i < NewInventory.Count; i++)
+                            {
+                                if (NewInventory[i].Name == item.itemName && NewInventory[i].stack == (stackNumber - 1))
+                                {
+                                    NewInventory[i].stackFull = false;
+                                    Debug.Log("activ stack is now stack number " + NewInventory[i].stack + " with amount of " + NewInventory[i].Quantity);
+                                    FixChanges();
+                                }
+                            }
+                            /*
+                            foreach (InventoryV2 itemInInventoryR2 in NewInventory)
+                            {
+                                if (itemInInventoryR2.Name == item.itemName && itemInInventoryR2.stack == (stackNumber - 1))
+                                {
+                                    itemInInventoryR2.stackFull = false;
+                                    Debug.Log("activ stack is now stack number " + itemInInventoryR2.stack + " with amount of " + itemInInventoryR2.Quantity);
+                                    FixChanges();
+                                }
+                            }
+                            */
+                        }
+                        else{
+                            Debug.Log("no more stacks of this item");
+                        }
                     }
+
+                    Debug.Log("removing " + amount + " from stack number " + itemInInventory.stack + " new amount is " + itemInInventory.Quantity);
                     return;
                 }
                 //if the amount is higher then quantity but has multiple stackes
                 if (itemInInventory.Quantity < amount && itemInInventory.stack > 1){
-                    Debug.Log("removing this stack but still has leftover, moves to next");
-                    //finds the left over and makes it a positiv number. 
+                    
+                    //finds the leftover and makes it a positiv number. 
                     int LeftOverAmount = ((itemInInventory.Quantity - amount) * -1);
                     //get the stack number we search for that would be the next stack to unpack.
                     int stackNumber = (itemInInventory.stack -1);
 
+                    Debug.Log("Removing stack number " + itemInInventory.stack + " leftover amount is " + LeftOverAmount + " looking for stack number " + stackNumber);
                     //remove the empty stack
+                    Debug.Log("!removing code2!");
                     NewInventory.Remove(itemInInventory);
-
                     //run trough again to find the next stack in the inventory.
                     foreach (InventoryV2 itemInInventoryR2 in NewInventory)
                     {
@@ -141,31 +187,43 @@ public class InventoryV2
                             }
                             else
                             {
-                                
                                 //remove the leftover from the new stack and set it to not fullstack any more.
                                 itemInInventoryR2.Quantity -= LeftOverAmount;
                                 itemInInventoryR2.stackFull = false;
-
-                                Debug.Log("removing from the next stack now, left with " + itemInInventoryR2.Quantity + " in this stack");
-                                return;
+                                Debug.Log("now activ stack is stack number " + itemInInventoryR2.stack + " with amount of " + itemInInventoryR2.Quantity);
+                                FixChanges();
                             }
                         }
+                        else{
+                            Debug.Log("(not good not good) , looking for stack number " + stackNumber + " but found stack number " + itemInInventoryR2.stack + " with name " + itemInInventoryR2.Name);
+                        }
                     }
-                    break;
+                    return;
                 }
                 else{
                     //if amount higher then full amount of item
                     Debug.Log("you broke ass, you dont have enough iteams to do that bitch ass.");
                 }
             }
-            Debug.Log("Removing left with" + itemInInventory.Quantity);
+            else{
+                Debug.Log("Item not found in inventory.");
+            }
         }
         
     }
 
     public void FixChanges()
     {
-        
+        Debug.Log("sorting inventory...");
+        NewInventory.Sort((a,b) => a.Name.CompareTo(b.Name)); 
+        logInv();
+    }
+
+    public void logInv(){
+        Debug.Log("------------------------------------------");
+        foreach (InventoryV2 itemInInventory in NewInventory){
+            Debug.Log("Item: " + itemInInventory.Name + " Stack: " + itemInInventory.stack + " Quantity: " + itemInInventory.Quantity + " stackFull: " + itemInInventory.stackFull);
+        }
     }
 }
 

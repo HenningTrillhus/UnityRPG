@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1948cb8f649021b4c8716da86107b527, type: 3}
-  m_Name: Wood Log
+  m_Name: Iron ore
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Wood Log
+  itemName: Iron Ore
   itemType: Material
   itemIsTool: 0
-  rarity: Common
-  valueInGameCurrency: 1
-  icon: {fileID: -4274588824088413323, guid: 68a0321e43419794cac3433673afd078, type: 3}
+  rarity: Rear
+  valueInGameCurrency: 10
+  icon: {fileID: 0}
   stackable: 1
-  maxStack: 100
+  maxStack: 50
