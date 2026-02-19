@@ -5,10 +5,11 @@ public class InventoryUI : MonoBehaviour
     [Header("References")]
     public GameObject inventoryPanel;
     public Player_Inventory playerInventory;
-
+    
     [Header("Slot Setup")]
     public Transform slotGrid;      // parent (SlotGrid)
     public GameObject slotPrefab;   // Slot prefab
+
 
     private SlotUI[] slotUIs;
 
@@ -24,23 +25,23 @@ public class InventoryUI : MonoBehaviour
     void Update()
     {
         // toggle inventory
-        if (Input.GetKeyDown(KeyCode.Tab) && (!GameManager.Instance.IsGamePaused()) && (Dialog_open_ui.DialogAcctivRN != true))
+        /*if (Input.GetKeyDown(KeyCode.Tab) && (!GameManager.Instance.IsGamePaused()) && (Dialog_open_ui.DialogAcctivRN != true))
         {
             //Debug.Log(Dialog_open_ui.DialogAcctivRN);
             inventoryPanel.SetActive(!inventoryPanel.activeSelf);
             IsOpen = !IsOpen;
         }
 
-        UpdateSlots();
+        UpdateSlots();*/
     }
 
     void CreateSlots()
     {
-        int count = playerInventory.inventory.Slots.Count;
+        int slotCount = playerInventory.inventoryV2.inventoryCapacity;
+        Debug.Log("this is the invenvotry capacity form the ui " + slotCount);
+        slotUIs = new SlotUI[slotCount];
 
-        slotUIs = new SlotUI[count];
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < slotCount; i++)
         {
             GameObject slotObj = Instantiate(slotPrefab, slotGrid);
 
@@ -50,9 +51,9 @@ public class InventoryUI : MonoBehaviour
 
     void UpdateSlots()
     {
-        for (int i = 0; i < slotUIs.Length; i++)
+        /*for (int i = 0; i < slotUIs.Length; i++)
         {
-            slotUIs[i].UpdateSlot(playerInventory.inventory.Slots[i]);
-        }
+            slotUIs[i].UpdateSlot(playerInventory.InventoryV2[i]);
+        }*/
     }
 }

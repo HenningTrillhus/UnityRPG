@@ -10,6 +10,7 @@ public class Player_Inventory : MonoBehaviour
 
     public Inventory inventory; // this is the logic object
     public InventoryV2 inventoryV2; // this is the new logic object
+    public InventoryUI2 inventoryUI2; 
 
 
     
@@ -17,7 +18,7 @@ public class Player_Inventory : MonoBehaviour
     void Awake()
     {
         inventory = new Inventory(10); // 10 slots to start
-        inventoryV2 = new InventoryV2(); // initialize the new inventory
+        inventoryV2 = new InventoryV2(inventoryUI2); // initialize the new inventory
     }
 
     void Update()
@@ -48,6 +49,10 @@ public class Player_Inventory : MonoBehaviour
             inventoryV2.AddItemV2(CopperOre, 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.J))
+        { 
+            inventoryV2.logInv();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
         { 
             inventoryV2.logInv();
         }

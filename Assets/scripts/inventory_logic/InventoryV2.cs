@@ -5,6 +5,14 @@ using System.Linq;
 //NO MONO so dont connect to any game object, public logic for new better inventory 
 public class InventoryV2
 {
+    //public InventoryUI2 inventoryUI; //reference to the new inventory ui to update the ui when changes are made, this is really bad but i dont know how else to do it without making a new class for the player inventory that both inventories can reference, or making the inventoryV2 a monobehaviour and connect it to the player inventory game object, which i also dont want to do because then it would be more work to connect it to the player inventory game object and also make it less flexible if i want to use it for other inventories like chest or something.
+
+    //refrensing to the UI Code 
+    /*private InventoryUI2 UILogic;
+
+    public InventoryV2(InventoryUI2 InventoryUI2Ref){
+        UILogic = InventoryUI2Ref;
+    }*/
 
     private Player_Inventory player_inventory; //reference to the old inventory to get the capacity, this is really bad but i dont know how else to do it without making a new class for the player inventory that both inventories can reference, or making the inventoryV2 a monobehaviour and connect it to the player inventory game object, which i also dont want to do because then it would be more work to connect it to the player inventory game object and also make it less flexible if i want to use it for other inventories like chest or something.
     //(will be saved inside inventory) /will only be saved in unity item: 
@@ -132,9 +140,11 @@ public class InventoryV2
                         Debug.Log("checking for more stacks of this item, looking for stack number " + (stackNumber - 1));
                         if (stackNumber > 1)
                         {
-
+                            //Go trough inventory to find the next activ stack, and set it to false fullstack even tho its full, its always just one stack of every item that is not full witch is the activ stack.
                             for (int i = 0; i < NewInventory.Count; i++)
+                            //using a for loop becuse unity did not like that i removed items as i wolked trough the inventory or somthing like that.
                             {
+                                //finds activ stack by finding the next stack (stacknumber -1)
                                 if (NewInventory[i].Name == item.itemName && NewInventory[i].stack == (stackNumber - 1))
                                 {
                                     NewInventory[i].stackFull = false;
@@ -142,17 +152,6 @@ public class InventoryV2
                                     FixChanges();
                                 }
                             }
-                            /*
-                            foreach (InventoryV2 itemInInventoryR2 in NewInventory)
-                            {
-                                if (itemInInventoryR2.Name == item.itemName && itemInInventoryR2.stack == (stackNumber - 1))
-                                {
-                                    itemInInventoryR2.stackFull = false;
-                                    Debug.Log("activ stack is now stack number " + itemInInventoryR2.stack + " with amount of " + itemInInventoryR2.Quantity);
-                                    FixChanges();
-                                }
-                            }
-                            */
                         }
                         else{
                             Debug.Log("no more stacks of this item");
@@ -195,7 +194,7 @@ public class InventoryV2
                             }
                         }
                         else{
-                            Debug.Log("(not good not good) , looking for stack number " + stackNumber + " but found stack number " + itemInInventoryR2.stack + " with name " + itemInInventoryR2.Name);
+                            Debug.Log("(!not good not good!) , looking for stack number " + stackNumber + " but found stack number " + itemInInventoryR2.stack + " with name " + itemInInventoryR2.Name);
                         }
                     }
                     return;
@@ -215,6 +214,7 @@ public class InventoryV2
     public void FixChanges()
     {
         Debug.Log("sorting inventory...");
+        //sort bassed on name always sort over the inventory after adding or removing items.
         NewInventory.Sort((a,b) => a.Name.CompareTo(b.Name)); 
         logInv();
     }
@@ -224,6 +224,12 @@ public class InventoryV2
         foreach (InventoryV2 itemInInventory in NewInventory){
             Debug.Log("Item: " + itemInInventory.Name + " Stack: " + itemInInventory.stack + " Quantity: " + itemInInventory.Quantity + " stackFull: " + itemInInventory.stackFull);
         }
+        //UILogic.UpdateSlots(); // Update the UI when logging inventory
+    }
+
+
+    public void Test(){
+        Debug.Log("Test function called");
     }
 }
 

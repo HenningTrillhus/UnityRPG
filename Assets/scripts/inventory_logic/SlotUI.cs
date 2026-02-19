@@ -7,6 +7,7 @@ public class SlotUI : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI amountText;
 
+    //public void UpdateSlot(Inventory_Slot slot)
     public void UpdateSlot(Inventory_Slot slot)
     {
         if (slot.IsEmpty)
