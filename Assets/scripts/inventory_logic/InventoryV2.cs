@@ -8,17 +8,17 @@ public class InventoryV2
     //public InventoryUI2 inventoryUI; //reference to the new inventory ui to update the ui when changes are made, this is really bad but i dont know how else to do it without making a new class for the player inventory that both inventories can reference, or making the inventoryV2 a monobehaviour and connect it to the player inventory game object, which i also dont want to do because then it would be more work to connect it to the player inventory game object and also make it less flexible if i want to use it for other inventories like chest or something.
 
     //refrensing to the UI Code 
-    /*private InventoryUI2 UILogic;
+    private InventoryUI2 UILogic;
 
     public InventoryV2(InventoryUI2 InventoryUI2Ref){
         UILogic = InventoryUI2Ref;
-    }*/
+    }
 
     private Player_Inventory player_inventory; //reference to the old inventory to get the capacity, this is really bad but i dont know how else to do it without making a new class for the player inventory that both inventories can reference, or making the inventoryV2 a monobehaviour and connect it to the player inventory game object, which i also dont want to do because then it would be more work to connect it to the player inventory game object and also make it less flexible if i want to use it for other inventories like chest or something.
     //(will be saved inside inventory) /will only be saved in unity item: 
     // Rule of tumb(i think...) save all data that will be uses in backend logic in inventory
     //(Name), (Type), (Tool), (Rarity), (Quantity), (ValueInGameCurrency) /max Stack, /Stackeble (!fuck this just save all!)
-    public string Name;
+    /*public string Name;
     public string Type;
     public bool IsTool;
     public string Rarity;
@@ -27,12 +27,27 @@ public class InventoryV2
     public int MaxStack;
     public bool Stackable;
     public int stack; //how many max loads of the item
-    public bool stackFull;
+    public bool stackFull;*/
+
+    public class InventoryItem
+    {
+        public Sprite Icon;
+        public string Name;
+        public string Type;
+        public bool IsTool;
+        public string Rarity;
+        public int Quantity;
+        public int ValueInGameCurrency;
+        public int MaxStack;
+        public bool Stackable;
+        public int stack; //how many max loads of the item
+        public bool stackFull;
+    }
     
 
     public int inventoryCapacity = 20;
 
-    List<InventoryV2> NewInventory = new List<InventoryV2>();
+    public List<InventoryItem> NewInventory = new List<InventoryItem>();
 
 
     public void AddItemV2(ItemData item, int amount = 1)
@@ -45,7 +60,8 @@ public class InventoryV2
         if (!NewInventory.Any())
         {
             Debug.Log("added new stack of : " + item.itemName + " with amount of " + amount);
-            NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
+            NewInventory.Add(new InventoryItem {Icon = item.icon, Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
+            FixChanges();
         }
         else
         {
@@ -53,7 +69,7 @@ public class InventoryV2
             if (item.stackable && ItemExistsInInv)
             {
                 //go trough all items in inventory that are stackable
-                foreach (InventoryV2 itemInInventory in NewInventory)
+                foreach (InventoryItem itemInInventory in NewInventory)
                 {
                     //check for mathing name, checks if stack is full, if it is then we skip it
                     if (itemInInventory.Name == item.itemName && itemInInventory.stackFull == false &&  itemInInventory.stack == stackRotation)
@@ -69,7 +85,7 @@ public class InventoryV2
 
                             //creat new stack now with stack pluss one
                             Debug.Log("bypass max, creat new stack of the new item with the left over amount witch is " + quantityLeftOver + " this is stack number " + (itemInInventory.stack + 1));
-                            NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = quantityLeftOver, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = itemInInventory.stack+1, stackFull = false});
+                            NewInventory.Add(new InventoryItem {Icon = item.icon, Name = item.itemName, Quantity = quantityLeftOver, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = itemInInventory.stack+1, stackFull = false});
                             FixChanges();
                             return;
                         }
@@ -78,6 +94,7 @@ public class InventoryV2
                             //if not bypass just add the amount to the stack
                             itemInInventory.Quantity += amount;
                             Debug.Log("added amount to existing stack of item: " + item.itemName + " with amount of " + amount + " now has " + itemInInventory.Quantity + " this is stack number " + itemInInventory.stack);
+                            FixChanges();
                         }
                         return;
                     }
@@ -99,7 +116,7 @@ public class InventoryV2
             {
                 //if no match creat new stack of the new item and set stack to stackRotation
                 Debug.Log("no match, creat new stack of the new item of " + item.itemName + " with amount of " + amount + " this is stack number " + stackRotation);
-                NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
+                NewInventory.Add(new InventoryItem {Icon = item.icon, Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
                 FixChanges();
                 return;
             }
@@ -107,7 +124,7 @@ public class InventoryV2
             else
             {
                 Debug.Log("item is not stackable, creat new stack of the new item");
-                NewInventory.Add(new InventoryV2 { Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = true});
+                NewInventory.Add(new InventoryItem {Icon = item.icon, Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = true});
             }
         }
         
@@ -117,7 +134,7 @@ public class InventoryV2
     public void RemoveItemV2(ItemData item, int amount = 1)
     {
         //go trough all items in inventory find name
-        foreach (InventoryV2 itemInInventory in NewInventory)
+        foreach (InventoryItem itemInInventory in NewInventory)
         {
             //check for match in names and if stack is full
             if (itemInInventory.Name == item.itemName && itemInInventory.stackFull == false)
@@ -159,6 +176,7 @@ public class InventoryV2
                     }
 
                     Debug.Log("removing " + amount + " from stack number " + itemInInventory.stack + " new amount is " + itemInInventory.Quantity);
+                    FixChanges();
                     return;
                 }
                 //if the amount is higher then quantity but has multiple stackes
@@ -174,7 +192,7 @@ public class InventoryV2
                     Debug.Log("!removing code2!");
                     NewInventory.Remove(itemInInventory);
                     //run trough again to find the next stack in the inventory.
-                    foreach (InventoryV2 itemInInventoryR2 in NewInventory)
+                    foreach (InventoryItem itemInInventoryR2 in NewInventory)
                     {
                         //check for the name and then if the stack number checks out
                         if (itemInInventoryR2.Name == item.itemName && itemInInventoryR2.stack == stackNumber){
@@ -221,10 +239,10 @@ public class InventoryV2
 
     public void logInv(){
         Debug.Log("------------------------------------------");
-        foreach (InventoryV2 itemInInventory in NewInventory){
+        foreach (InventoryItem itemInInventory in NewInventory){
             Debug.Log("Item: " + itemInInventory.Name + " Stack: " + itemInInventory.stack + " Quantity: " + itemInInventory.Quantity + " stackFull: " + itemInInventory.stackFull);
         }
-        //UILogic.UpdateSlots(); // Update the UI when logging inventory
+        UILogic.UpdateSlots(); // Update the UI when logging inventory
     }
 
 

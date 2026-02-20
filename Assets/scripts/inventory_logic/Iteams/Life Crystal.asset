@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1948cb8f649021b4c8716da86107b527, type: 3}
-  m_Name: Copper Ore
+  m_Name: Life Crystal
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: Copper Ore
-  itemType: Material
+  itemName: Life Crystal
+  itemType: 'Collectable '
   itemIsTool: 0
-  rarity: Rear
-  valueInGameCurrency: 6
-  icon: {fileID: 21300000, guid: 3ad7087604fc49f48a44a0043913d07b, type: 3}
+  rarity: Mythical
+  valueInGameCurrency: 95000
+  icon: {fileID: 0}
   stackable: 1
-  maxStack: 50
+  maxStack: 10

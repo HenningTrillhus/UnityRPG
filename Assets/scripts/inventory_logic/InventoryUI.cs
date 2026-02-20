@@ -19,7 +19,7 @@ public class InventoryUI : MonoBehaviour
     void Start()
     {
         IsOpen = false;
-        CreateSlots();
+        //CreateSlots();
     }
 
     void Update()
@@ -37,7 +37,7 @@ public class InventoryUI : MonoBehaviour
 
     void CreateSlots()
     {
-        int slotCount = playerInventory.inventoryV2.inventoryCapacity;
+        /*int slotCount = playerInventory.inventoryV2.inventoryCapacity;
         Debug.Log("this is the invenvotry capacity form the ui " + slotCount);
         slotUIs = new SlotUI[slotCount];
 
@@ -46,7 +46,7 @@ public class InventoryUI : MonoBehaviour
             GameObject slotObj = Instantiate(slotPrefab, slotGrid);
 
             slotUIs[i] = slotObj.GetComponent<SlotUI>();
-        }
+        }*/
     }
 
     void UpdateSlots()
