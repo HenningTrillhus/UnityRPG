@@ -7,6 +7,7 @@ public class InventoryV2
 {
     //public InventoryUI2 inventoryUI; //reference to the new inventory ui to update the ui when changes are made, this is really bad but i dont know how else to do it without making a new class for the player inventory that both inventories can reference, or making the inventoryV2 a monobehaviour and connect it to the player inventory game object, which i also dont want to do because then it would be more work to connect it to the player inventory game object and also make it less flexible if i want to use it for other inventories like chest or something.
 
+    
     //refrensing to the UI Code 
     private InventoryUI2 UILogic;
 
@@ -62,6 +63,7 @@ public class InventoryV2
             Debug.Log("added new stack of : " + item.itemName + " with amount of " + amount);
             NewInventory.Add(new InventoryItem {Icon = item.icon, Name = item.itemName, Quantity = amount, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, stack = 1, stackFull = false});
             FixChanges();
+            UILogic.ShowJustGotItem(item, amount); // Update the UI when logging inventory
         }
         else
         {
@@ -229,6 +231,31 @@ public class InventoryV2
         
     }
 
+    public int CheckForItem(ItemData item, int amount = 1){
+        foreach (InventoryItem itemInInventory in NewInventory)
+        {
+            if (itemInInventory.Name == item.itemName)
+            {
+                return itemInInventory.Quantity;
+            }
+        }
+        return 0;
+    }
+
+    public int CheckForItemUsingName(string Name){
+        foreach (InventoryItem itemInInventory in NewInventory)
+        {
+            if (itemInInventory.Name == Name)
+            {
+                return itemInInventory.Quantity;
+            }
+            else{
+                Debug.Log("Fitte");
+            }
+        }
+        return 0;
+    }
+
     public void FixChanges()
     {
         Debug.Log("sorting inventory...");
@@ -248,6 +275,11 @@ public class InventoryV2
 
     public void Test(){
         Debug.Log("Test function called");
+    }
+
+    public void showJustGotItem(ItemData item, int amount = 1)
+    {
+
     }
 }
 

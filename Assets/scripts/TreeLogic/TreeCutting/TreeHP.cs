@@ -9,7 +9,7 @@ public class TreeHP : MonoBehaviour
     private int currentHP;
 
     public ItemData woodItem; // drag your Wood asset here in Inspector
-    public Inventory inventory; // this is the logic object
+    public Player_Inventory playerInventory;
 
     public float damageVisibleTime = 0.5f; // 0.5 seconds between hits
     private float lastDamageTime = -10f; // stores last hit time
@@ -51,7 +51,7 @@ public class TreeHP : MonoBehaviour
         Player_Inventory playerInv = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Inventory>();
         if (playerInv != null && woodItem != null)
         {
-            playerInv.inventory.AddItem(woodItem, 5);
+            playerInventory.inventoryV2.AddItemV2(woodItem, 5);
             //Debug.Log("Player received " + 5 + " wood!");
         }
 

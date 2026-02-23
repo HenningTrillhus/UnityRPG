@@ -19,6 +19,7 @@ public class NPCDialogLine
     public int id;
     public int nextID;
     public int QuestID;
+    public int completeQuestID;
 
     public List<NPCDialogChoice> choices;
 }
@@ -56,8 +57,7 @@ public class Dialog_open_ui : MonoBehaviour
     private int acceptQuestNextID = 0;
     private int declineQiestNextID = 0;
 
-    private bool startesQuest = false;
-    private int questId = -1;
+    //private int questId = -1;
 
     void Start()
     {
@@ -101,10 +101,12 @@ public class Dialog_open_ui : MonoBehaviour
             {
                 if (currentChoice == 0)
                 {
+                    Debug.Log("Accepting choice with next ID: " + acceptQuestNextID);
                     ShowNext(acceptQuestNextID);
                 }
                 if (currentChoice == 1)
                 {
+                    Debug.Log("Declining choice with next ID: " + declineQiestNextID);
                     ShowNext(declineQiestNextID);
                 }
 
@@ -142,6 +144,58 @@ public class Dialog_open_ui : MonoBehaviour
     // Show next line
     public void ShowNext(int next_id)
     {
+        choosing = false;
+        choiceAccept.gameObject.SetActive(false);
+        choiceDecline.gameObject.SetActive(false);
+        if (next_id == 0)
+        {
+            dialog_ui.SetActive(false);
+            Time.timeScale = 1f;
+            DialogAcctivRN = false;
+            return;
+        }
+        if (next_id != 0)
+        {
+            foreach (NPCDialogLine line in lines)
+            {
+                if (next_id == line.id)
+                {
+                    speaker_text.text = line.speaker;
+                    dialog_text.text = line.text;
+                    if (line.QuestID != 0)
+                    {
+                        startQuestScript.startQuest(line.QuestID);
+                        nextDialogId = line.nextID;
+                        return;
+                    }
+                    if (line.completeQuestID != 0)
+                    {
+                        startQuestScript.completeQuest(line.completeQuestID);
+                        nextDialogId = line.nextID;
+                        return;
+                    }
+                    if (line.choices != null && line.choices.Count > 0)
+                    {
+                        // turn on choice UI
+                        acceptQuestNextID = line.choices[0].next_id;
+                        declineQiestNextID = line.choices[1].next_id;
+                        ShowChoices(line.choices[0].text, line.choices[1].text);
+                    }
+                    if (line.choices == null && line.nextID != 0 && line.QuestID == 0 && line.completeQuestID == 0)
+                    {
+                        choosing = false;
+                        choiceAccept.gameObject.SetActive(false);
+                        choiceDecline.gameObject.SetActive(false);
+
+                        nextDialogId = line.nextID;
+                    }
+                    else{
+                        nextDialogId = line.nextID;
+                    }
+                    break;
+                }
+            }
+        }
         //if dialog is finished
         /*if (lines == null || currentIndex >= lines.Length)
         {
@@ -157,51 +211,59 @@ public class Dialog_open_ui : MonoBehaviour
         
 
         currentIndex++;*/
+        /*if (next_id != 0)
+        {
+           
+            foreach (NPCDialogLine line in lines)
+            {
+                //Debug.Log("line of somthing idk : "+ line.id);
+                if (next_id == line.id)
+                {
+                    speaker_text.text = line.speaker;
+                    dialog_text.text = line.text;
+                    //Debug.Log(line.QuestID);
+                    if (line.QuestID != 0)
+                    {
+                        Debug.Log("starting quest with id: " + line.QuestID);
+                        startQuestScript.startQuest(line.QuestID);
+                        nextDialogId = line.nextID;
+                        return;
+                    }
+                    if (line.choices != null && line.choices.Count > 0)
+                    {
+                        Debug.Log("showing choices for line id: " + line.id);
+                        // turn on choice UI
+                        acceptQuestNextID = line.choices[0].next_id;
+                        declineQiestNextID = line.choices[1].next_id;
+                        ShowChoices(line.choices[0].text, line.choices[1].text);
+                    }
+                    if (line.completeQuestID != 0)
+                    {
+                        Debug.Log("completing quest with id: " + line.completeQuestID);
+                        startQuestScript.completeQuest(line.completeQuestID);
+                        nextDialogId = line.nextID;
+                        return;
+                    }
+                    if (line.choices == null && line.nextID != 0)
+                    {
+                        Debug.Log("no quest to complete            "+ line.nextID);
+                        choosing = false;
+                        choiceAccept.gameObject.SetActive(false);
+                        choiceDecline.gameObject.SetActive(false);
+                        
+                        nextDialogId = line.nextID;
+                    }
+                    break;
+                }
+            }
+        }
         if (next_id == 0)
         {
             dialog_ui.SetActive(false);
             Time.timeScale = 1f;
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
             DialogAcctivRN = false;
-            if (startesQuest)
-            {
-    
-                startQuestScript.startQuest(1);
-            }
             return;
-        }
-        foreach (NPCDialogLine line in lines)
-        {
-            //Debug.Log("line of somthing idk : "+ line.id);
-            if (next_id == line.id)
-            {
-                speaker_text.text = line.speaker;
-                dialog_text.text = line.text;
-                //Debug.Log(line.QuestID);
-                if (line.QuestID > 0)
-                {
-                    startesQuest = true;
-                    questId = line.QuestID;
-                }
-                if (line.choices != null && line.choices.Count > 0)
-                {
-                    // turn on choice UI
-                    acceptQuestNextID = line.choices[0].next_id;
-                    declineQiestNextID = line.choices[1].next_id;
-                    ShowChoices(line.choices[0].text, line.choices[1].text);
-                }
-                else
-                {
-                    choosing = false;
-                    choiceAccept.gameObject.SetActive(false);
-                    choiceDecline.gameObject.SetActive(false);
-                    
-                    nextDialogId = line.nextID;
-                }
-                break;
-            }
-        }
+        }*/
 
     }
 

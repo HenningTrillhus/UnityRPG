@@ -17,6 +17,6 @@ MonoBehaviour:
   itemIsTool: 0
   rarity: Mythical
   valueInGameCurrency: 95000
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 15f543fd60e72fb42a02c5beb20b93c7, type: 3}
   stackable: 1
   maxStack: 10

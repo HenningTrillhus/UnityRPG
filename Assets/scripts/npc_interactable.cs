@@ -6,7 +6,11 @@ public class npc_interactable : MonoBehaviour
 {
     public GameObject interactionIcon;
 
+    public StartQuest questDialogLogic;
+
     private bool playerNearby = false;
+
+    public int nextDialogID = 10; 
 
     public Dialog_open_ui dialogUI;
     
@@ -39,10 +43,8 @@ public class npc_interactable : MonoBehaviour
         if (dialogUI != null && Input.GetKeyDown(KeyCode.E) && !InventoryUI.IsOpen)
         {
             Time.timeScale = 0f; // FREEZES physics, animations, Update() on non-Time-independent code
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             Dialog_open_ui.DialogAcctivRN = true;
-            dialogUI.StartDialog("npc1_dialog.json", 10);
+            dialogUI.StartDialog("npc1_dialog.json", nextDialogID);
         }
     }
 

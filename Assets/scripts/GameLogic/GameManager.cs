@@ -28,16 +28,16 @@ public class GameManager : MonoBehaviour
     {
         isGamePaused = true;
         Time.timeScale = 0f; // FREEZES physics, animations, Update() on non-Time-independent code
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        //Cursor.visible = true;
+        //Cursor.lockState = CursorLockMode.None;
     }
 
     void ResumeGame()
     {
         isGamePaused = false;
         Time.timeScale = 1f;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     public bool IsGamePaused()

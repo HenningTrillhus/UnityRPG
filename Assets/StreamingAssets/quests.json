@@ -3,10 +3,63 @@
     [
         {
             "id": 1,
+            "name": "Gathering Firewood",
+            "npcGiver": "Aldric Woodrow",
             "type": "Gather",
+            "numberOfStages": 2,
+            "idleDialogId": 16,
+            "completeDialogId": 17,
             "materialToGather": 
             [
                 {"material": "Wood Log", "amount": 25}
+            ],
+            
+            "questTexts": 
+            [
+                {"text": "gather 25 wood logs"},
+                {"text": "Go back and talk to Aldric Woodrow"}
+            ],
+
+            "startingLoot":
+            [
+                {"item": "wooden aks", "amount": 1}
+            ],
+            "completingLoot":
+            [
+                {"item": "", "amount": 0}
+            ],
+            "completeCoins": 30,
+            "completeExp": 50,
+            "nextPosibleQuests": 
+            [
+                {"id": 2},
+                {"id": 3}
+            ]
+        },
+        {
+            "id": 2,
+            "type": "Gather",
+            "materialToGather": 
+            [
+                {"material": "Wood Log", "amount": 50}
+            ],
+            
+            "questTexts": 
+            [
+                {"text": "gather 25 wood logs"}
+            ],
+
+            "startingLoot":
+            [
+                {"item": "wooden aks", "amount": 1}
+            ]      
+        },
+        {
+            "id": 3,
+            "type": "Gather",
+            "materialToGather": 
+            [
+                {"material": "Wood Log", "amount": 100}
             ],
             
             "questTexts": 

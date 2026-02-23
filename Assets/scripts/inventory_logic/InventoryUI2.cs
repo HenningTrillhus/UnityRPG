@@ -16,6 +16,17 @@ public class InventoryUI2 : MonoBehaviour
     [Header("Slot UI")]
     public Image icon;
     public TextMeshProUGUI amountText;
+    
+    [Header("JustGotItemUI")]
+    public GameObject justGotItemUI;
+    public Image justGotItemIcon;
+    public TMP_Text justGotItemText;
+    public TMP_Text justGotItemAmountText;
+    public float justGotItemDisplayTime = 2f; // Time to display the "Just Got Item" UI
+
+
+    private Coroutine hideCoroutine;
+
 
     public static bool IsOpen { get; private set; }
 
@@ -31,7 +42,7 @@ public class InventoryUI2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerInventory.inventoryV2.Test();
+        //playerInventory.inventoryV2.Test();
         // toggle inventory
         if (Input.GetKeyDown(KeyCode.Tab) && (!GameManager.Instance.IsGamePaused()) && (Dialog_open_ui.DialogAcctivRN != true))
         {
@@ -142,5 +153,24 @@ public class InventoryUI2 : MonoBehaviour
             icon.sprite = slotUI.item.icon;
             amountText.text = slotUI.amount > 1 ? slotUI.amount.ToString() : "";
         }*/
+    }
+
+    public void ShowJustGotItem(ItemData item, int amount)
+    {
+        justGotItemIcon.sprite = item.icon;
+        justGotItemText.text = item.itemName;
+        justGotItemAmountText.text = amount > 1 ? "x" + amount.ToString() : "";
+        justGotItemUI.SetActive(true);
+        if (hideCoroutine != null)
+        {
+            StopCoroutine(hideCoroutine);
+        }
+        hideCoroutine = StartCoroutine(HideJustGotItem());
+    }
+
+    private System.Collections.IEnumerator HideJustGotItem()
+    {
+        yield return new WaitForSeconds(justGotItemDisplayTime);
+        justGotItemUI.SetActive(false);
     }
 }
