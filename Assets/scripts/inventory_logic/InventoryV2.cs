@@ -88,7 +88,7 @@ public class InventoryV2
                     Debug.Log("added new stack of : " + item.Name + " with amount of " + amount);
                     NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = false});
                     FixChanges();
-                    //UILogic.ShowJustGotItem(item, amount); // Update the UI when logging inventory
+                    UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                 }
                 else
                 {
@@ -112,7 +112,8 @@ public class InventoryV2
 
                                     //creat new stack now with stack pluss one
                                     Debug.Log("bypass max, creat new stack of the new item with the left over amount witch is " + quantityLeftOver + " this is stack number " + (itemInInventory.stack + 1));
-                                    NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = itemInInventory.stack+1, stackFull = false});
+                                    NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = quantityLeftOver, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = itemInInventory.stack+1, stackFull = false});
+                                    UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                                     FixChanges();
                                     return;
                                 }
@@ -121,6 +122,7 @@ public class InventoryV2
                                     //if not bypass just add the amount to the stack
                                     itemInInventory.Quantity += amount;
                                     Debug.Log("added amount to existing stack of item: " + item.Name + " with amount of " + amount + " now has " + itemInInventory.Quantity + " this is stack number " + itemInInventory.stack);
+                                    UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                                     FixChanges();
                                 }
                                 return;
@@ -145,6 +147,7 @@ public class InventoryV2
                         Debug.Log("no match, creat new stack of the new item of " + item.Name + " with amount of " + amount + " this is stack number " + stackRotation);
                         NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = false});
                         FixChanges();
+                        UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                         return;
                     }
                     //if item is not stackable
@@ -152,6 +155,7 @@ public class InventoryV2
                     {
                         Debug.Log("item is not stackable, creat new stack of the new item");
                         NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = true});
+                        UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                     }
                 }
             } 

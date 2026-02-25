@@ -16,6 +16,7 @@ public class InventoryUI2 : MonoBehaviour
     [Header("Slot UI")]
     public Image icon;
     public TextMeshProUGUI amountText;
+    public TextMeshProUGUI NameText;
     
     [Header("JustGotItemUI")]
     public GameObject justGotItemUI;
@@ -23,7 +24,10 @@ public class InventoryUI2 : MonoBehaviour
     public TMP_Text justGotItemText;
     public TMP_Text justGotItemAmountText;
     public float justGotItemDisplayTime = 2f; // Time to display the "Just Got Item" UI
+    public Transform canvasTransform;
 
+
+    private GameObject JGIUI;
 
     private Coroutine hideCoroutine;
 
@@ -93,37 +97,25 @@ public class InventoryUI2 : MonoBehaviour
             {
                 Debug.LogError("SlotUI component not found in slotUIs list!");
                 slotUI.amountText.text = "0";
+                slotUI.NameText.text = "";
                 slotUI.icon.sprite = null;
             }
             if (slotUI != null && index < lenghtOfInventory)
             {
-                Debug.Log("SlotUI component found in slotUIs list.");
-                slotUI.amountText.text = playerInventory.inventoryV2.NewInventory[index].Name;
+                slotUI.NameText.text = playerInventory.inventoryV2.NewInventory[index].Name;
+                string amount = (playerInventory.inventoryV2.NewInventory[index].Quantity).ToString();
+                slotUI.amountText.text = amount;
                 slotUI.icon.sprite = playerInventory.inventoryV2.NewInventory[index].Icon;
-                //slotUI.SetActive(true);
+                Debug.Log("slot postion " + index + " has item " + playerInventory.inventoryV2.NewInventory[index].Name + " with amount of " + playerInventory.inventoryV2.NewInventory[index].Quantity);
             }
+            if (index > (lenghtOfInventory-1) && slotUI != null){
+                slotUI.amountText.text = "0";
+                slotUI.NameText.text = "";
+                slotUI.icon.sprite = null;
+            }
+            
             index++;
         }
-        
-        /*for (int i = 0; i < slotCount; i++)
-        {
-            if (i < lenghtOfInventory)
-            {
-                Debug.Log("Updating slot " + i + " with item: " + playerInventory.inventoryV2.NewInventory[i].Name);
-                icon.enabled = true;
-                //icon.sprite = playerInventory.inventoryV2.NewInventory[i].icon;
-                amountText.text = playerInventory.inventoryV2.NewInventory[i].Quantity > 1 ? playerInventory.inventoryV2.NewInventory[i].Quantity.ToString() : "";
-                //slotUIs[i].UpdateSlot(playerInventory.InventoryV2[i]);
-            }
-            else
-            {
-                //Debug.Log("Clearing slot " + i);
-                icon.enabled = false;
-                amountText.text = i.ToString();
-
-                //slotUIs[i].UpdateSlot(new Inventory_Slot());
-            }
-        }*/
     }
 
     public void UpdateSlot(GameObject slotObj)
@@ -135,7 +127,6 @@ public class InventoryUI2 : MonoBehaviour
             return;
         }
         else{
-            Debug.Log("SlotUI component found on slot object.");
             amountText.text = "0";
             icon.sprite = null;
             slotObj.SetActive(true);
@@ -155,22 +146,15 @@ public class InventoryUI2 : MonoBehaviour
         }*/
     }
 
-    public void ShowJustGotItem(ItemData item, int amount)
+    public void ShowJustGotItem(Sprite icon, string itemName , int amount)
     {
-        justGotItemIcon.sprite = item.icon;
-        justGotItemText.text = item.itemName;
+        justGotItemIcon.sprite = icon;
+        justGotItemText.text = itemName;
         justGotItemAmountText.text = amount > 1 ? "x" + amount.ToString() : "";
-        justGotItemUI.SetActive(true);
-        if (hideCoroutine != null)
-        {
-            StopCoroutine(hideCoroutine);
-        }
-        hideCoroutine = StartCoroutine(HideJustGotItem());
+        GameObject JGIUI = Instantiate(justGotItemUI, canvasTransform);
+        JGIUI.SetActive(true);
+        Destroy(JGIUI, justGotItemDisplayTime);
     }
 
-    private System.Collections.IEnumerator HideJustGotItem()
-    {
-        yield return new WaitForSeconds(justGotItemDisplayTime);
-        justGotItemUI.SetActive(false);
-    }
+    
 }

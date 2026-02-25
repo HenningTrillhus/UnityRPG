@@ -6,6 +6,7 @@ public class SlotUI : MonoBehaviour
 {
     public Image icon;
     public TextMeshProUGUI amountText;
+    public TextMeshProUGUI NameText;
 
     //public void UpdateSlot(Inventory_Slot slot)
     public void UpdateSlot(Inventory_Slot slot)
@@ -14,6 +15,7 @@ public class SlotUI : MonoBehaviour
         {
             icon.enabled = false;
             amountText.text = "";
+            NameText.text = "";
         }
         else
         {
