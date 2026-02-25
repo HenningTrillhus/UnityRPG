@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1948cb8f649021b4c8716da86107b527, type: 3}
+  m_Name: Aldric's Aks
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemID: 6
+  itemName: Aldric's Aks
+  itemType: Tool
+  itemIsTool: 1
+  rarity: Common
+  valueInGameCurrency: 0
+  icon: {fileID: 21300000, guid: 7b2d827df38bd754f8e87975c5539d29, type: 3}
+  stackable: 0
+  maxStack: 1

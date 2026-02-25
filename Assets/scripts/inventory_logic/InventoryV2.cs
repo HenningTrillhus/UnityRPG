@@ -68,7 +68,7 @@ public class InventoryV2
     public void CreatTotalItemList(ItemData item)
     {
         TotalItems.Add(new Items {ID = item.itemID, Icon = item.icon, Name = item.itemName, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable});
-        Debug.Log("item with id: " + item.itemID + " and name: " + item.itemName + " added to the total list, list now has a lenght of " + TotalItems.Count);
+        //Debug.Log("item with id: " + item.itemID + " and name: " + item.itemName + " added to the total list, list now has a lenght of " + TotalItems.Count);
     }
 
 
@@ -292,9 +292,6 @@ public class InventoryV2
             {
                 return itemInInventory.Quantity;
             }
-            else{
-                Debug.Log("Fitte");
-            }
         }
         return 0;
     }
@@ -334,9 +331,16 @@ public class InventoryV2
         Debug.Log("Test function called");
     }
 
-    public void showJustGotItem(ItemData item, int amount = 1)
-    {
-
+    public bool hasStrongEnoughTool(string toolName){
+        foreach (InventoryItem itemInInventory in NewInventory){
+            if (itemInInventory.Name == toolName){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        return false;
     }
 }
 

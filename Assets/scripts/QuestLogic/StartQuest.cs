@@ -17,9 +17,16 @@ public class questMultipleSegmentsmaterialToGather
 }
 
 [System.Serializable]
+public class questMultipleSegmentsStartingLoot
+{
+    public string item;
+    public int amount;
+}
+
+[System.Serializable]
 public class questMultipleSegmentsText
 {
-    public string text;
+    public string text; 
 }
 
 
@@ -39,6 +46,7 @@ public class quests
     public List<questMultipleSegmentsText> questTexts;
     public List<questMultipleSegmentsmaterialToGather> materialToGather;
     public List<questMultipleSegmentsPosibleQuests> nextPosibleQuests;
+    public List<questMultipleSegmentsStartingLoot> startingLoot;
 
 }
 
@@ -103,6 +111,7 @@ public class StartQuest : MonoBehaviour
                 possibleQuests.Remove(quest.id);
                 if (quest.type == "Gather")
                 {
+                    playerInventory.inventoryV2.AddItemV2(quest.startingLoot[0].item, quest.startingLoot[0].amount);
                     //displayText = quest.questTexts[0].text + "   (" + playerInventory.inventoryV2.CheckForItem(woodItem) + "/25)";
                     //questInstructions.text = displayText;
 
@@ -260,5 +269,10 @@ public class StartQuest : MonoBehaviour
         }
         
         
+    }
+
+    public void SwitchQuestDisplayLeft()
+    {
+        Debug.Log("Left pressed");
     }
 }

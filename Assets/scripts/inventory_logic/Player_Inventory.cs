@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class Player_Inventory : MonoBehaviour
 {
-    public ItemData woodItem; // drag your Wood asset here in Inspector
-    public ItemData stoneItem; // drag your Stone asset here in Inspector
-    public ItemData Fiber; // drag your Wood asset here in Inspector
-    public ItemData IronOre; // drag your Stone asset here in Inspector
-    public ItemData CopperOre; // drag your Stone asset here in Inspector
+    [Header("Items")]
+    public ItemData woodItem; 
+    public ItemData stoneItem; 
+    public ItemData Fiber; 
+    public ItemData IronOre; 
+    public ItemData CopperOre; 
+    public ItemData AldricWoodrowsAks; 
 
+    [Header("Script Ref")]
     public Inventory inventory; // this is the logic object
     public InventoryV2 inventoryV2; // this is the new logic object
     public InventoryUI2 inventoryUI2; 
@@ -26,6 +29,7 @@ public class Player_Inventory : MonoBehaviour
         inventoryV2.CreatTotalItemList(Fiber);
         inventoryV2.CreatTotalItemList(CopperOre);
         inventoryV2.CreatTotalItemList(IronOre);
+        inventoryV2.CreatTotalItemList(AldricWoodrowsAks);
     }
 
     void Update()
@@ -45,7 +49,7 @@ public class Player_Inventory : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         { 
-            //inventoryV2.AddItemV2(Fiber, 5); // removes 1 item from the new inventory
+            inventoryV2.AddItemV2("Aldric's Aks",1);
         }
         if (Input.GetKeyDown(KeyCode.I))
         { 

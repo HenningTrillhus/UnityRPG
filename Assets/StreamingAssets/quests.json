@@ -22,7 +22,7 @@
 
             "startingLoot":
             [
-                {"item": "wooden aks", "amount": 1}
+                {"item": "Aldric's Aks", "amount": 1}
             ],
             "completingLoot":
             [

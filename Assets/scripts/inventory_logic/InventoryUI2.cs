@@ -59,7 +59,6 @@ public class InventoryUI2 : MonoBehaviour
     void CreateSlots()
     {
         int slotCount = playerInventory.inventoryV2.inventoryCapacity;
-        Debug.Log("this is the inventory capacity form the ui " + slotCount);
         for (int i = 0; i < slotCount; i++)
         {
             GameObject slotObj = Instantiate(slotPrefab, slotGrid);
@@ -88,7 +87,6 @@ public class InventoryUI2 : MonoBehaviour
     {
         int lenghtOfInventory = playerInventory.inventoryV2.NewInventory.Count;
         int slotCount = playerInventory.inventoryV2.inventoryCapacity;
-        Debug.Log("Updating slots in InventoryUI2 with inventory count: " + lenghtOfInventory);
 
         int index = 0;
         foreach (var slotUI in slotUIs)
@@ -106,7 +104,6 @@ public class InventoryUI2 : MonoBehaviour
                 string amount = (playerInventory.inventoryV2.NewInventory[index].Quantity).ToString();
                 slotUI.amountText.text = amount;
                 slotUI.icon.sprite = playerInventory.inventoryV2.NewInventory[index].Icon;
-                Debug.Log("slot postion " + index + " has item " + playerInventory.inventoryV2.NewInventory[index].Name + " with amount of " + playerInventory.inventoryV2.NewInventory[index].Quantity);
             }
             if (index > (lenghtOfInventory-1) && slotUI != null){
                 slotUI.amountText.text = "0";

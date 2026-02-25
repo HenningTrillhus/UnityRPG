@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class TreeInteraction : MonoBehaviour
 {
+    public MetaMessage MetaMessages;
+    public Player_Inventory playerInventory;
     public GameObject interactionSprite;
     public GameObject miniGameUI; // assign your sweet spot minigame UI here
     private bool playerNear = false;
@@ -40,7 +42,7 @@ public class TreeInteraction : MonoBehaviour
 
     void OpenMiniGame()
     {
-        if (!InventoryUI.IsOpen)
+        if (!InventoryUI.IsOpen && playerInventory.inventoryV2.hasStrongEnoughTool("Aldric's Aks"))
         {
             // Show the bar UI
             miniGameUI.SetActive(true);
@@ -54,6 +56,9 @@ public class TreeInteraction : MonoBehaviour
             // Set the target tree for the minigame
             MinigameBar bar = miniGameUI.GetComponent<MinigameBar>();
             bar.targetTree = GetComponent<TreeHP>();
+        }
+        else{
+            MetaMessages.ShowMetaMessage("You need something to chop this tree down...");
         }
     }
 
