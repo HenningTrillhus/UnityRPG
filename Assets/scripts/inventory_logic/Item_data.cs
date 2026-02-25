@@ -3,6 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "Inventory/Item")]
 public class ItemData : ScriptableObject
 {
+    public int itemID;
     public string itemName;
     public string itemType;
     public bool itemIsTool;

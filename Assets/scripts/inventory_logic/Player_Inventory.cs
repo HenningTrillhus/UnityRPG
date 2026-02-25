@@ -17,8 +17,15 @@ public class Player_Inventory : MonoBehaviour
 
     void Awake()
     {
-        inventory = new Inventory(10); // 10 slots to start
+        //inventory = new Inventory(10); // 10 slots to start
         inventoryV2 = new InventoryV2(inventoryUI2); // initialize the new inventory
+
+        //creating the total invenvotry respotetory inside the the invevntory code
+        inventoryV2.CreatTotalItemList(woodItem);
+        inventoryV2.CreatTotalItemList(stoneItem);
+        inventoryV2.CreatTotalItemList(Fiber);
+        inventoryV2.CreatTotalItemList(CopperOre);
+        inventoryV2.CreatTotalItemList(IronOre);
     }
 
     void Update()
@@ -30,23 +37,23 @@ public class Player_Inventory : MonoBehaviour
         }*/
         if (Input.GetKeyDown(KeyCode.G))
         {
-            inventoryV2.AddItemV2(woodItem,25); // adds 1 item to the new inventory
+            inventoryV2.AddItemV2("Wood Log",25); // adds 1 item to the new inventory
         }
         if (Input.GetKeyDown(KeyCode.H))
         { 
-            inventoryV2.RemoveItemV2(woodItem, 5); // removes 1 item from the new inventory
+            inventoryV2.RemoveItemV2("Wood Log", 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.F))
         { 
-            inventoryV2.AddItemV2(Fiber, 5); // removes 1 item from the new inventory
+            //inventoryV2.AddItemV2(Fiber, 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.I))
         { 
-            inventoryV2.AddItemV2(IronOre, 5); // removes 1 item from the new inventory
+            //inventoryV2.AddItemV2(IronOre, 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.C))
         { 
-            inventoryV2.AddItemV2(CopperOre, 5); // removes 1 item from the new inventory
+            //inventoryV2.AddItemV2(CopperOre, 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.J))
         { 

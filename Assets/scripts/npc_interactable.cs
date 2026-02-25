@@ -11,6 +11,7 @@ public class npc_interactable : MonoBehaviour
     private bool playerNearby = false;
 
     public int nextDialogID = 10; 
+    public string DialogState = "HasQuest";
 
     public Dialog_open_ui dialogUI;
     
@@ -44,7 +45,17 @@ public class npc_interactable : MonoBehaviour
         {
             Time.timeScale = 0f; // FREEZES physics, animations, Update() on non-Time-independent code
             Dialog_open_ui.DialogAcctivRN = true;
-            dialogUI.StartDialog("npc1_dialog.json", nextDialogID);
+            if (DialogState == "HasQuest"){
+                nextDialogID = questDialogLogic.DialogQuestManager("Aldric Woodrow");
+                //Debug.Log(nextDialogID);
+                dialogUI.StartDialog("npc1_dialog.json", nextDialogID);
+            }
+            if (DialogState == "Completing" || DialogState == "Idle")
+            {
+                dialogUI.StartDialog("npc1_dialog.json", nextDialogID);
+            }
+            
+            //Debug.Log(questDialogLogic.possibleQuests[0]);
         }
     }
 

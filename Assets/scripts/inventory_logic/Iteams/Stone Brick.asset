@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1948cb8f649021b4c8716da86107b527, type: 3}
   m_Name: Stone Brick
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemID: 2
   itemName: Stone Brick
   itemType: Material
   itemIsTool: 0

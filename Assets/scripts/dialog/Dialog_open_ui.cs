@@ -101,12 +101,12 @@ public class Dialog_open_ui : MonoBehaviour
             {
                 if (currentChoice == 0)
                 {
-                    Debug.Log("Accepting choice with next ID: " + acceptQuestNextID);
+                    //Debug.Log("Accepting choice with next ID: " + acceptQuestNextID);
                     ShowNext(acceptQuestNextID);
                 }
                 if (currentChoice == 1)
                 {
-                    Debug.Log("Declining choice with next ID: " + declineQiestNextID);
+                    //Debug.Log("Declining choice with next ID: " + declineQiestNextID);
                     ShowNext(declineQiestNextID);
                 }
 

@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - dialog_ui
+  - NPC
   layers:
   - Default
   - TransparentFX

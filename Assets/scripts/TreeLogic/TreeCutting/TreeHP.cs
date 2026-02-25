@@ -51,7 +51,7 @@ public class TreeHP : MonoBehaviour
         Player_Inventory playerInv = GameObject.FindGameObjectWithTag("Player").GetComponent<Player_Inventory>();
         if (playerInv != null && woodItem != null)
         {
-            playerInventory.inventoryV2.AddItemV2(woodItem, 5);
+            playerInventory.inventoryV2.AddItemV2("Wood Log", 5);
             //Debug.Log("Player received " + 5 + " wood!");
         }
 

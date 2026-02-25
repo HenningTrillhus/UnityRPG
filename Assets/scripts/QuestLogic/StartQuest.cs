@@ -78,6 +78,11 @@ public class StartQuest : MonoBehaviour
 
     private string fileName = "quests.json";
 
+    private void Awake() {
+        //Possible start quests
+        possibleQuests.Add(1);
+    }
+
     private void Start() {
         string path = Path.Combine(Application.streamingAssetsPath, fileName);
 
@@ -95,13 +100,14 @@ public class StartQuest : MonoBehaviour
             if (questID == quest.id)
             {
                 activQuests.Add(quest.id);
+                possibleQuests.Remove(quest.id);
                 if (quest.type == "Gather")
                 {
                     //displayText = quest.questTexts[0].text + "   (" + playerInventory.inventoryV2.CheckForItem(woodItem) + "/25)";
                     //questInstructions.text = displayText;
 
                     //Debug.Log(inventory.checkForItem("Wood Log"));
-                    Debug.Log("quest " + quest.id + " started, check for item: " + woodItem.itemName + " player has " + playerInventory.inventoryV2.CheckForItem(woodItem));
+                    //Debug.Log("quest " + quest.id + " started, check for item: " + woodItem.itemName + " player has " + playerInventory.inventoryV2.CheckForItem(woodItem));
                     /*if (playerInventory.inventoryV2.CheckForItem(woodItem))
                     {
                         Debug.Log("quest " + quest.id + " completed");
@@ -132,26 +138,29 @@ public class StartQuest : MonoBehaviour
                         questNPCNameText = quest.npcGiver;
                         questNPCName.text = questNPCNameText;
                         
-
-                        if (playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) >= quest.materialToGather[0].amount)
+                        if (quest.type == "Gather")
                         {
-                            displayText1 = quest.questTexts[0].text + "   (" + quest.materialToGather[0].amount + "/" + quest.materialToGather[0].amount + ")";
-                            questInstructions1.text = displayText1;
-                            displayText2 = quest.questTexts[1].text;
-                            questInstructions2.text = displayText2;
-                            DialogManager(quest.npcGiver, quest.completeDialogId);
+                            if (playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) >= quest.materialToGather[0].amount)
+                            {
+                                //Next Stage ready for completion
+                                displayText1 = quest.questTexts[0].text + "   (" + quest.materialToGather[0].amount + "/" + quest.materialToGather[0].amount + ")";
+                                questInstructions1.text = displayText1;
+                                displayText2 = quest.questTexts[1].text;
+                                questInstructions2.text = displayText2;
+                                SetDialogState(quest.npcGiver, "Completing");
+                                DialogManager(quest.npcGiver, quest.completeDialogId);
+                            }
+                            else
+                            {
+                                //not compleeted
+                                displayText1 = quest.questTexts[0].text + "   (" + playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) + "/" + quest.materialToGather[0].amount + ")";
+                                questInstructions1.text = displayText1;
+                                displayText2 = "";
+                                questInstructions2.text = displayText2;
+                                SetDialogState(quest.npcGiver, "Idle");
+                                DialogManager(quest.npcGiver, quest.idleDialogId);
+                            }
                         }
-                        else{
-                            displayText1 = quest.questTexts[0].text + "   (" + playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) + "/" + quest.materialToGather[0].amount + ")";
-                            questInstructions1.text = displayText1;
-                            displayText2 = "";
-                            questInstructions2.text = displayText2;
-                            DialogManager(quest.npcGiver, quest.idleDialogId);
-                        }
-                        //Debug.Log(quest.materialToGather.amount[0]);
-                        //if (playerInventory.inventoryV2.CheckForItem(woodItem) > quest.materialToGather[0].amount){
-                        //    Debug.Log("Stage complete");
-                        //}
                     }
                 }
                 
@@ -171,17 +180,40 @@ public class StartQuest : MonoBehaviour
 
     public void completeQuest(int questID)
     {
+        //Runs trough all quests.
         foreach (quests quest in Quests)
         {
+            //Fines quest that just completed
             if (quest.id == questID)
             {
+                //Add to completedList and removes form acitv list
                 completedQuests.Add(quest.id);
                 activQuests.Remove(quest.id);
+
+                //adds all the next posible quests to the list of posible quests
                 for (int i = 0; i < quest.nextPosibleQuests.Count; i++)
                 {
+                    Debug.Log("adding to posible quest list " + quest.nextPosibleQuests[i].id);
                     possibleQuests.Add(quest.nextPosibleQuests[i].id);
                 }
+
+                //Sett NPC dialog state to HasQuest so its ready to start a new quest in case it has one.
+                SetDialogState(quest.npcGiver, "HasQuest");
+
+                //Depening on the quest type, if Gather remove item that you dilivered.
+                if (quest.type == "Gather")
+                {
+                    playerInventory.inventoryV2.RemoveItemV2(quest.materialToGather[0].material,quest.materialToGather[0].amount);
+                }
             }
+        }
+    }
+
+    public void SetDialogState(string NPC, string State)
+    {
+        if (NPC == "Aldric Woodrow")
+        {
+            npcScript.DialogState = State;
         }
     }
 
@@ -191,5 +223,42 @@ public class StartQuest : MonoBehaviour
         {
             npcScript.nextDialogID = dialogID;
         }
+    }
+
+    public int DialogQuestManager(string NPC)
+    {
+        
+        if (possibleQuests.Count > 0){
+            
+            //Gonna have to hardcode in quest and dialog some where, this is where.
+            for (int i = 0; i < possibleQuests.Count; i++)
+            {
+                
+                if (NPC == "Aldric Woodrow" && possibleQuests[i] == 1)
+                //Run quest 1
+                {
+                    Debug.Log("Now running dialog man, postible quest now are: " + possibleQuests[i]);
+                    //return Dialog Id for quest 1
+                    return 10;
+                }
+                if (NPC == "Aldric Woodrow" && possibleQuests[i] == 2)
+                //Run quest 1
+                {
+                    Debug.Log("Now running dialog man, postible quest now are: " + possibleQuests[i]);
+                    //return Dialog Id for quest 1
+                    return 18;
+                }
+                else{
+                    continue;
+                }   
+            }
+            return 0;
+        }
+        else{
+            Debug.Log("no posible quests found");
+            return 0;
+        }
+        
+        
     }
 }

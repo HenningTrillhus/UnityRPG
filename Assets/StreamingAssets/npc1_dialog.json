@@ -70,6 +70,14 @@
             "nextID": 0,
             "completeQuestID": 1,
             "QuestID": 0
+        },
+        {
+            "id": 18,
+            "speaker": "Aldric Woodrow",
+            "text": "Thanks again for helping me really neeeded that.",
+            "nextID": 0,
+            "completeQuestID": 0,
+            "QuestID": 2
         }
     ]
 }

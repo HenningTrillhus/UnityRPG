@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1948cb8f649021b4c8716da86107b527, type: 3}
   m_Name: Life Crystal
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemID: 600
   itemName: Life Crystal
   itemType: 'Collectable '
   itemIsTool: 0
