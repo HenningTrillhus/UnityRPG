@@ -9,6 +9,7 @@ public class Player_Inventory : MonoBehaviour
     public ItemData IronOre; 
     public ItemData CopperOre; 
     public ItemData AldricWoodrowsAks; 
+    public ItemData Bread; 
 
     [Header("Script Ref")]
     public Inventory inventory; // this is the logic object
@@ -30,6 +31,7 @@ public class Player_Inventory : MonoBehaviour
         inventoryV2.CreatTotalItemList(CopperOre);
         inventoryV2.CreatTotalItemList(IronOre);
         inventoryV2.CreatTotalItemList(AldricWoodrowsAks);
+        inventoryV2.CreatTotalItemList(Bread);
     }
 
     void Update()
@@ -49,7 +51,11 @@ public class Player_Inventory : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.F))
         { 
-            inventoryV2.AddItemV2("Aldric's Aks",1);
+            inventoryV2.AddItemV2("Bread",1);
+            inventoryV2.AddItemV2("Stone Brick",1);
+            inventoryV2.AddItemV2("Iron Ore",1);
+            inventoryV2.AddItemV2("Copper Ore",1);
+            inventoryV2.AddItemV2("Fiber",1);
         }
         if (Input.GetKeyDown(KeyCode.I))
         { 
@@ -63,9 +69,9 @@ public class Player_Inventory : MonoBehaviour
         { 
             inventoryV2.logInv();
         }
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.B))
         { 
-            inventoryV2.logInv();
+            inventoryV2.AddItemV2("Bread",5);
         }
     }
 

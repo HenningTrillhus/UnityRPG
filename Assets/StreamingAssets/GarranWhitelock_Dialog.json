@@ -1,0 +1,35 @@
+{
+    "messages": 
+    [
+        {
+            "id": -1,
+            "speaker": "Garran Whitlock",
+            "text": "Get out of my face BOY!",
+            "nextID": 0,
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 10,
+            "speaker": "Garran Whitlock",
+            "text": "wats up lil dud",
+            "choices": [
+                { "text": "You look like you could use a hand. What's the trouble?", "next_id": 11 },
+                { "text": "Aye… you don't look as spry as you once were. Tell me what needs done.", "next_id": 12 }
+            ],
+            "inQuestAction": [
+                { "QuestIDForAction": 2, "Action": "NPC Meet"}
+            ],
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 11,
+            "speaker": "Garran Whitlock",
+            "text": "Ah… 'tis good of ye to offer! My shoulder's ailing, and I can't swing an axe like I used to. There are trees near the edge of the woods that need felling 'fore the winter frost sets in. I'd be grateful for a strong arm such as yours.",
+            "nextID": 13,
+            "QuestID": 0,
+            "completeQuestID": 0
+        }
+    ]
+}

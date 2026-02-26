@@ -67,12 +67,14 @@ public class StartQuest : MonoBehaviour
     public TMP_Text questNPCName;
     public TMP_Text questInstructions1;
     public TMP_Text questInstructions2;
+    public TMP_Text questInstructions3;
 
 
     private string questNameText;
     private string questNPCNameText;
     private string displayText1;
     private string displayText2;
+    private string displayText3;
 
     public Player_Inventory playerInventory;
     public npc_interactable npcScript;
@@ -82,9 +84,19 @@ public class StartQuest : MonoBehaviour
     List<int> possibleQuests = new List<int>();
     List<int> completedQuests = new List<int>();
 
+    public class questActions
+    {
+        public int QuestID;
+        public string QuestAction;
+    }
+
+    public List<questActions> QuestsActions = new List<questActions>();
+
     private quests[] Quests;
 
     private string fileName = "quests.json";
+
+    private int IndexOfShowenQuest = 0;
 
     private void Awake() {
         //Possible start quests
@@ -141,7 +153,7 @@ public class StartQuest : MonoBehaviour
             {
                 foreach (quests quest in Quests)
                 {
-                    if (activQuests[i] == quest.id){
+                    if (activQuests[IndexOfShowenQuest] == quest.id){
                         questNameText = quest.name;
                         questName.text = questNameText;
                         questNPCNameText = quest.npcGiver;
@@ -166,6 +178,48 @@ public class StartQuest : MonoBehaviour
                                 questInstructions1.text = displayText1;
                                 displayText2 = "";
                                 questInstructions2.text = displayText2;
+                                SetDialogState(quest.npcGiver, "Idle");
+                                DialogManager(quest.npcGiver, quest.idleDialogId);
+                            }
+                        }
+                        if (quest.type == "MeetAndGather")
+                        {
+                            if (QuestsActions.Count != 0)
+                            {
+                                for (int x = 0; x < QuestsActions.Count; x++)
+                                {
+                                    if (QuestsActions[x].QuestID == quest.id){
+
+                                        displayText1 = quest.questTexts[0].text;
+                                        questInstructions1.text = displayText1;
+
+                                        displayText2 = quest.questTexts[1].text + "   (" + playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) + "/" + quest.materialToGather[0].amount + ")";
+                                        questInstructions2.text = displayText2;
+
+                                        if (playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) >= quest.materialToGather[0].amount)
+                                        {
+                                            //Next Stage ready for completion
+                                            displayText2 = quest.questTexts[1].text + "   (" + quest.materialToGather[0].amount + "/" + quest.materialToGather[0].amount + ")";
+                                            questInstructions2.text = displayText2;
+
+
+                                            displayText3 = quest.questTexts[2].text;
+                                            questInstructions3.text = displayText3;
+                                            SetDialogState(quest.npcGiver, "Completing");
+                                            DialogManager(quest.npcGiver, quest.completeDialogId);
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                //not compleeted
+                                displayText1 = quest.questTexts[0].text;
+                                questInstructions1.text = displayText1;
+                                displayText2 = "";
+                                displayText3 = "";
+                                questInstructions2.text = displayText2;
+                                questInstructions3.text = displayText3;
                                 SetDialogState(quest.npcGiver, "Idle");
                                 DialogManager(quest.npcGiver, quest.idleDialogId);
                             }
@@ -218,6 +272,12 @@ public class StartQuest : MonoBehaviour
         }
     }
 
+    public void SaveQuestAction(int id, string action)
+    {
+        QuestsActions.Add(new questActions {QuestID = id, QuestAction = action});
+        Debug.Log(QuestsActions[0]);
+    }
+
     public void SetDialogState(string NPC, string State)
     {
         if (NPC == "Aldric Woodrow")
@@ -242,24 +302,36 @@ public class StartQuest : MonoBehaviour
             //Gonna have to hardcode in quest and dialog some where, this is where.
             for (int i = 0; i < possibleQuests.Count; i++)
             {
+                //this only runs if player has the state of "HasQuest"
                 
-                if (NPC == "Aldric Woodrow" && possibleQuests[i] == 1)
+                if (NPC == "Aldric Woodrow")
                 //Run quest 1
                 {
-                    Debug.Log("Now running dialog man, postible quest now are: " + possibleQuests[i]);
-                    //return Dialog Id for quest 1
-                    return 10;
+                    if (possibleQuests[i] == 1){
+                        Debug.Log("Now running dialog man, postible quest now are: " + possibleQuests[i]);
+                        //return Dialog Id for quest 1
+                        return 10;
+                    }
+                    if (possibleQuests[i] == 2){
+                        Debug.Log("Now running dialog man, postible quest now are: " + possibleQuests[i]);
+                        //return Dialog Id for quest 1
+                        return 18;
+                    }
+                    else{continue;} 
+                    
                 }
-                if (NPC == "Aldric Woodrow" && possibleQuests[i] == 2)
-                //Run quest 1
-                {
-                    Debug.Log("Now running dialog man, postible quest now are: " + possibleQuests[i]);
-                    //return Dialog Id for quest 1
-                    return 18;
+                if (NPC == "Garran Whitlock"){
+                    for (int x = 0; x < activQuests.Count; x++)
+                    {
+                        if (activQuests[x] == 2)
+                        {
+                            return 10;
+                        }
+                    }
+                    return -1;
                 }
-                else{
-                    continue;
-                }   
+                else{continue;} 
+                  
             }
             return 0;
         }
@@ -271,8 +343,41 @@ public class StartQuest : MonoBehaviour
         
     }
 
+    public void SwitchQuestDisplayRight()
+    {
+        //If more then 1 activ quest make it posible to change inbetween the quests.
+        if (activQuests.Count > 1){
+            //If dispaly last quest in list go back to the first one.
+            if (activQuests.Count == (IndexOfShowenQuest+1)){
+                IndexOfShowenQuest = 0;
+            }
+            else
+            {
+                IndexOfShowenQuest++;
+            }
+        }
+        //If non or just one activ quest allways show index of 0.
+        else{
+            IndexOfShowenQuest = 0;
+        }
+    }
+
     public void SwitchQuestDisplayLeft()
     {
-        Debug.Log("Left pressed");
+        //If more then 1 activ quest make it posible to change inbetween the quests.
+        if (activQuests.Count > 1){
+            //If dispaly first quest in list dispaly last.
+            if (IndexOfShowenQuest == 0){
+                IndexOfShowenQuest = (activQuests.Count-1);
+            }
+            else
+            {
+                IndexOfShowenQuest--;
+            }
+        }
+        //If non or just one activ quest allways show index of 0.
+        else{
+            IndexOfShowenQuest = 0;
+        }
     }
 }

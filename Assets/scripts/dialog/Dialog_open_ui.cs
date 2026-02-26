@@ -5,6 +5,13 @@ using System.Collections.Generic;
 
 
 [System.Serializable]
+public class NPCDialogQuestActions
+{
+    public int QuestIDForAction;
+    public string Action;
+}
+
+[System.Serializable]
 public class NPCDialogChoice
 {
     public string text;
@@ -22,6 +29,7 @@ public class NPCDialogLine
     public int completeQuestID;
 
     public List<NPCDialogChoice> choices;
+    public List<NPCDialogQuestActions> inQuestAction;
 }
 
 [System.Serializable]
@@ -180,6 +188,13 @@ public class Dialog_open_ui : MonoBehaviour
                         acceptQuestNextID = line.choices[0].next_id;
                         declineQiestNextID = line.choices[1].next_id;
                         ShowChoices(line.choices[0].text, line.choices[1].text);
+                        
+                        if (line.inQuestAction != null && line.inQuestAction.Count > 0)
+                        {
+                            Debug.Log(line.inQuestAction[0].QuestIDForAction);
+                            Debug.Log("now checking for quests actions");
+                            startQuestScript.SaveQuestAction(line.inQuestAction[0].QuestIDForAction, line.inQuestAction[0].Action);
+                        }
                     }
                     if (line.choices == null && line.nextID != 0 && line.QuestID == 0 && line.completeQuestID == 0)
                     {

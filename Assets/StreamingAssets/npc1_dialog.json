@@ -58,7 +58,7 @@
         {
             "id": 16,
             "speaker": "Aldric Woodrow",
-            "text": "fuck you bitch",
+            "text": "Have ye gathered the twenty-five oak logs yet?",
             "nextID": 0,
             "QuestID": 0,
             "completeQuestID": 0
@@ -66,18 +66,42 @@
         {
             "id": 17,
             "speaker": "Aldric Woodrow",
-            "text": "guess you are not a compleet idiot after all then",
-            "nextID": 0,
-            "completeQuestID": 1,
+            "text": "Twenty-five, just as asked. A strong arm and an honest soul — rare these days.",
+            "nextID": 18,
+            "completeQuestID": 0,
             "QuestID": 0
         },
         {
             "id": 18,
             "speaker": "Aldric Woodrow",
-            "text": "Thanks again for helping me really neeeded that.",
-            "nextID": 0,
+            "text": "You have my thanks again, truly. I've little to spare, but here — take these fifteen coins. 'Tis not much, I know… but it will have to do.",
+            "nextID": 19,
+            "completeQuestID": 1,
+            "QuestID": 0
+        },
+        {
+            "id": 19,
+            "speaker": "Aldric Woodrow",
+            "text": "After a long day's labor, a man's belly speaks louder than his pride. All this chopping has stirred a hunger in me fierce as winter's wind.",
+            "nextID": 20,
+            "completeQuestID": 0,
+            "QuestID": 0
+        },
+        {
+            "id": 20,
+            "speaker": "Aldric Woodrow",
+            "text": "Would ye do an old man one more kindness? Head south, just follow the road down the hill. There's a tavern there — fetch us some fresh bread.",
+            "nextID": 21,
             "completeQuestID": 0,
             "QuestID": 2
+        },
+        {
+            "id": 21,
+            "speaker": "Aldric Woodrow",
+            "text": "The owner's name is Garran Whitlock. Tell him I sent you… he'll understand. We've stood through more than most men should.",
+            "nextID": 0,
+            "completeQuestID": 0,
+            "QuestID": 0
         }
     ]
 }

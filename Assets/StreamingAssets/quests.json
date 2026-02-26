@@ -28,7 +28,7 @@
             [
                 {"item": "", "amount": 0}
             ],
-            "completeCoins": 30,
+            "completeCoins": 15,
             "completeExp": 50,
             "nextPosibleQuests": 
             [
@@ -38,26 +38,27 @@
         },
         {
             "id": 2,
-            "name": "Gathering Firewood2",
+            "name": "Getting a Snack",
             "npcGiver": "Aldric Woodrow",
-            "type": "Gather",
-            "numberOfStages": 2,
+            "type": "MeetAndGather",
+            "numberOfStages": 3,
             "idleDialogId": 16,
             "completeDialogId": 17,
             "materialToGather": 
             [
-                {"material": "Wood Log", "amount": 50}
+                {"material": "Bread", "amount": 2}
             ],
             
             "questTexts": 
             [
-                {"text": "gather 50 wood logs"},
-                {"text": "Go back and talk to Aldric Woodrow"}
+                {"text": "Head south to the tavern and talk to Garran Whitlock"},
+                {"text": "Gather the bread"},
+                {"text": "Get back to Aldric with the bread"}
             ],
 
             "startingLoot":
             [
-                {"item": "wooden aks", "amount": 1}
+                {"item": "", "amount": 0}
             ],
             "completingLoot":
             [
@@ -67,8 +68,7 @@
             "completeExp": 50,
             "nextPosibleQuests": 
             [
-                {"id": 2},
-                {"id": 3}
+                {"id": 4}
             ]
         },
         {
