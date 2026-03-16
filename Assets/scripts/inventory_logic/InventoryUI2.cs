@@ -26,6 +26,12 @@ public class InventoryUI2 : MonoBehaviour
     public float justGotItemDisplayTime = 2f; // Time to display the "Just Got Item" UI
     public Transform canvasTransform;
 
+    [Header("Inspect UI")]
+    public GameObject inspectUIPanel;
+    public TextMeshProUGUI inspectUIName;
+    public Image inspectUIImage;
+    public TextMeshProUGUI inspectUIAmount;
+
 
     private GameObject JGIUI;
 
@@ -36,10 +42,13 @@ public class InventoryUI2 : MonoBehaviour
 
     public List<SlotUI> slotUIs = new List<SlotUI>();
 
+    private List<RectTransform> slotsRect = new List<RectTransform>();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         IsOpen = false;
+        inspectUIPanel.SetActive(false);
         CreateSlots();
     }
 
@@ -54,6 +63,27 @@ public class InventoryUI2 : MonoBehaviour
             inventoryPanel.SetActive(!inventoryPanel.activeSelf);
             IsOpen = !IsOpen;
         }
+
+
+        for (int i = 0; i < slotsRect.Count; i++)
+        {
+            if (RectTransformUtility.RectangleContainsScreenPoint(slotsRect[i], Input.mousePosition))
+            {
+
+                var (name, id, icon, quantity) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
+                inspectUIName.text = name;
+                inspectUIAmount.text = quantity.ToString();
+                inspectUIImage.sprite = icon;
+                if (name == ""){
+                    inspectUIPanel.SetActive(false);
+                }
+                else{
+                    inspectUIPanel.SetActive(true);
+                }
+            }
+        }
+
+
     }
 
     void CreateSlots()
@@ -63,6 +93,7 @@ public class InventoryUI2 : MonoBehaviour
         {
             GameObject slotObj = Instantiate(slotPrefab, slotGrid);
             slotUIs.Add(slotObj.GetComponent<SlotUI>());
+            slotsRect.Add(slotObj.GetComponent<RectTransform>());
             /*foreach (var slotUI in slotUIs)
             {
                 if (slotUI == null)

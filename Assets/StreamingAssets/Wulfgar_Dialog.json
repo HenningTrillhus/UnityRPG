@@ -1,0 +1,48 @@
+{
+    "messages": 
+    [
+        {
+            "id": -1,
+            "speaker": "Wulfgar",
+            "text": "Get out of my face BOY!",
+            "nextID": 0,
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 10,
+            "speaker": "Wulfgar",
+            "text": "Hey they call me Wulfgar nice to meet you",
+            "nextID": 11,
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 11,
+            "speaker": "Wulfgar",
+            "text": "Take this dagger",
+            "nextID": 0,
+            "QuestID": 4,
+            "completeQuestID": 0,
+            "ReceiveItem": [
+                {"itemName": "Rusty Dagger", "itemAmount": 1}
+            ]
+        },
+        {
+            "id": 12,
+            "speaker": "Wulfgar",
+            "text": "Jobs not done",
+            "nextID": 0,
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 13,
+            "speaker": "Wulfgar",
+            "text": "Good job",
+            "nextID": 0,
+            "QuestID": 0,
+            "completeQuestID": 4
+        }
+    ]
+}

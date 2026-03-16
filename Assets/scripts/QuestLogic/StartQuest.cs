@@ -42,6 +42,9 @@ public class quests
     public int id;
     public int completeCoins;
     public int completeExp;
+    public string enemyToKill;
+    public int numberOfEnemyToKill;
+    public int numberOfEnemyKilled;
 
     public List<questMultipleSegmentsText> questTexts;
     public List<questMultipleSegmentsmaterialToGather> materialToGather;
@@ -78,6 +81,7 @@ public class StartQuest : MonoBehaviour
 
     public Player_Inventory playerInventory;
     public npc_interactable npcScript;
+    public Wulfgar WulfgarScript;
     
 
     List<int> activQuests = new List<int>();
@@ -224,6 +228,27 @@ public class StartQuest : MonoBehaviour
                                 DialogManager(quest.npcGiver, quest.idleDialogId);
                             }
                         }
+                        if(quest.type == "Eliminate")
+                        {
+                            if ( quest.numberOfEnemyKilled >= quest.numberOfEnemyToKill)
+                            {
+                                displayText1 = quest.questTexts[0].text + "(" + quest.numberOfEnemyToKill + "/" + quest.numberOfEnemyToKill + ")";
+                                questInstructions1.text = displayText1;
+                                displayText2 = quest.questTexts[1].text;
+                                questInstructions2.text = displayText2;
+                                SetDialogState(quest.npcGiver, "Completing");
+                                DialogManager(quest.npcGiver, quest.completeDialogId);
+                            }
+                            else
+                            {
+                                displayText1 = quest.questTexts[0].text + "(" + quest.numberOfEnemyKilled + "/" + quest.numberOfEnemyToKill + ")";
+                                questInstructions1.text = displayText1;
+                                SetDialogState(quest.npcGiver, "Idle");
+                                DialogManager(quest.npcGiver, quest.idleDialogId);
+                            }
+                            
+
+                        }
                     }
                 }
                 
@@ -268,6 +293,10 @@ public class StartQuest : MonoBehaviour
                 {
                     playerInventory.inventoryV2.RemoveItemV2(quest.materialToGather[0].material,quest.materialToGather[0].amount);
                 }
+                if (quest.type == "MeetAndGather")
+                {
+                    playerInventory.inventoryV2.RemoveItemV2(quest.materialToGather[0].material,quest.materialToGather[0].amount);
+                }
             }
         }
     }
@@ -284,6 +313,10 @@ public class StartQuest : MonoBehaviour
         {
             npcScript.DialogState = State;
         }
+        if (NPC == "Wulfgar")
+        {
+            WulfgarScript.DialogState = State;
+        }
     }
 
     public void DialogManager(string NPC, int dialogID)
@@ -292,6 +325,15 @@ public class StartQuest : MonoBehaviour
         {
             npcScript.nextDialogID = dialogID;
         }
+        if (NPC == "Wulfgar")
+        {
+            WulfgarScript.nextDialogID = dialogID;
+        }
+    }
+
+    public void ReceiveItemTroughDialog(string itemName, int amount)
+    {
+        playerInventory.inventoryV2.AddItemV2(itemName,amount);
     }
 
     public int DialogQuestManager(string NPC)
@@ -329,6 +371,14 @@ public class StartQuest : MonoBehaviour
                         }
                     }
                     return -1;
+                }
+                if (NPC == "Wulfgar"){
+                    if (possibleQuests[i] == 4){
+                        Debug.Log("Now running dialog man, postible quest now are: " + possibleQuests[i]);
+                        //return Dialog Id for quest 1
+                        return 10;
+                    }
+                    else{continue;} 
                 }
                 else{continue;} 
                   
@@ -378,6 +428,27 @@ public class StartQuest : MonoBehaviour
         //If non or just one activ quest allways show index of 0.
         else{
             IndexOfShowenQuest = 0;
+        }
+    }
+
+
+    public void enemyKilled(string TypeEnemy)
+    {
+        Debug.Log("Running kill fun");
+        if (activQuests.Count > 0)
+        {
+            for (int i = 0; i < activQuests.Count; i++)
+            {
+                foreach (quests quest in Quests)
+                {
+                    if (quest.type == "Eliminate" && quest.enemyToKill == TypeEnemy)
+                    {
+                        Debug.Log(quest.numberOfEnemyKilled );
+                        quest.numberOfEnemyKilled ++;
+                        return;
+                    }
+                }
+            }
         }
     }
 }

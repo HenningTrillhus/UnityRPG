@@ -102,6 +102,22 @@
             "nextID": 0,
             "completeQuestID": 0,
             "QuestID": 0
+        },
+        {
+            "id": 21,
+            "speaker": "Aldric Woodrow",
+            "text": "So… where's the bread? I'm starving.",
+            "nextID": 0,
+            "completeQuestID": 0,
+            "QuestID": 0
+        },
+        {
+            "id": 22,
+            "speaker": "Aldric Woodrow",
+            "text": "Ah, there you are! Thanks for fetching the bread",
+            "nextID": 0,
+            "completeQuestID": 2,
+            "QuestID": 0
         }
     ]
 }

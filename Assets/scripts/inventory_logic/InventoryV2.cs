@@ -342,6 +342,17 @@ public class InventoryV2
         }
         return false;
     }
+
+    public (string,int, Sprite, int) GetItemOfIndexFromInv(int index)
+    {
+        if (index < NewInventory.Count){
+            return (NewInventory[index].Name, NewInventory[index].ID, NewInventory[index].Icon, NewInventory[index].Quantity);
+        }
+        else{
+            return ("", 0, null, 0);
+        }
+       
+    }
 }
 
 

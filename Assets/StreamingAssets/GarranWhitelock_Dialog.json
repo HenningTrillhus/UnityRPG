@@ -12,10 +12,10 @@
         {
             "id": 10,
             "speaker": "Garran Whitlock",
-            "text": "wats up lil dud",
+            "text": "We don't get many new faces in my tavern… and the last one brought trouble. So speak quick, stranger — are you here for ale, or am I about to throw you back into the mud?",
             "choices": [
-                { "text": "You look like you could use a hand. What's the trouble?", "next_id": 11 },
-                { "text": "Aye… you don't look as spry as you once were. Tell me what needs done.", "next_id": 12 }
+                { "text": "Easy, old man… I'm not here for trouble. Just answers. You Garran Whitlock, or am I wasting my time?", "next_id": 11 },
+                { "text": "Aldric Woodrow sent me. Said I'd find a man with the name Garran Whitlock here.", "next_id": 18 }
             ],
             "inQuestAction": [
                 { "QuestIDForAction": 2, "Action": "NPC Meet"}
@@ -26,8 +26,80 @@
         {
             "id": 11,
             "speaker": "Garran Whitlock",
-            "text": "Ah… 'tis good of ye to offer! My shoulder's ailing, and I can't swing an axe like I used to. There are trees near the edge of the woods that need felling 'fore the winter frost sets in. I'd be grateful for a strong arm such as yours.",
-            "nextID": 13,
+            "text": "You're either brave or stupid asking that in my tavern. Aye — I'm Garran Whitlock. Now mind your tone before I decide you're wasting mine.",
+            "choices": [
+                { "text": "Aye, Aldric Woodrow doesn't send people to waste time. I need answers, whether you like it or not.", "next_id": 12 },
+                { "text": "Easy… I didn't mean any disrespect. Aldric Woodrow sent me — I just need a word with you.", "next_id": 15 }
+            ],
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 12,
+            "speaker": "Garran Whitlock",
+            "text": "Ah, you should've just said that! Might've saved us both a headache… now, spit it out, what can i do you for?",
+            "choices": [
+                { "text": "Aldric said you'd help us out with some bread?", "next_id": 13 },
+                { "text": "Word is you can get us some bread. Is that true?", "next_id": 13 }
+            ],
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 13,
+            "speaker": "Garran Whitlock",
+            "text": "Bread, eh? You'll get it… but only if you don't eat it all before you're out the door.",
+            "nextID": 14,
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 14,
+            "speaker": "Garran Whitlock",
+            "text": "Here you go, Come back anytime — a friend of Aldric's is a friend of mine.",
+            "nextID": 0,
+            "QuestID": 0,
+            "completeQuestID": 0,
+            "ReceiveItem": [
+                {"itemName": "Bread", "itemAmount": 4}
+            ]
+            
+        },
+        {
+            "id": 15,
+            "speaker": "Garran Whitlock",
+            "text": "No worries… you should've just said Aldric sent you. You seem like an honest man — so, what can I do you for?",
+            "choices": [
+                { "text": "Aldric asked me to fetch some bread, said you'd be the one to help.", "next_id": 16 },
+                { "text": "Aldric told me you could spare some bread… figured I'd see if that's true.", "next_id": 17 }
+            ],
+            "QuestID": 0,
+            "completeQuestID": 0
+        },
+        {
+            "id": 16,
+            "speaker": "Garran Whitlock",
+            "text": "Ah, Aldric, eh? Well, you've come to the right place. Bread you'll have — don't go getting used to my generosity.",
+            "QuestID": 0,
+            "nextID": 14,
+            "completeQuestID": 0
+        },
+        {
+            "id": 17,
+            "speaker": "Garran Whitlock",
+            "text": "Heh, trying to test me, are you? Don't worry — Aldric's word is good enough. Bread it is.",
+            "QuestID": 0,
+            "nextID": 14,
+            "completeQuestID": 0
+        },
+        {
+            "id": 18,
+            "speaker": "Garran Whitlock",
+            "text": "Ah, so Aldric sent you… I'm Garran Whitlock. What do you need?",
+            "choices": [
+                { "text": "Heard from Aldric I could grab some bread here… something about you two having history.", "next_id": 13 },
+                { "text": "Aldric told me to gather some bread from you. Can you help me out?", "next_id": 13 }
+            ],
             "QuestID": 0,
             "completeQuestID": 0
         }

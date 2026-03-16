@@ -33,7 +33,8 @@
             "nextPosibleQuests": 
             [
                 {"id": 2},
-                {"id": 3}
+                {"id": 3},
+                {"id": 4}
             ]
         },
         {
@@ -42,8 +43,8 @@
             "npcGiver": "Aldric Woodrow",
             "type": "MeetAndGather",
             "numberOfStages": 3,
-            "idleDialogId": 16,
-            "completeDialogId": 17,
+            "idleDialogId": 21,
+            "completeDialogId": 22,
             "materialToGather": 
             [
                 {"material": "Bread", "amount": 2}
@@ -68,7 +69,7 @@
             "completeExp": 50,
             "nextPosibleQuests": 
             [
-                {"id": 4}
+                {"id": 5}
             ]
         },
         {
@@ -88,6 +89,39 @@
             [
                 {"item": "wooden aks", "amount": 1}
             ]      
+        },
+        {
+            "id": 4,
+            "name": "Learing the ways of the dagger",
+            "npcGiver": "Wulfgar",
+            "type": "Eliminate",
+            "numberOfStages": 2,
+            "idleDialogId": 12,
+            "completeDialogId": 13,
+            "enemyToKill": "Dummy",
+            "numberOfEnemyToKill": 1,
+            "numberOfEnemyKilled": 0,
+            
+            "questTexts": 
+            [
+                {"text": "Kill The Dummy"},
+                {"text": "Talk to Wulfgar"}
+            ],
+
+            "startingLoot":
+            [
+                {"item": "", "amount": 0}
+            ],
+            "completingLoot":
+            [
+                {"item": "", "amount": 0}
+            ],
+            "completeCoins": 30,
+            "completeExp": 50,
+            "nextPosibleQuests": 
+            [
+                {"id": 6}
+            ]
         }
     ]
 }

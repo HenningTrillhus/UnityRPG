@@ -5,6 +5,13 @@ using System.Collections.Generic;
 
 
 [System.Serializable]
+public class NPCDialogReceiveItem
+{
+    public string itemName;
+    public int itemAmount;
+}
+
+[System.Serializable]
 public class NPCDialogQuestActions
 {
     public int QuestIDForAction;
@@ -30,6 +37,7 @@ public class NPCDialogLine
 
     public List<NPCDialogChoice> choices;
     public List<NPCDialogQuestActions> inQuestAction;
+    public List<NPCDialogReceiveItem> ReceiveItem;
 }
 
 [System.Serializable]
@@ -181,6 +189,11 @@ public class Dialog_open_ui : MonoBehaviour
                         startQuestScript.completeQuest(line.completeQuestID);
                         nextDialogId = line.nextID;
                         return;
+                    }
+                    if (line.ReceiveItem.Count > 0 )
+                    {
+                        Debug.Log("giving items, Item Name: " + line.ReceiveItem[0].itemName + " Amount: "+ line.ReceiveItem[0].itemAmount);
+                        startQuestScript.ReceiveItemTroughDialog(line.ReceiveItem[0].itemName, line.ReceiveItem[0].itemAmount);
                     }
                     if (line.choices != null && line.choices.Count > 0)
                     {
