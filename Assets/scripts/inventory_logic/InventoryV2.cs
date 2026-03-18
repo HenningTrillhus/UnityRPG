@@ -35,6 +35,7 @@ public class InventoryV2
         public int ID;
         public Sprite Icon;
         public string Name;
+        public string Description;
         public string Type;
         public bool IsTool;
         public string Rarity;
@@ -42,6 +43,7 @@ public class InventoryV2
         public int ValueInGameCurrency;
         public int MaxStack;
         public bool Stackable;
+        public bool Placeable;
         public int stack; //how many max loads of the item
         public bool stackFull;
     }
@@ -51,12 +53,14 @@ public class InventoryV2
         public int ID;
         public Sprite Icon;
         public string Name;
+        public string Description;
         public string Type;
         public bool IsTool;
         public string Rarity;
         public int ValueInGameCurrency;
         public int MaxStack;
         public bool Stackable;
+        public bool Placeable;
     }
     
 
@@ -67,7 +71,7 @@ public class InventoryV2
 
     public void CreatTotalItemList(ItemData item)
     {
-        TotalItems.Add(new Items {ID = item.itemID, Icon = item.icon, Name = item.itemName, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable});
+        TotalItems.Add(new Items {ID = item.itemID, Icon = item.icon, Name = item.itemName, Description = item.itemDescription, Type = item.itemType, IsTool = item.itemIsTool, Rarity = item.rarity, ValueInGameCurrency = item.valueInGameCurrency, MaxStack = item.maxStack, Stackable = item.stackable, Placeable = item.placeable});
         //Debug.Log("item with id: " + item.itemID + " and name: " + item.itemName + " added to the total list, list now has a lenght of " + TotalItems.Count);
     }
 
@@ -86,7 +90,7 @@ public class InventoryV2
                 if (!NewInventory.Any())
                 {
                     Debug.Log("added new stack of : " + item.Name + " with amount of " + amount);
-                    NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = false});
+                    NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Description = item.Description, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = false, Placeable = item.Placeable});
                     FixChanges();
                     UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                 }
@@ -112,7 +116,7 @@ public class InventoryV2
 
                                     //creat new stack now with stack pluss one
                                     Debug.Log("bypass max, creat new stack of the new item with the left over amount witch is " + quantityLeftOver + " this is stack number " + (itemInInventory.stack + 1));
-                                    NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = quantityLeftOver, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = itemInInventory.stack+1, stackFull = false});
+                                    NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Description = item.Description, Quantity = quantityLeftOver, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = itemInInventory.stack+1, stackFull = false, Placeable = item.Placeable});
                                     UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                                     FixChanges();
                                     return;
@@ -145,7 +149,7 @@ public class InventoryV2
                     {
                         //if no match creat new stack of the new item and set stack to stackRotation
                         Debug.Log("no match, creat new stack of the new item of " + item.Name + " with amount of " + amount + " this is stack number " + stackRotation);
-                        NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = false});
+                        NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Description = item.Description, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = false, Placeable = item.Placeable});
                         FixChanges();
                         UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                         return;
@@ -154,7 +158,7 @@ public class InventoryV2
                     else
                     {
                         Debug.Log("item is not stackable, creat new stack of the new item");
-                        NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = true});
+                        NewInventory.Add(new InventoryItem {ID = item.ID, Icon = item.Icon, Name = item.Name, Description = item.Description, Quantity = amount, Type = item.Type, IsTool = item.IsTool, Rarity = item.Rarity, ValueInGameCurrency = item.ValueInGameCurrency, MaxStack = item.MaxStack, Stackable = item.Stackable, stack = 1, stackFull = true, Placeable = item.Placeable});
                         UILogic.ShowJustGotItem(item.Icon, item.Name , amount); // Update the UI when logging inventory
                     }
                 }
@@ -343,13 +347,13 @@ public class InventoryV2
         return false;
     }
 
-    public (string,int, Sprite, int) GetItemOfIndexFromInv(int index)
+    public (string , string ,int, Sprite, int, bool, string) GetItemOfIndexFromInv(int index)
     {
         if (index < NewInventory.Count){
-            return (NewInventory[index].Name, NewInventory[index].ID, NewInventory[index].Icon, NewInventory[index].Quantity);
+            return (NewInventory[index].Name, NewInventory[index].Description, NewInventory[index].ID, NewInventory[index].Icon, NewInventory[index].Quantity, NewInventory[index].Placeable, NewInventory[index].Type);
         }
         else{
-            return ("", 0, null, 0);
+            return ("", "", 0, null, 0, false, "");
         }
        
     }

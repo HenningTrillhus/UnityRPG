@@ -6,10 +6,12 @@ public class ItemData : ScriptableObject
     public int itemID;
     public string itemName;
     public string itemType;
+    public string itemDescription;
     public bool itemIsTool;
     public string rarity;
     public int valueInGameCurrency;
     public Sprite icon;
     public bool stackable = true;
+    public bool placeable = false;
     public int maxStack = 99;
 }

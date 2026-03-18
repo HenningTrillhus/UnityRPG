@@ -8,6 +8,7 @@ public class InventoryUI2 : MonoBehaviour
     [Header("References")]
     public GameObject inventoryPanel;
     public Player_Inventory playerInventory;
+    public MousePosition MousePosition;
 
     [Header("Slot Setup")]
     public Transform slotGrid;      // parent (SlotGrid)
@@ -30,6 +31,7 @@ public class InventoryUI2 : MonoBehaviour
     public GameObject inspectUIPanel;
     public TextMeshProUGUI inspectUIName;
     public Image inspectUIImage;
+    public TextMeshProUGUI inspectUIDescription;
     public TextMeshProUGUI inspectUIAmount;
 
 
@@ -70,15 +72,33 @@ public class InventoryUI2 : MonoBehaviour
             if (RectTransformUtility.RectangleContainsScreenPoint(slotsRect[i], Input.mousePosition))
             {
 
-                var (name, id, icon, quantity) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
+                var (name, description, id, icon, quantity, placeable, type) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
                 inspectUIName.text = name;
                 inspectUIAmount.text = quantity.ToString();
                 inspectUIImage.sprite = icon;
+                inspectUIDescription.text = description;
                 if (name == ""){
                     inspectUIPanel.SetActive(false);
                 }
                 else{
                     inspectUIPanel.SetActive(true);
+                    if (Input.GetMouseButtonDown(0) && placeable){
+                        Debug.Log(type);
+                        if (type == "Tool"){
+                            MousePosition.buildingBlock = "EmptyCrop";
+                        }
+                        if (type == "Seed"){
+                            if (name == "Carrot Seed")
+                            {
+                                MousePosition.buildingBlock = "CorrotSeed";
+                            }
+                        }
+                        MousePosition.building = true;
+                        
+                        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+                        IsOpen = !IsOpen;
+                    }
+                    
                 }
             }
         }
