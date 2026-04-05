@@ -41,8 +41,17 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: TileSets
+    uniqueID: 232236585
+    locked: 0
+  - name: CropLayer
+    uniqueID: 3900971783
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 106816865
     locked: 0
   m_RenderingLayers:
   - Default

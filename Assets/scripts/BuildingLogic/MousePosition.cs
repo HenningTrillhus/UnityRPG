@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 
 public class MousePosition : MonoBehaviour
@@ -8,6 +9,8 @@ public class MousePosition : MonoBehaviour
     public Transform Player;
     public GameObject TestTile;
     public GameObject EmptyCropTest;
+
+    public CropDisplayInfo cropDisplayInfo;
 
     public float ReachRangeForHowerBox = 4f;
 
@@ -22,7 +25,14 @@ public class MousePosition : MonoBehaviour
         public bool SeedAble;
     }
 
+    public class CropPos
+    {
+        public float x;
+        public float y;
+    }
+
     public List<POS> CordsInUse = new List<POS>();
+    public List<CropPos> cropPositions = new List<CropPos>();
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,6 +43,7 @@ public class MousePosition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (building){
             // Get mouse position in world space (what you want for 2D games)
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -61,6 +72,8 @@ public class MousePosition : MonoBehaviour
                     {
                         Instantiate(EmptyCropTest, new Vector3(mouseX, mouseY, 0f), Quaternion.identity);
                         CordsInUse.Add(new POS {x = mouseX, y = mouseY, SeedAble = true});
+                        cropPositions.Add(new CropPos{x = mouseX, y = mouseY});
+                        CropDisplayInfo.TriggerOnNewCropPlanted();
                     }
                     else
                     {
