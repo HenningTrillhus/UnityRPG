@@ -13,5 +13,7 @@ public class ItemData : ScriptableObject
     public Sprite icon;
     public bool stackable = true;
     public bool placeable = false;
+    public bool shelfPlaceable = false;
+    public int shelfSlotsTaking = 1;
     public int maxStack = 99;
 }

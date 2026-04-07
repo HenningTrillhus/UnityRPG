@@ -147,11 +147,16 @@ public class CropDisplayInfo : MonoBehaviour
         if (distance < hoverDistance)
         {
             InfoOBJ.SetActive(true);
+            Debug.Log(mouseValues.buildingBlock + " from crop");
 
             
             if (Input.GetMouseButtonDown(0) && mouseValues.building && cropState == "Empty")
             {
                 plantSeed(mouseValues.buildingBlock);
+            }
+            if (Input.GetMouseButtonDown(0) && mouseValues.building && cropState == "Growing")
+            {
+                waterCrop();
             }
         }
         else
@@ -212,6 +217,21 @@ public class CropDisplayInfo : MonoBehaviour
         if (Stage==2){
             childSprite.sprite = CarrotStage2;
         }
+        if (Stage==3){
+            childSprite.sprite = CarrotStage3;
+        }
+        if (Stage==4){
+            childSprite.sprite = CarrotStage4;
+        }
+        if (Stage==5){
+            childSprite.sprite = CarrotStage5;
+        }
+        if (Stage==6){
+            childSprite.sprite = CarrotStage6;
+        }
+        if (Stage==7){
+            childSprite.sprite = CarrotStage7;
+        }
         
     }
 
@@ -238,6 +258,10 @@ public class CropDisplayInfo : MonoBehaviour
         {
             return randomWaterLoos;
         }
+    }
+    void waterCrop()
+    {
+        waterLevel = 100;
     }
     void SetBarHeight(float percent)
     {

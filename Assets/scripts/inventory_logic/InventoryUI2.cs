@@ -67,41 +67,64 @@ public class InventoryUI2 : MonoBehaviour
         }
 
 
-        for (int i = 0; i < slotsRect.Count; i++)
-        {
-            if (RectTransformUtility.RectangleContainsScreenPoint(slotsRect[i], Input.mousePosition))
+        if (IsOpen){
+            for (int i = 0; i < slotsRect.Count; i++)
             {
+                if (RectTransformUtility.RectangleContainsScreenPoint(slotsRect[i], Input.mousePosition))
+                {
 
-                var (name, description, id, icon, quantity, placeable, type) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
-                inspectUIName.text = name;
-                inspectUIAmount.text = quantity.ToString();
-                inspectUIImage.sprite = icon;
-                inspectUIDescription.text = description;
-                if (name == ""){
-                    inspectUIPanel.SetActive(false);
-                }
-                else{
-                    inspectUIPanel.SetActive(true);
-                    if (Input.GetMouseButtonDown(0) && placeable){
-                        Debug.Log(type);
-                        if (type == "Tool"){
-                            MousePosition.buildingBlock = "EmptyCrop";
-                        }
-                        if (type == "Seed"){
-                            if (name == "Carrot Seed")
-                            {
-                                MousePosition.buildingBlock = "CorrotSeed";
-                            }
-                        }
-                        MousePosition.building = true;
-                        
-                        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
-                        IsOpen = !IsOpen;
+                    var (name, description, id, icon, quantity, placeable, type, shelfPlaceable, shelfSlotsTaking) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
+                    inspectUIName.text = name;
+                    inspectUIAmount.text = quantity.ToString();
+                    inspectUIImage.sprite = icon;
+                    inspectUIDescription.text = description;
+                    if (name == ""){
+                        inspectUIPanel.SetActive(false);
                     }
-                    
+                    else{
+                        Debug.Log("Placable var: "+ placeable+ "     shelfPlaceable var: " +  shelfPlaceable);
+                        inspectUIPanel.SetActive(true);
+                        if (Input.GetMouseButtonDown(0) && placeable){
+                            if (type == "Tool"){
+                                if (id == 200)
+                                {
+                                    MousePosition.buildingBlock = "EmptyCrop";  
+                                }
+                                if (id == 11)
+                                {
+                                    MousePosition.buildingBlock = "WaterBucket";  
+                                }
+                                
+                            }
+                            if (type == "Seed"){
+                                if (name == "Carrot Seed")
+                                {
+                                    MousePosition.buildingBlock = "CorrotSeed";
+                                }
+                            }
+                            MousePosition.building = true;
+                            
+                            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+                            IsOpen = !IsOpen;
+                        }
+                        if (Input.GetMouseButtonDown(0) && !placeable && shelfPlaceable){
+                            Debug.Log(name + " pressed with id of " + id);
+                            MousePosition.buildingBlock = "";
+                            MousePosition.placingID = id;
+                            MousePosition.placingName = name;
+                            MousePosition.placingFacingsTaking = shelfSlotsTaking;
+                            MousePosition.building = false;
+                            MousePosition.placing = true;
+                            
+                            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+                            IsOpen = !IsOpen;
+                        }
+                        
+                    }
                 }
             }
         }
+        
 
 
     }

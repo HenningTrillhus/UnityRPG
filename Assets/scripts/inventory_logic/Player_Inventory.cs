@@ -14,6 +14,9 @@ public class Player_Inventory : MonoBehaviour
     public ItemData RustyDagger; 
     public ItemData TestHoe;
     public ItemData CarrotSeed;
+    public ItemData WaterBucket;
+    public ItemData Carrot;
+    public ItemData Apple;
 
     [Header("Script Ref")]
     public Inventory inventory; // this is the logic object
@@ -40,6 +43,9 @@ public class Player_Inventory : MonoBehaviour
         inventoryV2.CreatTotalItemList(RustyDagger);
         inventoryV2.CreatTotalItemList(TestHoe);
         inventoryV2.CreatTotalItemList(CarrotSeed);
+        inventoryV2.CreatTotalItemList(WaterBucket);
+        inventoryV2.CreatTotalItemList(Carrot);
+        inventoryV2.CreatTotalItemList(Apple);
     }
 
     void Update()
@@ -51,7 +57,8 @@ public class Player_Inventory : MonoBehaviour
         }*/
         if (Input.GetKeyDown(KeyCode.G))
         {
-            inventoryV2.AddItemV2("Wood Log",25); // adds 1 item to the new inventory
+            inventoryV2.AddItemV2("Apple",5); // adds 1 item to the new inventory
+            inventoryV2.AddItemV2("Carrot",5); // adds 1 item to the new inventory
             
         }
         if (Input.GetKeyDown(KeyCode.H))
@@ -69,6 +76,7 @@ public class Player_Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         { 
             inventoryV2.AddItemV2("Test Hoe",1);
+            inventoryV2.AddItemV2("Water Bucket",1);
             //inventoryV2.AddItemV2(IronOre, 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.C))
