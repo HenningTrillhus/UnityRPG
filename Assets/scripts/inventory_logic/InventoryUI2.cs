@@ -82,7 +82,6 @@ public class InventoryUI2 : MonoBehaviour
                         inspectUIPanel.SetActive(false);
                     }
                     else{
-                        Debug.Log("Placable var: "+ placeable+ "     shelfPlaceable var: " +  shelfPlaceable);
                         inspectUIPanel.SetActive(true);
                         if (Input.GetMouseButtonDown(0) && placeable){
                             if (type == "Tool"){

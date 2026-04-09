@@ -23,6 +23,11 @@ public class MousePosition : MonoBehaviour
     public string placingName;
     public int placingFacingsTaking;
 
+    private float previousX;
+    private float previousY;
+    private string colorOfHoverBox;
+    
+
     public class POS
     {
         public float x;
@@ -52,32 +57,70 @@ public class MousePosition : MonoBehaviour
         ShelfPositions.Add(new ShelfPos{x = -6.5f, y = 7.5f});
     }
 
+    public string checkHoverBoxAcceptance(float x, float y)
+    {
+        if (placing && !building)
+        {
+            foreach (ShelfPos cord in ShelfPositions)
+            {
+                if (cord.x == x && cord.y == y)return "Green";
+            }
+            return "Red";
+        }
+        else
+        {
+            return "Red";
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
+        // Get mouse position in world space (what you want for 2D games)
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f; // always set z to 0 for 2D
+
+        float mouseX = Mathf.FloorToInt(mousePos.x) + 0.5f;
+        float mouseY = Mathf.FloorToInt(mousePos.y) + 0.5f;
+        if (mouseX != previousX || mouseY != previousY)
+        {
+            previousX = mouseX;
+            previousY = mouseY;
+            colorOfHoverBox = checkHoverBoxAcceptance(previousX, previousY);
+            if (colorOfHoverBox == "Green")
+            {
+                SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                GetComponent<SpriteRenderer>().color = Color.green;
+                Color color = sr.color;
+                color.a = 0.3f; // 0 = invisible, 1 = fully visible
+                sr.color = color;
+            }
+            if (colorOfHoverBox == "Red")
+            {
+                SpriteRenderer sr = GetComponent<SpriteRenderer>();
+                GetComponent<SpriteRenderer>().color = Color.red;
+                Color color = sr.color;
+                color.a = 0.3f; // 0 = invisible, 1 = fully visible
+                sr.color = color;
+            }
+            
+        }
         
         if (building || placing){
-            // Get mouse position in world space (what you want for 2D games)
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mousePos.z = 0f; // always set z to 0 for 2D
+            if (Vector2.Distance(Player.position, mousePos) < ReachRangeForHowerBox)
+            {
+                HowerBox.transform.position = new Vector3(mouseX, mouseY, 0f);
+                HowerBox.GetComponent<SpriteRenderer>().enabled = true;
+                howerBoxVisible = true;
 
-            float mouseX = Mathf.FloorToInt(mousePos.x) + 0.5f;
-            float mouseY = Mathf.FloorToInt(mousePos.y) + 0.5f;
+            }
+            else{
+                HowerBox.GetComponent<SpriteRenderer>().enabled = false;
+                howerBoxVisible = false;
+            }
 
             if (building)
             {
-                if (Vector2.Distance(Player.position, mousePos) < ReachRangeForHowerBox)
-                {
-                    HowerBox.transform.position = new Vector3(mouseX, mouseY, 0f);
-                    HowerBox.GetComponent<SpriteRenderer>().enabled = true;
-                    howerBoxVisible = true;
-
-                }
-                else{
-                    HowerBox.GetComponent<SpriteRenderer>().enabled = false;
-                    howerBoxVisible = false;
-                }
-
                 if (Input.GetMouseButtonDown(0) && howerBoxVisible && building)
                 {
                     if (buildingBlock == "EmptyCrop"){
@@ -130,6 +173,8 @@ public class MousePosition : MonoBehaviour
             }
             if (placing)
             {
+                
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     if (IsSlotTaken(mouseX, mouseY, false, true))

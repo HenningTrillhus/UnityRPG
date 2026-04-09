@@ -50,6 +50,15 @@ TagManager:
   - name: Shelf
     uniqueID: 975687925
     locked: 0
+  - name: HoverBox
+    uniqueID: 851999941
+    locked: 0
+  - name: HoverBoxBox
+    uniqueID: 228057181
+    locked: 0
+  - name: HoverBoxBoxBox
+    uniqueID: 828585641
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ShelfInventory : MonoBehaviour
 {
+    [Header("Script Refrence")]
+    public ShelfInventoryDisplay _shelfInventoryDisplay;
     public Player_Inventory playerInventory;
 
     [Header("Shelf Item Sprites")]
@@ -70,6 +72,7 @@ public class ShelfInventory : MonoBehaviour
                 itemPlaceHolders[currentInventoryAmount].GetComponent<SpriteRenderer>().sprite = getSpriteByID(id);
                 itemPlaceHolders[currentInventoryAmount].SetActive(true);
                 currentInventoryAmount++;
+                _shelfInventoryDisplay.UpdateHoldingList(name);
             }
             else
             {
