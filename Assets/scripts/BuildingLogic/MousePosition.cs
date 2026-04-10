@@ -22,6 +22,7 @@ public class MousePosition : MonoBehaviour
     public int placingID;
     public string placingName;
     public int placingFacingsTaking;
+    public int placingValue;
 
     private float previousX;
     private float previousY;
@@ -180,7 +181,7 @@ public class MousePosition : MonoBehaviour
                     if (IsSlotTaken(mouseX, mouseY, false, true))
                     {
                         Debug.Log("Adding item to shelf");
-                        _shelfInventory.AddItem(placingID,placingName,placingFacingsTaking);
+                        _shelfInventory.AddItem(placingID,placingName,placingFacingsTaking, placingValue);
                     }
                     else
                     {

@@ -17,6 +17,10 @@ public class Player_Inventory : MonoBehaviour
     public ItemData WaterBucket;
     public ItemData Carrot;
     public ItemData Apple;
+    public ItemData Potato;
+    public ItemData RedMushroom;
+    public ItemData BrownMushroom;
+    public ItemData Diamond;
 
     [Header("Script Ref")]
     public Inventory inventory; // this is the logic object
@@ -46,6 +50,10 @@ public class Player_Inventory : MonoBehaviour
         inventoryV2.CreatTotalItemList(WaterBucket);
         inventoryV2.CreatTotalItemList(Carrot);
         inventoryV2.CreatTotalItemList(Apple);
+        inventoryV2.CreatTotalItemList(Potato);
+        inventoryV2.CreatTotalItemList(RedMushroom);
+        inventoryV2.CreatTotalItemList(BrownMushroom);
+        inventoryV2.CreatTotalItemList(Diamond);
     }
 
     void Update()
@@ -59,6 +67,11 @@ public class Player_Inventory : MonoBehaviour
         {
             inventoryV2.AddItemV2("Apple",5); // adds 1 item to the new inventory
             inventoryV2.AddItemV2("Carrot",5); // adds 1 item to the new inventory
+            inventoryV2.AddItemV2("Red Mushroom",5); // adds 1 item to the new inventor
+            inventoryV2.AddItemV2("Brown Mushroom",5); // adds 1 item to the new inventor
+            inventoryV2.AddItemV2("Bread",5); // adds 1 item to the new inventor
+            inventoryV2.AddItemV2("Potato",5); // adds 1 item to the new 
+            inventoryV2.AddItemV2("Diamond",5); // adds 1 item to the new inventor
             
         }
         if (Input.GetKeyDown(KeyCode.H))

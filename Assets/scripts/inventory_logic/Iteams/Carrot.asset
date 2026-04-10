@@ -18,7 +18,7 @@ MonoBehaviour:
   itemDescription: mmmm tasty
   itemIsTool: 0
   rarity: Comman
-  valueInGameCurrency: 0
+  valueInGameCurrency: 3
   icon: {fileID: 21300000, guid: 4a09f8267fd228a479faf9f9195cd4cc, type: 3}
   stackable: 1
   placeable: 0

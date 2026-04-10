@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1948cb8f649021b4c8716da86107b527, type: 3}
-  m_Name: Bread
+  m_Name: Potato
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemID: 7
-  itemName: Bread
+  itemID: 14
+  itemName: Potato
   itemType: Food
-  itemDescription: Still Kinda wamr...
+  itemDescription: Just a potato nothing special
   itemIsTool: 0
-  rarity: Common
-  valueInGameCurrency: 2
-  icon: {fileID: 21300000, guid: 797f164a749810b44b6173d663dc6ac1, type: 3}
+  rarity: Comman
+  valueInGameCurrency: 1
+  icon: {fileID: 21300000, guid: f9a33ef972180a7439270b44a5be3a85, type: 3}
   stackable: 1
   placeable: 0
   shelfPlaceable: 1

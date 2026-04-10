@@ -73,7 +73,7 @@ public class InventoryUI2 : MonoBehaviour
                 if (RectTransformUtility.RectangleContainsScreenPoint(slotsRect[i], Input.mousePosition))
                 {
 
-                    var (name, description, id, icon, quantity, placeable, type, shelfPlaceable, shelfSlotsTaking) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
+                    var (name, description, id, icon, quantity, placeable, type, value, shelfPlaceable, shelfSlotsTaking) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
                     inspectUIName.text = name;
                     inspectUIAmount.text = quantity.ToString();
                     inspectUIImage.sprite = icon;
@@ -111,6 +111,7 @@ public class InventoryUI2 : MonoBehaviour
                             MousePosition.buildingBlock = "";
                             MousePosition.placingID = id;
                             MousePosition.placingName = name;
+                            MousePosition.placingValue = value;
                             MousePosition.placingFacingsTaking = shelfSlotsTaking;
                             MousePosition.building = false;
                             MousePosition.placing = true;

@@ -351,13 +351,13 @@ public class InventoryV2
         return false;
     }
 
-    public (string , string ,int, Sprite, int, bool, string, bool, int) GetItemOfIndexFromInv(int index)
+    public (string , string ,int, Sprite, int, bool, string, int, bool, int) GetItemOfIndexFromInv(int index)
     {
         if (index < NewInventory.Count){
-            return (NewInventory[index].Name, NewInventory[index].Description, NewInventory[index].ID, NewInventory[index].Icon, NewInventory[index].Quantity, NewInventory[index].Placeable, NewInventory[index].Type, NewInventory[index].ShelfPlaceable, NewInventory[index].ShelfSlotsTaking);
+            return (NewInventory[index].Name, NewInventory[index].Description, NewInventory[index].ID, NewInventory[index].Icon, NewInventory[index].Quantity, NewInventory[index].Placeable, NewInventory[index].Type, NewInventory[index].ValueInGameCurrency, NewInventory[index].ShelfPlaceable, NewInventory[index].ShelfSlotsTaking);
         }
         else{
-            return ("", "", 0, null, 0, false, "", false, 0);
+            return ("", "", 0, null, 0, false, "", 0, false, 0);
         }
        
     }

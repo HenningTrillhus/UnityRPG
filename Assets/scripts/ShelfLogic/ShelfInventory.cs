@@ -22,6 +22,7 @@ public class ShelfInventory : MonoBehaviour
         public int _ItemId;
         public string _ItemName;
         public int _ItemSpacings;
+        public int _ItemValue;
     }
 
     public List<Item> ItemsInShelf = new List<Item>();
@@ -44,35 +45,19 @@ public class ShelfInventory : MonoBehaviour
     {
         
     }
-    public Sprite getSpriteByID(int id)
-    {
-        if (id == 12)
-        {
-            return CarrotSprite;
-        }
-        if (id == 13)
-        {
-            return AppleSprite;
-        }
-        else
-        {
-            Debug.Log("fuck balls, dont have the spirt for this id. id sendt in: " + id);
-            return null;
-        }
-    }
 
-    public void AddItem(int id, string name, int numberOfFacings)
+    public void AddItem(int id, string name, int numberOfFacings, int valueOfItem)
     {
         if (currentInventoryAmount < shelfCapacity){
             if (playerInventory.inventoryV2.CheckForItemUsingName(name) > 0)
             {
                 playerInventory.inventoryV2.RemoveItemV2(name, 1);
                 Debug.Log("Adding " + name + " to the shelf");
-                ItemsInShelf.Add(new Item{_ItemId = id, _ItemName = name, _ItemSpacings = numberOfFacings});
-                itemPlaceHolders[currentInventoryAmount].GetComponent<SpriteRenderer>().sprite = getSpriteByID(id);
+                ItemsInShelf.Add(new Item{_ItemId = id, _ItemName = name, _ItemSpacings = numberOfFacings, _ItemValue = valueOfItem});
+                itemPlaceHolders[currentInventoryAmount].GetComponent<SpriteRenderer>().sprite = _shelfInventoryDisplay.getSpriteByID(id);
                 itemPlaceHolders[currentInventoryAmount].SetActive(true);
                 currentInventoryAmount++;
-                _shelfInventoryDisplay.UpdateHoldingList(name);
+                _shelfInventoryDisplay.UpdateHoldingList(name,id, valueOfItem);
             }
             else
             {
