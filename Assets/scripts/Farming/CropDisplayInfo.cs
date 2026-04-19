@@ -147,7 +147,7 @@ public class CropDisplayInfo : MonoBehaviour
         if (distance < hoverDistance)
         {
             InfoOBJ.SetActive(true);
-            Debug.Log(mouseValues.buildingBlock + " from crop");
+//            Debug.Log(mouseValues.buildingBlock + " from crop");
 
             
             if (Input.GetMouseButtonDown(0) && mouseValues.building && cropState == "Empty")
