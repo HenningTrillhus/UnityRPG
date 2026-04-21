@@ -10,13 +10,6 @@ public class CostumerPathFinder : MonoBehaviour
     public GameObject Costumer;
     public float speed = 2f;
 
-    public float positonX = 6f;
-    public float positonY = 1f;
-
-    //Real world Cord for 1,1
-    public float realWorldOffsetX = -15.5f;
-    public float realWorldOffsetY = 16.5f;
-
     private float PathFindingPositonX;
     private float PathFindingPositonY;
 
@@ -25,8 +18,13 @@ public class CostumerPathFinder : MonoBehaviour
     public int tilesMovedSoFar = 0;
     private int NumberOfRetakes = 0;
     public int maxMovesAllowed = 50;
-    public int numberOfFindPathTries = 60;
+    public int numberOfFindPathTries = 10;
     private int numberOfFindPathTriesSoFar = 0;
+
+    private bool errorCode1 = false;
+    public int numberOfFindPathTriesWithErrorCode1 = 10;
+    
+    // Track moves away from goal to prevent infinite loops when navigating obstacles
 
     private int tilesMoved = 0;
 
@@ -86,8 +84,6 @@ public class CostumerPathFinder : MonoBehaviour
 
     }
 
-    //StartCoroutine(atStopp());
-
     IEnumerator atStopp()
     {
         if (stoppsTaken >= stopps)
@@ -119,8 +115,40 @@ public class CostumerPathFinder : MonoBehaviour
         bool south = IsBlocked(x, y - 1);
         bool west  = IsBlocked(x - 1, y);
         bool east  = IsBlocked(x + 1, y);
-
+        if (north && south && west && east)
+        {
+            Debug.LogWarning("All sides are blocked, ahh shit");
+        }
         return (north, south, west, east);
+    }
+
+    /// Checks if the direct path to the goal is possible without obstacles blocking the direct route
+
+    bool IsDirectPathPossible(float GoalX, float GoalY)
+    {
+        // Calculate which directions we need to move
+        bool needMoveNorth = PathFindingPositonY < GoalY;
+        bool needMoveSouth = PathFindingPositonY > GoalY;
+        bool needMoveEast = PathFindingPositonX < GoalX;
+        bool needMoveWest = PathFindingPositonX > GoalX;
+
+        // Check if the direct path directions are blocked
+        (bool north, bool south, bool west, bool east) = checkForObsticales(PathFindingPositonX, PathFindingPositonY);
+
+        // If we need to move north but north is blocked
+        if (needMoveNorth && north)
+            return false;
+        // If we need to move south but south is blocked
+        if (needMoveSouth && south)
+            return false;
+        // If we need to move east but east is blocked
+        if (needMoveEast && east)
+            return false;
+        // If we need to move west but west is blocked
+        if (needMoveWest && west)
+            return false;
+
+        return true;
     }
 
     IEnumerator MoveTo(Vector3 destination, int i)
@@ -141,10 +169,12 @@ public class CostumerPathFinder : MonoBehaviour
             CheepestPathWay.Clear(); 
             currentPathWay.Clear(); 
             numberOfFindPathTriesSoFar = 0;
+            
             PathFindingPositonX = Costumer.transform.position.x;
             PathFindingPositonY = Costumer.transform.position.y;
             //Debug.Log("Finished Moving, current postion is now : X " +PathFindingPositonX + "  Y " + PathFindingPositonY);
             isMoving = false;
+            errorCode1 = false;
             stoppsTaken ++;
             StartCoroutine(atStopp());
             
@@ -183,138 +213,100 @@ public class CostumerPathFinder : MonoBehaviour
 
     }
 
-    public void MoveToRandomTile(float GoalX, float GoalY)
+    void compearCurrentPathToCheepestPath(float GoalX, float GoalY)
     {
-        (bool north, bool south, bool west, bool east) = checkForObsticales(PathFindingPositonX, PathFindingPositonY);
-
-        int randomNextWay  = UnityEngine.Random.Range(0, 4);
-        //Debug.Log(randomNextWay + "Is the random number    North: " +  north+ " east: " +  east + " south: " +  south+  " west: " +  west);
-        if (randomNextWay == 0 && !north && PathFindingPositonY <= GoalY)
+        if (currentPathWay.Count < CheepestPathWay.Count || CheepestPathWay.Count == 0)
         {
-            //Debug.Log("Moving North");
-            PathFindingPositonY ++;
-            tilesMovedSoFar++;
-            currentPathWay.Add(0);
-            //Debug.Log("Current postion is now : X " +PathFindingPositonX + "  Y " + PathFindingPositonY);
-            creatPathwayTo(GoalX, GoalY);
-        }
-        else if (randomNextWay == 1 && !east && PathFindingPositonX <= GoalX)
-        {
-            //Debug.Log("Moving East");
-            PathFindingPositonX ++;
-            tilesMovedSoFar++;
-            currentPathWay.Add(1);
-            //Debug.Log("Current postion is now : X " +PathFindingPositonX + "  Y " + PathFindingPositonY);
-            creatPathwayTo(GoalX, GoalY);
-        }
-        else if (randomNextWay == 2 && !south && PathFindingPositonY >= GoalY)
-        {
-            //Debug.Log("Moving South");
-            PathFindingPositonY --;
-            tilesMovedSoFar++;
-            currentPathWay.Add(2);
-            //Debug.Log("Current postion is now : X " +PathFindingPositonX + "  Y " + PathFindingPositonY);
-            creatPathwayTo(GoalX, GoalY);
-        }
-        else if (randomNextWay == 3 && !west && PathFindingPositonX >= GoalX)
-        {
-            //Debug.Log("Moving West");
-            PathFindingPositonX --;
-            tilesMovedSoFar++;
-            currentPathWay.Add(3);
-            //Debug.Log("Current postion is now : X " +PathFindingPositonX + "  Y " + PathFindingPositonY);
-            creatPathwayTo(GoalX, GoalY);
+            //if the current path is cheeper then the cheapest path, copy the current path to the cheapest path.
+            CheepestPathWay.Clear();    
+            CheepestPathWay.AddRange(currentPathWay);
+            resetPathFindingPostion(GoalX, GoalY);
         }
         else
         {
-            NumberOfRetakes++;
-            if(NumberOfRetakes > 5)
-            {
-                //Debug.LogWarning("Too many retakes, stopping");
-                resetPathFindingPostion(GoalX, GoalY);
-            }
-            else
-            {
-                //Debug.LogWarning("Retakes number was " +  randomNextWay + " North: " +  north+ " east: " +  east + " south: " +  south+  " west: " +  west);
-                MoveToRandomTile(GoalX,GoalY);
-            }
-            
+            //If new path i longer just remove it and try again.    
+            resetPathFindingPostion(GoalX, GoalY);
         }
     }
 
+    public void MoveToRandomTile(float GoalX, float GoalY)
+    {
+
+        for (int i = 0; i < maxMovesAllowed; i++)
+        {
+            
+            //checks if path found the goal.
+            if (PathFindingPositonX == GoalX && PathFindingPositonY == GoalY)
+            {
+                compearCurrentPathToCheepestPath(GoalX, GoalY);
+                return;
+            }
+
+            //Gets a random number between 0 and 3, for each of the directions
+            int randomNextWay = UnityEngine.Random.Range(0, 4);
+            (bool north, bool south, bool west, bool east) = checkForObsticales(PathFindingPositonX, PathFindingPositonY);
+
+
+            //First check if the way is open then if it smart, then if errorcode1 is active then forget about being smart. 
+            //means it has to move around object.
+            if (randomNextWay == 0 && !north && PathFindingPositonY <= GoalY || randomNextWay == 0 && !north && errorCode1)
+            {
+                PathFindingPositonY ++;
+                currentPathWay.Add(0);
+            }
+            else if (randomNextWay == 1 && !east && PathFindingPositonX <= GoalX || randomNextWay == 1 && !east && errorCode1)
+            {
+                PathFindingPositonX ++;
+                currentPathWay.Add(1);
+            }
+            else if (randomNextWay == 2 && !south && PathFindingPositonY >= GoalY || randomNextWay == 2 && !south && errorCode1)
+            {
+                PathFindingPositonY --;
+                currentPathWay.Add(2);
+            }
+            else if (randomNextWay == 3 && !west && PathFindingPositonX >= GoalX || randomNextWay == 3 && !west && errorCode1)
+            {
+                PathFindingPositonX --;
+                currentPathWay.Add(3);
+            }
+            //If it has not found a path and has went trough a certain number of tries, activate error code 1, do move more freely.
+            if (numberOfFindPathTriesSoFar > numberOfFindPathTries - numberOfFindPathTriesWithErrorCode1 && !errorCode1 && CheepestPathWay.Count == 0)
+            {
+                Debug.LogWarning("Activating error code 1, allowing more random movement to find a path");
+                errorCode1 = true;
+            }
+        }
+        if (PathFindingPositonX != GoalX || PathFindingPositonY != GoalY)
+        {
+            resetPathFindingPostion(GoalX, GoalY);
+        }
+    }
     void resetPathFindingPostion(float x, float y)
     {
-        PathFindingPositonX = transform.position.x;
-        PathFindingPositonY = transform.position.y;
-        tilesMovedSoFar = 0;
-        NumberOfRetakes = 0;
         numberOfFindPathTriesSoFar++;
+        //Reset the imagenary position to the start position 
+        PathFindingPositonY = transform.position.y;
+        PathFindingPositonX = transform.position.x;
+        //Clean the current path to be used again.
         currentPathWay.Clear(); 
         creatPathwayTo(x, y);
     }
 
     public void creatPathwayTo(float x, float y)
     {
-        //Debug.Log("Trying to find path to X: " + x + " Y: " + y + "   Try number: " + numberOfFindPathTriesSoFar + "   Current Pathway length: " + currentPathWay.Count + "   Cheapest Pathway length: " + CheepestPathWay.Count + "current postion is now : X " +PathFindingPositonX + "  Y " + PathFindingPositonY);
-        //Check for how many times we have tried to find a path.
-        
+        //Checks if max number of tries is reached, i want it to go trough all of them. 
         if (numberOfFindPathTriesSoFar <= numberOfFindPathTries)
         {
-            //Checks for how many moves so far.
-            if (tilesMovedSoFar > maxMovesAllowed)
-            {
-                //Debug.LogWarning("Too many moves, Starting over");
-                resetPathFindingPostion(x, y);
-            }
-            NumberOfRetakes = 0;
-            //Debug.Log(PathFindingPositonX + "    " +  PathFindingPositonY + " looking for " + x + "  " + y);
-            if (PathFindingPositonX == x && PathFindingPositonY == y)
-            {
-                tilesMovedSoFar = 0;
-                if (CheepestPathWay.Count == 0)
-                {
-                    //Copyes the current path to the cheapest path becuse there is no other path to compare with.
-                    CheepestPathWay.Clear();    
-                    CheepestPathWay.AddRange(currentPathWay);
-                    resetPathFindingPostion(x, y);
-                    
-                }
-                else
-                {
-                    if (currentPathWay.Count < CheepestPathWay.Count)
-                    {
-                        //if the current path is cheeper then the cheapest path, copy the current path to the cheapest path.
-                        CheepestPathWay.Clear();    
-                        CheepestPathWay.AddRange(currentPathWay);
-                        resetPathFindingPostion(x, y);
-                    }
-                    else
-                    {
-                        //If new path i longer just remove it and try again.    
-                        resetPathFindingPostion(x, y);
-                    }
-                }
-            }
-            else if (PathFindingPositonX != x || PathFindingPositonY != y)
-            {
-                MoveToRandomTile(x, y);
-            }
+            //If it havent gone trough them all yet run a new round.
+            MoveToRandomTile(x, y);
         }
-        else
+        else if (CheepestPathWay.Count != 0)
         {
-            if (!isMoving /*&& CheepestPathWay.Count != 0*/)
-            {
-                //Debug.Log("Found the Best path at " + CheepestPathWay.Count + " moves");
-                tilesMoved = 0;
-                isMoving = true;
-                StartMoving(CheepestPathWay[0]);
-                return;
-            }
-            else if (CheepestPathWay.Count == 0)
-            {
-                Debug.LogWarning("Cant reach it");
-            }
+            tilesMoved = 0;
+            isMoving = true;
+            StartMoving(CheepestPathWay[0]);
         }
+
     }
 }
 

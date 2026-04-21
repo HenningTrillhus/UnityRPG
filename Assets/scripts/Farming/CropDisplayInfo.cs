@@ -81,9 +81,9 @@ public class CropDisplayInfo : MonoBehaviour
         OnNewCropPlanted += ReactToNewCrop;
         //ReactToNewCrop();
 
-        mouseValues = FindObjectOfType<MousePosition>();
-        tickLogic = FindObjectOfType<TickLogic>();
-        cropPlacementLogic = FindObjectOfType<CropPlacementLogic>();
+        //mouseValues = FindObjectOfType<MousePosition>();
+        //tickLogic = FindObjectOfType<TickLogic>();
+        //cropPlacementLogic = FindObjectOfType<CropPlacementLogic>();
         TickLogic.OnTick += checkForTick;
 
         

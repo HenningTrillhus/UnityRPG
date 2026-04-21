@@ -7,8 +7,17 @@ public class MousePosition : MonoBehaviour
 {
     public Transform HowerBox;
     public Transform Player;
+    
+    public GameObject BuildMenu;
+    public StoreAreaLogic Area;
+
+    [Header("Prefabs")]
     public GameObject TestTile;
     public GameObject EmptyCropTest;
+    public GameObject Shelf1Prefab;
+
+    [Header("ShelfSprites")]
+    public Sprite Shelf1Sprite;
 
     public CropDisplayInfo cropDisplayInfo;
     public ShelfInventory _shelfInventory;
@@ -27,6 +36,7 @@ public class MousePosition : MonoBehaviour
     private float previousX;
     private float previousY;
     private string colorOfHoverBox;
+    private SpriteRenderer spriteRenderer;
     
 
     public class POS
@@ -160,6 +170,20 @@ public class MousePosition : MonoBehaviour
                             Debug.Log("no crop there boy");
                         }
                     }
+                    if (buildingBlock == "Shelf1")
+                    {
+                        if (!IsSlotTaken(mouseX, mouseY, false, true))
+                        {
+                            Area.addObstacle("Shelf", mouseX, mouseY);
+                            ShelfPositions.Add(new ShelfPos{x = mouseX, y = mouseY});
+                            //creating the prefab of the shelf and place it in the world to the cord of the mouse
+                            Instantiate(Shelf1Prefab, new Vector3(mouseX, mouseY, 0f), Quaternion.identity);
+                        }
+                        else
+                        {
+                            Debug.Log("Pos in use");
+                        } 
+                    }
                     /*else
                     {
                         Debug.Log("No Building block");
@@ -238,5 +262,16 @@ public class MousePosition : MonoBehaviour
             return false;
         }
         
+    }
+
+    public void BuildWithShelf1()
+    {
+        BuildMenu.SetActive(false);
+        Debug.Log("Build with shelf 1");
+        building = true;
+        buildingBlock = "Shelf1";
+        placing = false;
+        spriteRenderer = HowerBox.GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = Shelf1Sprite;
     }
 }
