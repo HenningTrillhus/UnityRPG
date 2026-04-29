@@ -20,8 +20,12 @@ public class CostumerPathFinder : MonoBehaviour
     public int maxMovesAllowed = 50;
     public int numberOfFindPathTries = 10;
     private int numberOfFindPathTriesSoFar = 0;
+    private int idealPathLength;
+
+    public float PauseTimeAtStops = 2f;
 
     private bool errorCode1 = false;
+    public bool errorCode1ActiveInThisAttempt = false;
     public int numberOfFindPathTriesWithErrorCode1 = 10;
     
     // Track moves away from goal to prevent infinite loops when navigating obstacles
@@ -32,6 +36,9 @@ public class CostumerPathFinder : MonoBehaviour
 
     public int stopps = 5;
     private int stoppsTaken = 0;
+
+    private int LastStop;
+    
 
     //public int[] stopps = 
 
@@ -57,7 +64,9 @@ public class CostumerPathFinder : MonoBehaviour
         ListOfCordsToWalkTo.Add(new Cords {x = -11.5f, y = 18.5f});
         ListOfCordsToWalkTo.Add(new Cords {x = -13.5f, y = 21.5f});
         ListOfCordsToWalkTo.Add(new Cords {x = -5.5f, y = 17.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -9.5f, y = 17.5f});
+        ListOfCordsToWalkTo.Add(new Cords {x = -14.5f, y = 17.5f});
+        ListOfCordsToWalkTo.Add(new Cords {x = -6.5f, y = 22.5f});
+        ListOfCordsToWalkTo.Add(new Cords {x = -10.5f, y = 22.5f});
         //StartCoroutine(MoveTo(new Vector3(positonX, positonY, 0)));
         
         
@@ -65,23 +74,26 @@ public class CostumerPathFinder : MonoBehaviour
     }
 
     void Start() {
-        creatPathwayTo(-8.5f,21.5f);
+        //creatPathwayTo(-8.5f,21.5f);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Keyboard.current.lKey.isPressed)
-        {
-            
-//            Debug.LogWarning("Starting Pathfinding");
-              //creatPathwayTo(7f,f);
-        }
     }
 
-    void setUpWalkPointList()
+    int getRandomNextStop()
     {
-
+        int randomNextStop = UnityEngine.Random.Range(0, 7);
+        if (randomNextStop == LastStop)
+        {
+            return getRandomNextStop();
+        }
+        else
+        {
+            LastStop = randomNextStop;
+            return randomNextStop;
+        }
     }
 
     IEnumerator atStopp()
@@ -92,13 +104,18 @@ public class CostumerPathFinder : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(2f); // waits 2 seconds
-            creatPathwayTo(ListOfCordsToWalkTo[stoppsTaken].x,ListOfCordsToWalkTo[stoppsTaken].y);
+            stoppsTaken--;
+            yield return new WaitForSeconds(PauseTimeAtStops); // waits 2 seconds
+            int randomNextStop = getRandomNextStop();
+            Debug.Log("Moving to stop " + (randomNextStop + 1));
+            creatPathwayTo(ListOfCordsToWalkTo[randomNextStop].x,ListOfCordsToWalkTo[randomNextStop].y);
         }
     }
 
     bool IsBlocked(float x, float y)
     {
+        //Round to closest int 
+
         foreach(StoreAreaLogic.Obstacle obstacle in Area.ListOfObstacles)
         {
             if (obstacle.x == x && obstacle.y == y)
@@ -153,7 +170,7 @@ public class CostumerPathFinder : MonoBehaviour
 
     IEnumerator MoveTo(Vector3 destination, int i)
     {
-        while (Vector3.Distance(Costumer.transform.position, destination) > 0.01f)
+        while (Vector3.Distance(Costumer.transform.position, destination) > 0.001f)
         {
             Costumer.transform.position = Vector3.MoveTowards(
                 Costumer.transform.position,
@@ -175,6 +192,7 @@ public class CostumerPathFinder : MonoBehaviour
             //Debug.Log("Finished Moving, current postion is now : X " +PathFindingPositonX + "  Y " + PathFindingPositonY);
             isMoving = false;
             errorCode1 = false;
+            errorCode1ActiveInThisAttempt = false;
             stoppsTaken ++;
             StartCoroutine(atStopp());
             
@@ -236,20 +254,62 @@ public class CostumerPathFinder : MonoBehaviour
         {
             
             //checks if path found the goal.
-            if (PathFindingPositonX == GoalX && PathFindingPositonY == GoalY)
+            /*if (PathFindingPositonX == GoalX && PathFindingPositonY == GoalY)
             {
                 compearCurrentPathToCheepestPath(GoalX, GoalY);
                 return;
+            }*/
+
+
+            //Check if the path is found using Approximatly function to avoid edge cases with float
+            if (Mathf.Approximately(PathFindingPositonX, GoalX) && Mathf.Approximately(PathFindingPositonY, GoalY))
+            {
+                return; // found the goal, done
             }
 
-            //Gets a random number between 0 and 3, for each of the directions
-            int randomNextWay = UnityEngine.Random.Range(0, 4);
+            //Checks surrounding tiles for obsticales
             (bool north, bool south, bool west, bool east) = checkForObsticales(PathFindingPositonX, PathFindingPositonY);
+            //Creat list of non blocked directions 
+            List<int> validDirections = new List<int>();
 
+            //Checks if direction is vallied based on if its blocked, then if it is smart/fastes or if error code 1 is active and it has to move around an object.
+            if (!north  && (errorCode1 || PathFindingPositonY <= GoalY)) validDirections.Add(0);
+            if (!east   && (errorCode1 || PathFindingPositonX <= GoalX)) validDirections.Add(1);
+            if (!south  && (errorCode1 || PathFindingPositonY >= GoalY)) validDirections.Add(2);
+            if (!west   && (errorCode1 || PathFindingPositonX >= GoalX)) validDirections.Add(3);
+
+            if (validDirections.Count == 0)
+            {
+                Debug.LogWarning("Costumer is completely surrounded, aborting path attempt");
+                return;
+            }
+
+            //Gets a random number between 0 and the number of valid directions.
+            int chosenDirection = validDirections[UnityEngine.Random.Range(0, validDirections.Count)];
+            
+
+            //Moves the imagenary position in the chosen direction and adds the direction to the current path.
+            switch (chosenDirection)
+            {
+                case 0: PathFindingPositonY++; break;
+                case 1: PathFindingPositonX++; break;
+                case 2: PathFindingPositonY--; break;
+                case 3: PathFindingPositonX--; break;
+            }
+            currentPathWay.Add(chosenDirection);
+
+
+            //If it has not found a path and has went trough a certain number of tries, activate error code 1, to move more freely.
+            if (i > maxMovesAllowed - numberOfFindPathTriesWithErrorCode1 && !errorCode1)
+            {
+                Debug.LogWarning("Activating error code 1, allowing more random movement to find a path");
+                errorCode1 = true;
+                errorCode1ActiveInThisAttempt = true;
+            }
 
             //First check if the way is open then if it smart, then if errorcode1 is active then forget about being smart. 
             //means it has to move around object.
-            if (randomNextWay == 0 && !north && PathFindingPositonY <= GoalY || randomNextWay == 0 && !north && errorCode1)
+            /*if (randomNextWay == 0 && !north && PathFindingPositonY <= GoalY || randomNextWay == 0 && !north && errorCode1)
             {
                 PathFindingPositonY ++;
                 currentPathWay.Add(0);
@@ -268,19 +328,21 @@ public class CostumerPathFinder : MonoBehaviour
             {
                 PathFindingPositonX --;
                 currentPathWay.Add(3);
-            }
-            //If it has not found a path and has went trough a certain number of tries, activate error code 1, do move more freely.
-            if (numberOfFindPathTriesSoFar > numberOfFindPathTries - numberOfFindPathTriesWithErrorCode1 && !errorCode1 && CheepestPathWay.Count == 0)
-            {
-                Debug.LogWarning("Activating error code 1, allowing more random movement to find a path");
-                errorCode1 = true;
-            }
+            }*/
+            
+            
         }
-        if (PathFindingPositonX != GoalX || PathFindingPositonY != GoalY)
+        //If it has not found a path after max moves allowed, reset and try again, up to a certain number of tries.
+        /*if (PathFindingPositonX != GoalX || PathFindingPositonY != GoalY)
         {
             resetPathFindingPostion(GoalX, GoalY);
         }
+        //Only happens if found path on last try, if i dont have this line its an edge case that stops the movement
+        else if (PathFindingPositonX == GoalX && PathFindingPositonY == GoalY){
+            compearCurrentPathToCheepestPath(GoalX, GoalY);
+        }*/
     }
+
     void resetPathFindingPostion(float x, float y)
     {
         numberOfFindPathTriesSoFar++;
@@ -294,8 +356,53 @@ public class CostumerPathFinder : MonoBehaviour
 
     public void creatPathwayTo(float x, float y)
     {
+        //Calculate the ideal path length using Manhattan distance
+        idealPathLength = (int)(Mathf.Abs(transform.position.x - x) + Mathf.Abs(transform.position.y - y));
+        numberOfFindPathTriesSoFar = 0;
+        errorCode1 = false;
+        CheepestPathWay.Clear();
+        while (numberOfFindPathTriesSoFar <= numberOfFindPathTries)
+        {
+            PathFindingPositonX = transform.position.x;
+            PathFindingPositonY = transform.position.y;
+            currentPathWay.Clear();
+
+            MoveToRandomTile(x, y);
+
+            // Compare after each attempt
+            if (currentPathWay.Count < CheepestPathWay.Count || CheepestPathWay.Count == 0)
+            {
+                CheepestPathWay.Clear();
+                CheepestPathWay.AddRange(currentPathWay);
+                if (CheepestPathWay.Count <= idealPathLength)
+                {
+                    Debug.Log("Found an optimal path! Ideal: " + idealPathLength + ", Actual: " + CheepestPathWay.Count);
+                    break; // Found an optimal path, no need to continue
+                }
+            }
+
+            numberOfFindPathTriesSoFar++;
+
+            errorCode1 = false;
+        }
+        if (CheepestPathWay.Count != 0)
+        {
+            tilesMoved = 0;
+            isMoving = true;
+            StartMoving(CheepestPathWay[0]);
+        }
+        else
+        {
+            Debug.LogWarning("Could not find any path after all attempts");
+        }
+
+
+
+
+
+
         //Checks if max number of tries is reached, i want it to go trough all of them. 
-        if (numberOfFindPathTriesSoFar <= numberOfFindPathTries)
+        /*if (numberOfFindPathTriesSoFar <= numberOfFindPathTries)
         {
             //If it havent gone trough them all yet run a new round.
             MoveToRandomTile(x, y);
@@ -305,7 +412,7 @@ public class CostumerPathFinder : MonoBehaviour
             tilesMoved = 0;
             isMoving = true;
             StartMoving(CheepestPathWay[0]);
-        }
+        }*/
 
     }
 }

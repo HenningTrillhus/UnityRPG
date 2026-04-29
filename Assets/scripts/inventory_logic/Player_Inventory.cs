@@ -24,7 +24,8 @@ public class Player_Inventory : MonoBehaviour
 
     [Header("Script Ref")]
     public Inventory inventory; // this is the logic object
-    public InventoryV2 inventoryV2; // this is the new logic object
+    //public InventoryV2 inventoryV2; // this is the new logic object
+    public static InventoryV2 Instance { get; private set; }
     public InventoryUI2 inventoryUI2; 
 
 
@@ -33,27 +34,28 @@ public class Player_Inventory : MonoBehaviour
     void Awake()
     {
         //inventory = new Inventory(10); // 10 slots to start
-        inventoryV2 = new InventoryV2(inventoryUI2); // initialize the new inventory
+        //inventoryV2 = new InventoryV2(inventoryUI2); // initialize the new inventory
+        Instance = new InventoryV2(inventoryUI2);
 
         //creating the total invenvotry respotetory inside the the invevntory code
-        inventoryV2.CreatTotalItemList(woodItem);
-        inventoryV2.CreatTotalItemList(stoneItem);
-        inventoryV2.CreatTotalItemList(Fiber);
-        inventoryV2.CreatTotalItemList(CopperOre);
-        inventoryV2.CreatTotalItemList(IronOre);
-        inventoryV2.CreatTotalItemList(AldricWoodrowsAks);
-        inventoryV2.CreatTotalItemList(Bread);
-        inventoryV2.CreatTotalItemList(Berry);
-        inventoryV2.CreatTotalItemList(RustyDagger);
-        inventoryV2.CreatTotalItemList(TestHoe);
-        inventoryV2.CreatTotalItemList(CarrotSeed);
-        inventoryV2.CreatTotalItemList(WaterBucket);
-        inventoryV2.CreatTotalItemList(Carrot);
-        inventoryV2.CreatTotalItemList(Apple);
-        inventoryV2.CreatTotalItemList(Potato);
-        inventoryV2.CreatTotalItemList(RedMushroom);
-        inventoryV2.CreatTotalItemList(BrownMushroom);
-        inventoryV2.CreatTotalItemList(Diamond);
+        Player_Inventory.Instance.CreatTotalItemList(woodItem);
+        Player_Inventory.Instance.CreatTotalItemList(stoneItem);
+        Player_Inventory.Instance.CreatTotalItemList(Fiber);
+        Player_Inventory.Instance.CreatTotalItemList(CopperOre);
+        Player_Inventory.Instance.CreatTotalItemList(IronOre);
+        Player_Inventory.Instance.CreatTotalItemList(AldricWoodrowsAks);
+        Player_Inventory.Instance.CreatTotalItemList(Bread);
+        Player_Inventory.Instance.CreatTotalItemList(Berry);
+        Player_Inventory.Instance.CreatTotalItemList(RustyDagger);
+        Player_Inventory.Instance.CreatTotalItemList(TestHoe);
+        Player_Inventory.Instance.CreatTotalItemList(CarrotSeed);
+        Player_Inventory.Instance.CreatTotalItemList(WaterBucket);
+        Player_Inventory.Instance.CreatTotalItemList(Carrot);
+        Player_Inventory.Instance.CreatTotalItemList(Apple);
+        Player_Inventory.Instance.CreatTotalItemList(Potato);
+        Player_Inventory.Instance.CreatTotalItemList(RedMushroom);
+        Player_Inventory.Instance.CreatTotalItemList(BrownMushroom);
+        Player_Inventory.Instance.CreatTotalItemList(Diamond);
     }
 
     void Update()
@@ -63,7 +65,7 @@ public class Player_Inventory : MonoBehaviour
             inventory.AddItem(woodItem, 5); // adds 5 Wood
             //PrintInventory();
         }*/
-        if (Input.GetKeyDown(KeyCode.G))
+        /*if (Input.GetKeyDown(KeyCode.G))
         {
             inventoryV2.AddItemV2("Apple",5); // adds 1 item to the new inventory
             inventoryV2.AddItemV2("Carrot",5); // adds 1 item to the new inventory
@@ -103,7 +105,7 @@ public class Player_Inventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.B))
         { 
             inventoryV2.AddItemV2("Bread",5);
-        }
+        }*/
     }
 
     void PrintInventory()

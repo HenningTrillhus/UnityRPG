@@ -47,7 +47,7 @@ public class BushInteraction : MonoBehaviour
     void playerInteractWithBush(){
         sr = GetComponent<SpriteRenderer>();
         sr.sprite = newSprite;
-        playerInventory.inventoryV2.AddItemV2("Berry", 5);
+        //playerInventory.inventoryV2.AddItemV2("Berry", 5);
         hasBerry = false;
     }
 }

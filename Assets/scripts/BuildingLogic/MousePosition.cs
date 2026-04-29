@@ -5,6 +5,8 @@ using System;
 
 public class MousePosition : MonoBehaviour
 {
+    public static MousePosition Instance;
+
     public Transform HowerBox;
     public Transform Player;
     
@@ -39,6 +41,11 @@ public class MousePosition : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     
 
+    public int ID;
+    public string Name;
+    public int NumberOfFacings;
+    public int ValueOfItem;
+
     public class POS
     {
         public float x;
@@ -62,10 +69,30 @@ public class MousePosition : MonoBehaviour
     public List<CropPos> cropPositions = new List<CropPos>();
     public List<ShelfPos> ShelfPositions = new List<ShelfPos>();
     
+    void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ShelfPositions.Add(new ShelfPos{x = -6.5f, y = 7.5f});
+    }
+
+    public (int ID, string Name, int NumberOfFacings, int ValueOfItem) getNeededInfoForShelf()
+    {
+        ID = placingID;
+        Name = placingName;
+        NumberOfFacings = placingFacingsTaking;
+        ValueOfItem = placingValue;
+
+        if (placingID == 0 || placingName == "" || placingFacingsTaking == 0 || placingValue == 0)
+        {
+            Debug.Log("No item selected for placing");
+            return (0, "", 0, 0);
+        }
+        return (placingID, placingName, placingFacingsTaking, placingValue);
     }
 
     public string checkHoverBoxAcceptance(float x, float y)
@@ -205,7 +232,7 @@ public class MousePosition : MonoBehaviour
                     if (IsSlotTaken(mouseX, mouseY, false, true))
                     {
                         Debug.Log("Adding item to shelf");
-                        _shelfInventory.AddItem(placingID,placingName,placingFacingsTaking, placingValue);
+                        //_shelfInventory.AddItem(placingID,placingName,placingFacingsTaking, placingValue);
                     }
                     else
                     {

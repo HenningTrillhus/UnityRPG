@@ -6,8 +6,12 @@ using TMPro;
 public class CostumerStates : MonoBehaviour
 {
     public GameObject hoverBox;
+    public GameObject errorCode1Symbol;
     public CostumerSpawner CostumerSpawner;
+    public CostumerPathFinder CostumerPathfinding;
 
+    
+    
     public string costumerName;
     public string costumerClass;
 
@@ -58,6 +62,7 @@ public class CostumerStates : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        errorCode1Symbol.SetActive(false);
         hoverBox.SetActive(false);
         costumerNameBox.text = costumerName;
         costumerClassBox.text = costumerClass;
@@ -103,6 +108,14 @@ public class CostumerStates : MonoBehaviour
         else
         {
             hoverBox.SetActive(false);
+        }
+        if (CostumerPathfinding.errorCode1ActiveInThisAttempt)
+        {
+            errorCode1Symbol.SetActive(true);
+        }
+        else
+        {
+            errorCode1Symbol.SetActive(false);
         }
     }
 }

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 //NO MONO so dont connect to any game object, public logic for new better inventory 
-public class InventoryV2
+
+public class InventoryV2 : MonoBehaviour
 {
     //public InventoryUI2 inventoryUI; //reference to the new inventory ui to update the ui when changes are made, this is really bad but i dont know how else to do it without making a new class for the player inventory that both inventories can reference, or making the inventoryV2 a monobehaviour and connect it to the player inventory game object, which i also dont want to do because then it would be more work to connect it to the player inventory game object and also make it less flexible if i want to use it for other inventories like chest or something.
 

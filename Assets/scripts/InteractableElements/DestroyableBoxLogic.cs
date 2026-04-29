@@ -44,7 +44,7 @@ public class DestroyableBoxLogic : MonoBehaviour
     {
         if (lootType == "Seeds")
         {
-            playerInventory.inventoryV2.AddItemV2("Carrot Seed", 5); 
+            //playerInventory.inventoryV2.AddItemV2("Carrot Seed", 5); 
         }
     }
 }
