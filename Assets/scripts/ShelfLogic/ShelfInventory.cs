@@ -14,9 +14,10 @@ public class ShelfInventory : MonoBehaviour
     public Sprite AppleSprite;
 
     public int shelfCapacity = 20;
-    private int currentInventoryAmount = 0;
     private string itemName;
     private int itemID;
+
+    public int ShelfID;
 
     public class Item
     {
@@ -40,7 +41,7 @@ public class ShelfInventory : MonoBehaviour
         {
             item.SetActive(false);
         }
-        Player_Inventory.Instance.Test();
+        ShelfID = ShelfInventoryManager.Instance.GetShelfIDByPosition(transform.position);
     }
 
     // Update is called once per frame
@@ -54,15 +55,25 @@ public class ShelfInventory : MonoBehaviour
             // Only react if THIS object was hit
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
-                OnPressed();
+                Debug.Log("Clicked on shelf with ID: " + ShelfID);
+                OnPressedLeft();
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+
+            // Only react if THIS object was hit
+            if (hit.collider != null && hit.collider.gameObject == gameObject)
+            {
+                OnPressedRight();
             }
         }
     }
 
-    private void OnPressed()
+    private void OnPressedLeft()
     {
-        Debug.Log($"{gameObject.name} was clicked!");
-        
         var info = MousePosition.Instance.getNeededInfoForShelf();
 
         Debug.Log(info.ID);
@@ -72,18 +83,23 @@ public class ShelfInventory : MonoBehaviour
         AddItem(info.ID, info.Name, info.NumberOfFacings, info.ValueOfItem);
     }
 
+    private void OnPressedRight()
+    {
+        RemoveItem();
+    }
+
     private void AddItem(int id, string name, int numberOfFacings, int valueOfItem)
     {
-        if (currentInventoryAmount < shelfCapacity){
-            if (inventory.CheckForItemUsingName(name) > 0)
+        if (ItemsInShelf.Count < shelfCapacity){
+            if (Player_Inventory.Inventory.CheckForItemUsingName(name) > 0)
             {
-                inventory.RemoveItemV2(name, 1);
+                Player_Inventory.Inventory.RemoveItemV2(name, 1);
                 Debug.Log("Adding " + name + " to the shelf");
                 ItemsInShelf.Add(new Item{_ItemId = id, _ItemName = name, _ItemSpacings = numberOfFacings, _ItemValue = valueOfItem});
-                itemPlaceHolders[currentInventoryAmount].GetComponent<SpriteRenderer>().sprite = _shelfInventoryDisplay.getSpriteByID(id);
-                itemPlaceHolders[currentInventoryAmount].SetActive(true);
-                currentInventoryAmount++;
+                itemPlaceHolders[ItemsInShelf.Count - 1].GetComponent<SpriteRenderer>().sprite = _shelfInventoryDisplay.getSpriteByID(id);
+                itemPlaceHolders[ItemsInShelf.Count - 1].SetActive(true);
                 _shelfInventoryDisplay.UpdateHoldingList(name,id, valueOfItem);
+                ShelfInventoryManager.Instance.addItemToShelf(ShelfID, name);
             }
             else
             {
@@ -99,12 +115,11 @@ public class ShelfInventory : MonoBehaviour
     }
     public void RemoveItem()
     {
-        if (currentInventoryAmount > 0)
+        if (ItemsInShelf.Count > 0)
         {
-            currentInventoryAmount--;
-            inventory.AddItemV2(ItemsInShelf[currentInventoryAmount]._ItemName, 1);
-            ItemsInShelf.RemoveAt(currentInventoryAmount);
-            itemPlaceHolders[currentInventoryAmount].SetActive(false);
+            Player_Inventory.Inventory.AddItemV2(ItemsInShelf[ItemsInShelf.Count - 1]._ItemName, 1);
+            ItemsInShelf.RemoveAt(ItemsInShelf.Count - 1);
+            itemPlaceHolders[ItemsInShelf.Count].SetActive(false);
         }
         else
         {

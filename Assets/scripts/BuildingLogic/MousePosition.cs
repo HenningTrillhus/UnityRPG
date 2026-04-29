@@ -89,7 +89,6 @@ public class MousePosition : MonoBehaviour
 
         if (placingID == 0 || placingName == "" || placingFacingsTaking == 0 || placingValue == 0)
         {
-            Debug.Log("No item selected for placing");
             return (0, "", 0, 0);
         }
         return (placingID, placingName, placingFacingsTaking, placingValue);
@@ -205,29 +204,46 @@ public class MousePosition : MonoBehaviour
                             ShelfPositions.Add(new ShelfPos{x = mouseX, y = mouseY});
                             //creating the prefab of the shelf and place it in the world to the cord of the mouse
                             Instantiate(Shelf1Prefab, new Vector3(mouseX, mouseY, 0f), Quaternion.identity);
+                            ShelfInventoryManager.Instance.AddShelfData(new Vector3(mouseX, mouseY, 0f));
+                            building = false;
+                            placing = false;
+                            buildingBlock = "";
                         }
                         else
                         {
                             Debug.Log("Pos in use");
+                            
                         } 
                     }
-                    /*else
+                    else
                     {
                         Debug.Log("No Building block");
-                    }*/
+                        building = false;
+                        placing = false;
+                        buildingBlock = "";
+                        ID = 0;
+                        Name = "";
+                        NumberOfFacings = 0;
+                        ValueOfItem = 0;
+                    }
                     
                 }
                 if (Input.GetMouseButtonDown(1))
                 {
                     building = false;
+                    placing = false;
                     buildingBlock = "";
+                    ID = 0;
+                    Name = "";
+                    NumberOfFacings = 0;
+                    ValueOfItem = 0;
                 }
             }
             if (placing)
             {
                 
 
-                if (Input.GetMouseButtonDown(0))
+                /*if (Input.GetMouseButtonDown(0))
                 {
                     if (IsSlotTaken(mouseX, mouseY, false, true))
                     {
@@ -257,9 +273,8 @@ public class MousePosition : MonoBehaviour
                     placingName = "";
                     placingFacingsTaking = 1;
                     placingID = 0;
-                }                
+                }*/                
             }
-            
         }
     }
 

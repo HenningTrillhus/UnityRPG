@@ -25,7 +25,7 @@ public class Player_Inventory : MonoBehaviour
     [Header("Script Ref")]
     public Inventory inventory; // this is the logic object
     //public InventoryV2 inventoryV2; // this is the new logic object
-    public static InventoryV2 Instance { get; private set; }
+    public static InventoryV2 Inventory { get; private set; }
     public InventoryUI2 inventoryUI2; 
 
 
@@ -35,27 +35,27 @@ public class Player_Inventory : MonoBehaviour
     {
         //inventory = new Inventory(10); // 10 slots to start
         //inventoryV2 = new InventoryV2(inventoryUI2); // initialize the new inventory
-        Instance = new InventoryV2(inventoryUI2);
+        Inventory = new InventoryV2(inventoryUI2);
 
         //creating the total invenvotry respotetory inside the the invevntory code
-        Player_Inventory.Instance.CreatTotalItemList(woodItem);
-        Player_Inventory.Instance.CreatTotalItemList(stoneItem);
-        Player_Inventory.Instance.CreatTotalItemList(Fiber);
-        Player_Inventory.Instance.CreatTotalItemList(CopperOre);
-        Player_Inventory.Instance.CreatTotalItemList(IronOre);
-        Player_Inventory.Instance.CreatTotalItemList(AldricWoodrowsAks);
-        Player_Inventory.Instance.CreatTotalItemList(Bread);
-        Player_Inventory.Instance.CreatTotalItemList(Berry);
-        Player_Inventory.Instance.CreatTotalItemList(RustyDagger);
-        Player_Inventory.Instance.CreatTotalItemList(TestHoe);
-        Player_Inventory.Instance.CreatTotalItemList(CarrotSeed);
-        Player_Inventory.Instance.CreatTotalItemList(WaterBucket);
-        Player_Inventory.Instance.CreatTotalItemList(Carrot);
-        Player_Inventory.Instance.CreatTotalItemList(Apple);
-        Player_Inventory.Instance.CreatTotalItemList(Potato);
-        Player_Inventory.Instance.CreatTotalItemList(RedMushroom);
-        Player_Inventory.Instance.CreatTotalItemList(BrownMushroom);
-        Player_Inventory.Instance.CreatTotalItemList(Diamond);
+        Player_Inventory.Inventory.CreatTotalItemList(woodItem);
+        Player_Inventory.Inventory.CreatTotalItemList(stoneItem);
+        Player_Inventory.Inventory.CreatTotalItemList(Fiber);
+        Player_Inventory.Inventory.CreatTotalItemList(CopperOre);
+        Player_Inventory.Inventory.CreatTotalItemList(IronOre);
+        Player_Inventory.Inventory.CreatTotalItemList(AldricWoodrowsAks);
+        Player_Inventory.Inventory.CreatTotalItemList(Bread);
+        Player_Inventory.Inventory.CreatTotalItemList(Berry);
+        Player_Inventory.Inventory.CreatTotalItemList(RustyDagger);
+        Player_Inventory.Inventory.CreatTotalItemList(TestHoe);
+        Player_Inventory.Inventory.CreatTotalItemList(CarrotSeed);
+        Player_Inventory.Inventory.CreatTotalItemList(WaterBucket);
+        Player_Inventory.Inventory.CreatTotalItemList(Carrot);
+        Player_Inventory.Inventory.CreatTotalItemList(Apple);
+        Player_Inventory.Inventory.CreatTotalItemList(Potato);
+        Player_Inventory.Inventory.CreatTotalItemList(RedMushroom);
+        Player_Inventory.Inventory.CreatTotalItemList(BrownMushroom);
+        Player_Inventory.Inventory.CreatTotalItemList(Diamond);
     }
 
     void Update()
@@ -65,47 +65,46 @@ public class Player_Inventory : MonoBehaviour
             inventory.AddItem(woodItem, 5); // adds 5 Wood
             //PrintInventory();
         }*/
-        /*if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
-            inventoryV2.AddItemV2("Apple",5); // adds 1 item to the new inventory
-            inventoryV2.AddItemV2("Carrot",5); // adds 1 item to the new inventory
-            inventoryV2.AddItemV2("Red Mushroom",5); // adds 1 item to the new inventor
-            inventoryV2.AddItemV2("Brown Mushroom",5); // adds 1 item to the new inventor
-            inventoryV2.AddItemV2("Bread",5); // adds 1 item to the new inventor
-            inventoryV2.AddItemV2("Potato",5); // adds 1 item to the new 
-            inventoryV2.AddItemV2("Diamond",5); // adds 1 item to the new inventor
-            
+            Player_Inventory.Inventory.AddItemV2("Apple",5); // adds 1 item to the new inventory
+            Player_Inventory.Inventory.AddItemV2("Carrot",5); // adds 1 item to the new inventory
+            Player_Inventory.Inventory.AddItemV2("Red Mushroom",5); // adds 1 item to the new inventory
+            Player_Inventory.Inventory.AddItemV2("Brown Mushroom",5); // adds 1 item to the new inventory
+            Player_Inventory.Inventory.AddItemV2("Bread",5); // adds 1 item to the new inventory
+            Player_Inventory.Inventory.AddItemV2("Potato",5); // adds 1 item to the new inventory
+            Player_Inventory.Inventory.AddItemV2("Diamond",5); // adds 1 item to the new inventory
         }
         if (Input.GetKeyDown(KeyCode.H))
         { 
-            inventoryV2.RemoveItemV2("Wood Log", 5); // removes 1 item from the new inventory
+            Player_Inventory.Inventory.RemoveItemV2("Wood Log", 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.F))
         { 
-            inventoryV2.AddItemV2("Bread",1);
-            inventoryV2.AddItemV2("Stone Brick",1);
-            inventoryV2.AddItemV2("Iron Ore",1);
-            inventoryV2.AddItemV2("Copper Ore",1);
-            inventoryV2.AddItemV2("Fiber",1);
+            Player_Inventory.Inventory.AddItemV2("Bread",1);
+            Player_Inventory.Inventory.AddItemV2("Stone Brick",1);
+            Player_Inventory.Inventory.AddItemV2("Iron Ore",1);
+            Player_Inventory.Inventory.AddItemV2("Copper Ore",1);
+            Player_Inventory.Inventory.AddItemV2("Fiber",1);
         }
         if (Input.GetKeyDown(KeyCode.I))
         { 
-            inventoryV2.AddItemV2("Test Hoe",1);
-            inventoryV2.AddItemV2("Water Bucket",1);
-            //inventoryV2.AddItemV2(IronOre, 5); // removes 1 item from the new inventory
+            Player_Inventory.Inventory.AddItemV2("Test Hoe",1);
+            Player_Inventory.Inventory.AddItemV2("Water Bucket",1);
+            //Player_Inventory.Inventory.AddItemV2(IronOre, 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.C))
         { 
-            inventoryV2.AddItemV2("Carrot Seed", 5); // removes 1 item from the new inventory
+            Player_Inventory.Inventory.AddItemV2("Carrot Seed", 5); // removes 1 item from the new inventory
         }
         if (Input.GetKeyDown(KeyCode.J))
         { 
-            inventoryV2.logInv();
+            Player_Inventory.Inventory.logInv();
         }
         if (Input.GetKeyDown(KeyCode.B))
         { 
-            inventoryV2.AddItemV2("Bread",5);
-        }*/
+            Player_Inventory.Inventory.AddItemV2("Bread",5);
+        }
     }
 
     void PrintInventory()

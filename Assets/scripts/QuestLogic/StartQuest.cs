@@ -79,7 +79,7 @@ public class StartQuest : MonoBehaviour
     private string displayText2;
     private string displayText3;
 
-    public Player_Inventory playerInventory;
+    public Player_Inventory Player_Inventory;
     public npc_interactable npcScript;
     public Wulfgar WulfgarScript;
     
@@ -127,13 +127,13 @@ public class StartQuest : MonoBehaviour
                 possibleQuests.Remove(quest.id);
                 if (quest.type == "Gather")
                 {
-                    playerInventory.inventoryV2.AddItemV2(quest.startingLoot[0].item, quest.startingLoot[0].amount);
-                    //displayText = quest.questTexts[0].text + "   (" + playerInventory.inventoryV2.CheckForItem(woodItem) + "/25)";
+                    Player_Inventory.Inventory.AddItemV2(quest.startingLoot[0].item, quest.startingLoot[0].amount);
+                    //displayText = quest.questTexts[0].text + "   (" + Player_Inventory.Inventory.CheckForItem(woodItem) + "/25)";
                     //questInstructions.text = displayText;
 
                     //Debug.Log(inventory.checkForItem("Wood Log"));
-                    //Debug.Log("quest " + quest.id + " started, check for item: " + woodItem.itemName + " player has " + playerInventory.inventoryV2.CheckForItem(woodItem));
-                    /*if (playerInventory.inventoryV2.CheckForItem(woodItem))
+                    //Debug.Log("quest " + quest.id + " started, check for item: " + woodItem.itemName + " player has " + Player_Inventory.Inventory.CheckForItem(woodItem));
+                    /*if (Player_Inventory.inventoryV2.CheckForItem(woodItem))
                     {
                         Debug.Log("quest " + quest.id + " completed");
                         activQuests.Remove(quest.id);
@@ -150,7 +150,7 @@ public class StartQuest : MonoBehaviour
 
     private void Update() {
         //checks for any activ quests at this time, if not dont do anything
-        //Debug.Log(playerInventory.inventoryV2.CheckForItemUsingName("Wood log"));
+        //Debug.Log(Player_Inventory.inventoryV2.CheckForItemUsingName("Wood log"));
         if (activQuests.Count > 0)
         {
             for (int i = 0; i < activQuests.Count; i++)
@@ -165,7 +165,7 @@ public class StartQuest : MonoBehaviour
                         
                         if (quest.type == "Gather")
                         {
-                            if (playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) >= quest.materialToGather[0].amount)
+                            if (Player_Inventory.Inventory.CheckForItemUsingName(quest.materialToGather[0].material) >= quest.materialToGather[0].amount)
                             {
                                 //Next Stage ready for completion
                                 displayText1 = quest.questTexts[0].text + "   (" + quest.materialToGather[0].amount + "/" + quest.materialToGather[0].amount + ")";
@@ -178,7 +178,7 @@ public class StartQuest : MonoBehaviour
                             else
                             {
                                 //not compleeted
-                                displayText1 = quest.questTexts[0].text + "   (" + playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) + "/" + quest.materialToGather[0].amount + ")";
+                                displayText1 = quest.questTexts[0].text + "   (" + Player_Inventory.Inventory.CheckForItemUsingName(quest.materialToGather[0].material) + "/" + quest.materialToGather[0].amount + ")";
                                 questInstructions1.text = displayText1;
                                 displayText2 = "";
                                 questInstructions2.text = displayText2;
@@ -197,10 +197,10 @@ public class StartQuest : MonoBehaviour
                                         displayText1 = quest.questTexts[0].text;
                                         questInstructions1.text = displayText1;
 
-                                        displayText2 = quest.questTexts[1].text + "   (" + playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) + "/" + quest.materialToGather[0].amount + ")";
+                                        displayText2 = quest.questTexts[1].text + "   (" + Player_Inventory.Inventory.CheckForItemUsingName(quest.materialToGather[0].material) + "/" + quest.materialToGather[0].amount + ")";
                                         questInstructions2.text = displayText2;
 
-                                        if (playerInventory.inventoryV2.CheckForItemUsingName(quest.materialToGather[0].material) >= quest.materialToGather[0].amount)
+                                        if (Player_Inventory.Inventory.CheckForItemUsingName(quest.materialToGather[0].material) >= quest.materialToGather[0].amount)
                                         {
                                             //Next Stage ready for completion
                                             displayText2 = quest.questTexts[1].text + "   (" + quest.materialToGather[0].amount + "/" + quest.materialToGather[0].amount + ")";
@@ -291,11 +291,11 @@ public class StartQuest : MonoBehaviour
                 //Depening on the quest type, if Gather remove item that you dilivered.
                 if (quest.type == "Gather")
                 {
-                    playerInventory.inventoryV2.RemoveItemV2(quest.materialToGather[0].material,quest.materialToGather[0].amount);
+                    Player_Inventory.Inventory.RemoveItemV2(quest.materialToGather[0].material,quest.materialToGather[0].amount);
                 }
                 if (quest.type == "MeetAndGather")
                 {
-                    playerInventory.inventoryV2.RemoveItemV2(quest.materialToGather[0].material,quest.materialToGather[0].amount);
+                    Player_Inventory.Inventory.RemoveItemV2(quest.materialToGather[0].material,quest.materialToGather[0].amount);
                 }
             }
         }
@@ -333,7 +333,7 @@ public class StartQuest : MonoBehaviour
 
     public void ReceiveItemTroughDialog(string itemName, int amount)
     {
-        playerInventory.inventoryV2.AddItemV2(itemName,amount);
+        Player_Inventory.Inventory.AddItemV2(itemName,amount);
     }
 
     public int DialogQuestManager(string NPC)

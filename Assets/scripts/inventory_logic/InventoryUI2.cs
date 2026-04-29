@@ -7,7 +7,7 @@ public class InventoryUI2 : MonoBehaviour
 {
     [Header("References")]
     public GameObject inventoryPanel;
-    public Player_Inventory playerInventory;
+    //public Player_Inventory playerInventory;
     public MousePosition MousePosition;
 
     [Header("Slot Setup")]
@@ -73,7 +73,7 @@ public class InventoryUI2 : MonoBehaviour
                 if (RectTransformUtility.RectangleContainsScreenPoint(slotsRect[i], Input.mousePosition))
                 {
 
-                    var (name, description, id, icon, quantity, placeable, type, value, shelfPlaceable, shelfSlotsTaking) = playerInventory.inventoryV2.GetItemOfIndexFromInv(i);
+                    (string name, string description, int id, Sprite icon, int quantity, bool placeable, string type, int value, bool shelfPlaceable, int shelfSlotsTaking) = Player_Inventory.Inventory.GetItemOfIndexFromInv(i);
                     inspectUIName.text = name;
                     inspectUIAmount.text = quantity.ToString();
                     inspectUIImage.sprite = icon;
@@ -107,7 +107,7 @@ public class InventoryUI2 : MonoBehaviour
                             IsOpen = !IsOpen;
                         }
                         if (Input.GetMouseButtonDown(0) && !placeable && shelfPlaceable){
-                            Debug.Log(name + " pressed with id of " + id);
+                            //Debug.Log(name + " pressed with id of " + id);
                             MousePosition.buildingBlock = "";
                             MousePosition.placingID = id;
                             MousePosition.placingName = name;
@@ -131,7 +131,7 @@ public class InventoryUI2 : MonoBehaviour
 
     void CreateSlots()
     {
-        int slotCount = playerInventory.inventoryV2.inventoryCapacity;
+        int slotCount = Player_Inventory.Inventory.inventoryCapacity;
         for (int i = 0; i < slotCount; i++)
         {
             GameObject slotObj = Instantiate(slotPrefab, slotGrid);
@@ -159,8 +159,8 @@ public class InventoryUI2 : MonoBehaviour
 
     public void UpdateSlots()
     {
-        int lenghtOfInventory = playerInventory.inventoryV2.NewInventory.Count;
-        int slotCount = playerInventory.inventoryV2.inventoryCapacity;
+        int lenghtOfInventory = Player_Inventory.Inventory.NewInventory.Count;
+        int slotCount = Player_Inventory.Inventory.inventoryCapacity;
 
         int index = 0;
         foreach (var slotUI in slotUIs)
@@ -174,10 +174,10 @@ public class InventoryUI2 : MonoBehaviour
             }
             if (slotUI != null && index < lenghtOfInventory)
             {
-                slotUI.NameText.text = playerInventory.inventoryV2.NewInventory[index].Name;
-                string amount = (playerInventory.inventoryV2.NewInventory[index].Quantity).ToString();
+                slotUI.NameText.text = Player_Inventory.Inventory.NewInventory[index].Name;
+                string amount = (Player_Inventory.Inventory.NewInventory[index].Quantity).ToString();
                 slotUI.amountText.text = amount;
-                slotUI.icon.sprite = playerInventory.inventoryV2.NewInventory[index].Icon;
+                slotUI.icon.sprite = Player_Inventory.Inventory.NewInventory[index].Icon;
             }
             if (index > (lenghtOfInventory-1) && slotUI != null){
                 slotUI.amountText.text = "0";

@@ -18,7 +18,7 @@ public class TreeInteraction : MonoBehaviour
     {
         if (playerNear && Input.GetKeyDown(KeyCode.E))
         {
-            OpenMiniGame();
+            //OpenMiniGame();
         }
     }
 
@@ -40,9 +40,9 @@ public class TreeInteraction : MonoBehaviour
         }
     }
 
-    void OpenMiniGame()
+    /*void OpenMiniGame()
     {
-        if (!InventoryUI.IsOpen && playerInventory.inventoryV2.hasStrongEnoughTool("Aldric's Aks"))
+        if (!InventoryUI.IsOpen && playerInventory.Inventory.hasStrongEnoughTool("Aldric's Aks"))
         {
             // Show the bar UI
             miniGameUI.SetActive(true);
@@ -60,7 +60,7 @@ public class TreeInteraction : MonoBehaviour
         else{
             MetaMessages.ShowMetaMessage("You need something to chop this tree down...");
         }
-    }
+    }*/
 
     // Call this when mini game ends
     public void CloseMiniGame()
