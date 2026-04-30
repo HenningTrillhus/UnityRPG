@@ -20,6 +20,7 @@ public class CostumerSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if press button b on keybord start sequennce
         
     }
 
@@ -56,6 +57,43 @@ public class CostumerSpawner : MonoBehaviour
         else
         {
             Debug.Log("fuck balls, dont have the spirt for this id. id sendt in: " + id);
+            return null;
+        }
+    }
+
+    public string getNameByID(int id)
+    {
+        if (id == 7)
+        {
+            return "Bread";
+        }
+        if (id == 12)
+        {
+            return "Carrot";
+        }
+        if (id == 13)
+        {
+            return "Apple";
+        }
+        if (id == 14)
+        {
+            return "Potato";
+        }
+        if (id == 15)
+        {
+            return "Red Mushroom";
+        }
+        if (id == 16)
+        {
+            return "Brown Mushroom";
+        }
+        if (id == 17)
+        {
+            return "Diamond";
+        }
+        else
+        {
+            Debug.Log("fuck balls, dont have the name for this id. id sendt in: " + id);
             return null;
         }
     }

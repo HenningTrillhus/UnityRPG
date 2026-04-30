@@ -124,8 +124,9 @@ public class ShelfInventoryDisplay : MonoBehaviour
 
     void UpdateItemDisplay()
     {
+        
         //If number of items in shelf has changed then run.
-        if (ItemsInShelfForDisplay.Count != ListLenght)
+        if (ItemsInShelfForDisplay.Count > ListLenght)
         {
             //Update var to match
             ListLenght = ItemsInShelfForDisplay.Count;
@@ -141,6 +142,7 @@ public class ShelfInventoryDisplay : MonoBehaviour
             
         }
         UpdateItemTextBars();
+        
     }
 
     public void UpdateHoldingList(string Name, int ID, int Value)
@@ -171,6 +173,27 @@ public class ShelfInventoryDisplay : MonoBehaviour
         {
             Debug.Log("Adding " + Name + " to list in Display");
             ItemsInShelfForDisplay.Add(new Item {_ItemName = Name, _ItemID = ID, _ItemAmount = 1, _ItemValue = Value});
+        }
+        UpdateItemDisplay();
+    }
+
+    public void UpdateHoldingListRemove(string Name)
+    {
+        if (ItemsInShelfForDisplay.Count != 0)
+        {
+            foreach (Item item in ItemsInShelfForDisplay)
+            {
+                if (Name == item._ItemName)
+                {
+                    item._ItemAmount --;
+                    Debug.Log("Found " + Name + " Change amount to " + item._ItemAmount);
+                    if (item._ItemAmount == 0)
+                    {
+                        ItemsInShelfForDisplay.Remove(item);
+                    }
+                    break;
+                }
+            }
         }
         UpdateItemDisplay();
     }

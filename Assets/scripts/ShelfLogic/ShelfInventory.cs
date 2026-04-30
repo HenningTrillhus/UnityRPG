@@ -118,8 +118,14 @@ public class ShelfInventory : MonoBehaviour
         if (ItemsInShelf.Count > 0)
         {
             Player_Inventory.Inventory.AddItemV2(ItemsInShelf[ItemsInShelf.Count - 1]._ItemName, 1);
+            
+            
+            itemPlaceHolders[ItemsInShelf.Count -1 ].SetActive(false);
+            Debug.Log("Removing " + ItemsInShelf[ItemsInShelf.Count-1]._ItemName + " from the shelf");
+            ShelfInventoryManager.Instance.removeItemFromShelf(ShelfID, ItemsInShelf[ItemsInShelf.Count - 1]._ItemName);
             ItemsInShelf.RemoveAt(ItemsInShelf.Count - 1);
-            itemPlaceHolders[ItemsInShelf.Count].SetActive(false);
+            
+            _shelfInventoryDisplay.UpdateHoldingListRemove(name);
         }
         else
         {

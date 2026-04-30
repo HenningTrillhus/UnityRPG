@@ -61,6 +61,30 @@ public class ShelfInventoryManager : MonoBehaviour
             Debug.LogError($"Shelf with ID {shelfId} not found.");
         }
     }
+    
+    public void removeItemFromShelf(int shelfId, string itemName)
+    {
+        // Find the shelf data with the matching ID
+        int index = shelfId - 1; // Assuming shelfId starts from 1 and corresponds to the index in the list
+        if (index >= 0 && index < allShelfData.Count)
+        {
+            // Remove the item name from the shelf's itemNames array of the matching shelf id bassed on the index
+            List<string> itemList = new List<string>(allShelfData[index].itemNames);
+            if (itemList.Remove(itemName))
+            {
+                allShelfData[index].itemNames = itemList.ToArray();
+                Debug.Log("Removed item " + itemName + " from shelf ID " + shelfId);
+            }
+            else
+            {
+                Debug.LogError($"Item {itemName} not found on shelf ID {shelfId}.");
+            }
+        }
+        else
+        {
+            Debug.LogError($"Shelf with ID {shelfId} not found.");
+        }
+    }
 
     public void AddShelfData(Vector3 position)
     {
@@ -73,5 +97,22 @@ public class ShelfInventoryManager : MonoBehaviour
         };
         allShelfData.Add(newShelfData);
         Debug.Log("           " + newShelfData.shelfPosition[0]);
+    }
+
+    public Vector3 findShelfToMoveTo(string itemName)
+    {
+        for (int i = 0; i < allShelfData.Count; i++)
+        {
+            if (System.Array.Exists(allShelfData[i].itemNames, name => name == itemName))
+            {
+                Debug.Log("Found shelf with item " + itemName + " at position: " + allShelfData[i].shelfPosition[0]);
+                // Move the costumer to the shelf's position
+                // You can implement the movement logic here, for example:
+                // costumer.transform.position = allShelfData[i].shelfPosition[0];
+                return allShelfData[i].shelfPosition[0];
+            }
+        }
+        Debug.Log("No shelf found with item " + itemName);
+        return Vector3.zero; // Return a default position if no shelf is found
     }
 }

@@ -34,7 +34,7 @@ public class CostumerPathFinder : MonoBehaviour
 
     private bool isMoving = false;
 
-    public int stopps = 5;
+    public int stopps = 4;
     private int stoppsTaken = 0;
 
     private int LastStop;
@@ -60,13 +60,13 @@ public class CostumerPathFinder : MonoBehaviour
         
         PathFindingPositonX = transform.position.x;
         PathFindingPositonY = transform.position.y;
-        ListOfCordsToWalkTo.Add(new Cords {x = -8.5f, y = 21.5f});
+        /*ListOfCordsToWalkTo.Add(new Cords {x = -8.5f, y = 21.5f});
         ListOfCordsToWalkTo.Add(new Cords {x = -11.5f, y = 18.5f});
         ListOfCordsToWalkTo.Add(new Cords {x = -13.5f, y = 21.5f});
         ListOfCordsToWalkTo.Add(new Cords {x = -5.5f, y = 17.5f});
         ListOfCordsToWalkTo.Add(new Cords {x = -14.5f, y = 17.5f});
         ListOfCordsToWalkTo.Add(new Cords {x = -6.5f, y = 22.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -10.5f, y = 22.5f});
+        ListOfCordsToWalkTo.Add(new Cords {x = -10.5f, y = 22.5f});*/
         //StartCoroutine(MoveTo(new Vector3(positonX, positonY, 0)));
         
         
@@ -82,7 +82,7 @@ public class CostumerPathFinder : MonoBehaviour
     {
     }
 
-    int getRandomNextStop()
+    /*int getRandomNextStop()
     {
         int randomNextStop = UnityEngine.Random.Range(0, 7);
         if (randomNextStop == LastStop)
@@ -94,21 +94,38 @@ public class CostumerPathFinder : MonoBehaviour
             LastStop = randomNextStop;
             return randomNextStop;
         }
+    }*/
+
+    public void addStop(Vector3 position, bool isLastStop)
+    {
+        if (!isLastStop)
+        {
+            ListOfCordsToWalkTo.Add(new Cords {x = position.x, y = position.y - 1f});
+            Debug.Log("Added stop at position: X " + position.x + " Y " + (position.y - 1f));
+            Debug.Log("Total stops to take: " + ListOfCordsToWalkTo.Count);
+        }
+        else
+        {
+            ListOfCordsToWalkTo.Add(new Cords {x = transform.position.x, y = transform.position.y});
+            Debug.Log("Total stops to take: " + ListOfCordsToWalkTo.Count);
+        }
+        
     }
 
     IEnumerator atStopp()
     {
-        if (stoppsTaken >= stopps)
+        if (stoppsTaken > stopps)
         {
-            Debug.Log("Done Moving");
+            Debug.Log("Done Moving " + stoppsTaken + " stops!");
         }
         else
         {
-            stoppsTaken--;
             yield return new WaitForSeconds(PauseTimeAtStops); // waits 2 seconds
-            int randomNextStop = getRandomNextStop();
-            Debug.Log("Moving to stop " + (randomNextStop + 1));
-            creatPathwayTo(ListOfCordsToWalkTo[randomNextStop].x,ListOfCordsToWalkTo[randomNextStop].y);
+            //int randomNextStop = getRandomNextStop();
+            //Debug.Log("Moving to stop " + (randomNextStop + 1));
+            stoppsTaken++;
+            creatPathwayTo(ListOfCordsToWalkTo[stoppsTaken-1].x,ListOfCordsToWalkTo[stoppsTaken-1].y);
+            
         }
     }
 
@@ -202,6 +219,18 @@ public class CostumerPathFinder : MonoBehaviour
             StartMoving(CheepestPathWay[tilesMoved]);
         }
         
+    }
+
+    public void incitateMovement()
+    {
+        if (ListOfCordsToWalkTo.Count > 0)
+        {
+            creatPathwayTo(ListOfCordsToWalkTo[0].x, ListOfCordsToWalkTo[0].y);
+        }
+        else
+        {
+            Debug.LogWarning("No stops to walk to!");
+        }
     }
     
 
@@ -358,6 +387,12 @@ public class CostumerPathFinder : MonoBehaviour
     {
         //Calculate the ideal path length using Manhattan distance
         idealPathLength = (int)(Mathf.Abs(transform.position.x - x) + Mathf.Abs(transform.position.y - y));
+        Debug.Log("Calculating path to X: " + x + " Y: " + y + " Ideal path length: " + idealPathLength);
+        if (idealPathLength == 0)
+        {
+            Debug.Log("Already at the destination!");
+            StartCoroutine(atStopp());
+        }
         numberOfFindPathTriesSoFar = 0;
         errorCode1 = false;
         CheepestPathWay.Clear();
@@ -370,7 +405,7 @@ public class CostumerPathFinder : MonoBehaviour
             MoveToRandomTile(x, y);
 
             // Compare after each attempt
-            if (currentPathWay.Count < CheepestPathWay.Count || CheepestPathWay.Count == 0)
+            if (currentPathWay.Count < CheepestPathWay.Count && currentPathWay.Count > 0 || CheepestPathWay.Count == 0)
             {
                 CheepestPathWay.Clear();
                 CheepestPathWay.AddRange(currentPathWay);

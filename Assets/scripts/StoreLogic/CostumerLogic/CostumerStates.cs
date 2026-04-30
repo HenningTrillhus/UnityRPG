@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using TMPro;
+using System.Collections.Generic;
 
 
 public class CostumerStates : MonoBehaviour
@@ -14,6 +15,14 @@ public class CostumerStates : MonoBehaviour
     
     public string costumerName;
     public string costumerClass;
+
+    private int[] listOfPosibleItemsID;
+    private List<string> listOfItemsLookingfor = new List<string>();
+    private int randomNumberForItem1;
+    private int randomNumberForItem2;
+    private int randomNumberForItem3;
+
+    private int StoppsToTake = 3;
 
     public float hoverDistance = 0.5f;
 
@@ -62,13 +71,24 @@ public class CostumerStates : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        listOfPosibleItemsID = new int[] { 7, 12, 13, 14, 15, 16, 17 };
+        
         errorCode1Symbol.SetActive(false);
         hoverBox.SetActive(false);
         costumerNameBox.text = costumerName;
         costumerClassBox.text = costumerClass;
-        lookingForItemSprite1.sprite = CostumerSpawner.getSpriteByID(12);
-        lookingForItemSprite2.sprite = CostumerSpawner.getSpriteByID(13);
-        lookingForItemSprite3.sprite = CostumerSpawner.getSpriteByID(14);
+        randomNumberForItem1 = UnityEngine.Random.Range(0, listOfPosibleItemsID.Length);
+        randomNumberForItem2 = UnityEngine.Random.Range(0, listOfPosibleItemsID.Length);
+        randomNumberForItem3 = UnityEngine.Random.Range(0, listOfPosibleItemsID.Length);
+        listOfItemsLookingfor.Add(CostumerSpawner.getNameByID(listOfPosibleItemsID[randomNumberForItem1]));
+        listOfItemsLookingfor.Add(CostumerSpawner.getNameByID(listOfPosibleItemsID[randomNumberForItem2]));
+        listOfItemsLookingfor.Add(CostumerSpawner.getNameByID(listOfPosibleItemsID[randomNumberForItem3]));
+
+
+        lookingForItemSprite1.sprite = CostumerSpawner.getSpriteByID(listOfPosibleItemsID[randomNumberForItem1]);
+        lookingForItemSprite2.sprite = CostumerSpawner.getSpriteByID(listOfPosibleItemsID[randomNumberForItem2]);
+        lookingForItemSprite3.sprite = CostumerSpawner.getSpriteByID(listOfPosibleItemsID[randomNumberForItem3]);
+        
     }
 
     private string getClass()
@@ -96,6 +116,11 @@ public class CostumerStates : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            findShelfToMoveTo();
+        }
+        
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePos.z = 0f;
         float distance = Vector2.Distance(mousePos, hoverBox.transform.position);
@@ -104,6 +129,7 @@ public class CostumerStates : MonoBehaviour
         {
             hoverBox.transform.rotation = Quaternion.Euler(0f, 0f, 0f); 
             hoverBox.SetActive(true);
+            
         }
         else
         {
@@ -117,5 +143,39 @@ public class CostumerStates : MonoBehaviour
         {
             errorCode1Symbol.SetActive(false);
         }
+    }
+
+    public void findShelfToMoveTo()
+    {
+        Debug.Log(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"));
+        for (int i = 0; i < StoppsToTake; i++)
+        {
+            if (i == 0)
+            {
+                if (ShelfInventoryManager.Instance.findShelfToMoveTo("Apple") != Vector3.zero)
+                {
+                    CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"), false);
+                }
+            }
+            if (i == 1)
+            {
+                if (ShelfInventoryManager.Instance.findShelfToMoveTo("Carrot") != Vector3.zero)
+                {
+                    CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Carrot"), false);
+                }
+            }
+            if (i == 2)
+            {
+                if (ShelfInventoryManager.Instance.findShelfToMoveTo("Bread") != Vector3.zero)
+                {
+                    CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Bread"),false);
+                }
+            }
+        }
+        //Add the exit as the final stop
+        CostumerPathfinding.addStop(Vector3.zero, true);
+        CostumerPathfinding.incitateMovement();
+        //CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"));
+
     }
 }
