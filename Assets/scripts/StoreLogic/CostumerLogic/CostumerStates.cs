@@ -17,7 +17,8 @@ public class CostumerStates : MonoBehaviour
     public string costumerClass;
 
     private int[] listOfPosibleItemsID;
-    private List<string> listOfItemsLookingfor = new List<string>();
+    public List<string> listOfItemsLookingfor = new List<string>();
+    public List<int> listOfItemsLookingForShelfId = new List <int>();
     private int randomNumberForItem1;
     private int randomNumberForItem2;
     private int randomNumberForItem3;
@@ -32,6 +33,15 @@ public class CostumerStates : MonoBehaviour
     [SerializeField] private SpriteRenderer lookingForItemSprite1;
     [SerializeField] private SpriteRenderer lookingForItemSprite2;
     [SerializeField] private SpriteRenderer lookingForItemSprite3;
+
+    [Header("Sprite Refrence")]
+    [SerializeField]public Sprite CarrotSprite;
+    [SerializeField]public Sprite AppleSprite;
+    [SerializeField]public Sprite PotatoSprite;
+    [SerializeField]public Sprite BreadSprite;
+    [SerializeField]public Sprite RedMushroomSprite;
+    [SerializeField]public Sprite BrownMushroomSprite;
+    [SerializeField]public Sprite DiamondSprite;
 
     string[] farmerNames = {
     "Edmund Hayward",   "Aldric Fieldson",  "Oswin Millward",   "Godwin Thatcher",  "Leofric Shepherd",
@@ -80,15 +90,17 @@ public class CostumerStates : MonoBehaviour
         randomNumberForItem1 = UnityEngine.Random.Range(0, listOfPosibleItemsID.Length);
         randomNumberForItem2 = UnityEngine.Random.Range(0, listOfPosibleItemsID.Length);
         randomNumberForItem3 = UnityEngine.Random.Range(0, listOfPosibleItemsID.Length);
-        listOfItemsLookingfor.Add(CostumerSpawner.getNameByID(listOfPosibleItemsID[randomNumberForItem1]));
-        listOfItemsLookingfor.Add(CostumerSpawner.getNameByID(listOfPosibleItemsID[randomNumberForItem2]));
-        listOfItemsLookingfor.Add(CostumerSpawner.getNameByID(listOfPosibleItemsID[randomNumberForItem3]));
+        listOfItemsLookingfor.Add(getNameByID(listOfPosibleItemsID[randomNumberForItem1]));
+        listOfItemsLookingfor.Add(getNameByID(listOfPosibleItemsID[randomNumberForItem2]));
+        listOfItemsLookingfor.Add(getNameByID(listOfPosibleItemsID[randomNumberForItem3]));
 
 
-        lookingForItemSprite1.sprite = CostumerSpawner.getSpriteByID(listOfPosibleItemsID[randomNumberForItem1]);
-        lookingForItemSprite2.sprite = CostumerSpawner.getSpriteByID(listOfPosibleItemsID[randomNumberForItem2]);
-        lookingForItemSprite3.sprite = CostumerSpawner.getSpriteByID(listOfPosibleItemsID[randomNumberForItem3]);
-        
+        lookingForItemSprite1.sprite = getSpriteByID(listOfPosibleItemsID[randomNumberForItem1]);
+        lookingForItemSprite2.sprite = getSpriteByID(listOfPosibleItemsID[randomNumberForItem2]);
+        lookingForItemSprite3.sprite = getSpriteByID(listOfPosibleItemsID[randomNumberForItem3]);
+
+        Debug.Log("Cosutmer Working");
+        findShelfToMoveTo();        
     }
 
     private string getClass()
@@ -147,28 +159,46 @@ public class CostumerStates : MonoBehaviour
 
     public void findShelfToMoveTo()
     {
-        Debug.Log(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"));
+        //Debug.Log(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"));
         for (int i = 0; i < StoppsToTake; i++)
         {
             if (i == 0)
             {
-                if (ShelfInventoryManager.Instance.findShelfToMoveTo("Apple") != Vector3.zero)
+                (Vector3 position, int index) = ShelfInventoryManager.Instance.findShelfToMoveTo(listOfItemsLookingfor[0]);
+                if (position != Vector3.zero)
                 {
-                    CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"), false);
+                    CostumerPathfinding.addStop(position,false);
+                    listOfItemsLookingForShelfId.Add(index);
+                }
+                else
+                {
+                    listOfItemsLookingfor[0] = "";
                 }
             }
             if (i == 1)
             {
-                if (ShelfInventoryManager.Instance.findShelfToMoveTo("Carrot") != Vector3.zero)
+                (Vector3 position, int index) = ShelfInventoryManager.Instance.findShelfToMoveTo(listOfItemsLookingfor[1]);
+                if (position != Vector3.zero)
                 {
-                    CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Carrot"), false);
+                    CostumerPathfinding.addStop(position,false);
+                    listOfItemsLookingForShelfId.Add(index);
+                }
+                else
+                {
+                    listOfItemsLookingfor[1] = "";
                 }
             }
             if (i == 2)
             {
-                if (ShelfInventoryManager.Instance.findShelfToMoveTo("Bread") != Vector3.zero)
+                (Vector3 position, int index) = ShelfInventoryManager.Instance.findShelfToMoveTo(listOfItemsLookingfor[2]);
+                if (position != Vector3.zero)
                 {
-                    CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Bread"),false);
+                    CostumerPathfinding.addStop(position,false);
+                    listOfItemsLookingForShelfId.Add(index);
+                }
+                else
+                {
+                    listOfItemsLookingfor[2] = "";
                 }
             }
         }
@@ -177,5 +207,79 @@ public class CostumerStates : MonoBehaviour
         CostumerPathfinding.incitateMovement();
         //CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"));
 
+    }
+
+    public Sprite getSpriteByID(int id)
+    {
+        if (id == 7)
+        {
+            return BreadSprite;
+        }
+        if (id == 12)
+        {
+            return CarrotSprite;
+        }
+        if (id == 13)
+        {
+            return AppleSprite;
+        }
+        if (id == 14)
+        {
+            return PotatoSprite;
+        }
+        if (id == 15)
+        {
+            return RedMushroomSprite;
+        }
+        if (id == 16)
+        {
+            return BrownMushroomSprite;
+        }
+        if (id == 17)
+        {
+            return DiamondSprite;
+        }
+        else
+        {
+            Debug.Log("fuck balls, dont have the spirt for this id. id sendt in: " + id);
+            return null;
+        }
+    }
+
+    public string getNameByID(int id)
+    {
+        if (id == 7)
+        {
+            return "Bread";
+        }
+        if (id == 12)
+        {
+            return "Carrot";
+        }
+        if (id == 13)
+        {
+            return "Apple";
+        }
+        if (id == 14)
+        {
+            return "Potato";
+        }
+        if (id == 15)
+        {
+            return "Red Mushroom";
+        }
+        if (id == 16)
+        {
+            return "Brown Mushroom";
+        }
+        if (id == 17)
+        {
+            return "Diamond";
+        }
+        else
+        {
+            Debug.Log("fuck balls, dont have the name for this id. id sendt in: " + id);
+            return null;
+        }
     }
 }

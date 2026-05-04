@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class CostumerSpawner : MonoBehaviour
 {
+    public static CostumerSpawner Instance { get; private set; }
+
     [Header("Sprite Refrence")]
     [SerializeField]public Sprite CarrotSprite;
     [SerializeField]public Sprite AppleSprite;
@@ -11,16 +13,51 @@ public class CostumerSpawner : MonoBehaviour
     [SerializeField]public Sprite BrownMushroomSprite;
     [SerializeField]public Sprite DiamondSprite;
 
+    [Header("Tick Logic")]
+    [SerializeField]public TickLogic tickLogic;
+
+    [Header("Store Logic")]
+    [SerializeField]public StoreAreaLogic StoreLogic;
+
+    [Header("Costumer Prefab")]
+    public GameObject Costumer;
+
+    private int tickCount = 0;
+    private int LastTick = 0;
+
+    public int maxNumberOfCostumers = 1;
+    public int NumberOfCosstumersInStore = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private void Awake() {
+        Instance = this;
+    }
+
     void Start()
     {
-        
+        TickLogic.OnTick += CheckForTicks;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if press button b on keybord start sequennce
+        
+        
+    }
+    void CheckForTicks()
+    {
+        if (StoreLogic.StoreIsOpen && NumberOfCosstumersInStore < maxNumberOfCostumers)
+        {
+            tickCount ++;
+            int randomSpawnTick = UnityEngine.Random.Range(0, 10);
+            if (randomSpawnTick == 5)
+            {
+                Debug.Log("Spawn Costumer");
+                NumberOfCosstumersInStore++;
+                Instantiate(Costumer, new Vector3 (-9.5f, 17.5f, 0f), Quaternion.identity);
+            }
+        }
+        
         
     }
 

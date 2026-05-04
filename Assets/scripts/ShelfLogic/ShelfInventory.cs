@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class ShelfInventory : MonoBehaviour
 {
+    
+
     [Header("Script Refrence")]
     public ShelfInventoryDisplay _shelfInventoryDisplay;
     private InventoryV2 inventory;
@@ -32,6 +34,10 @@ public class ShelfInventory : MonoBehaviour
     [Header("ItemPlaceHolders")]
     [SerializeField] private GameObject[] itemPlaceHolders;
     
+    private void Awake() {
+        ShelfInventoryManager.Instance.AllShelves.Add(this);
+    }
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -49,9 +55,10 @@ public class ShelfInventory : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
-
+            //Debug.Log(ShelfID + "  id shelf pressed     hit coilder = "+  hit.collider);
             // Only react if THIS object was hit
             if (hit.collider != null && hit.collider.gameObject == gameObject)
             {
@@ -76,10 +83,10 @@ public class ShelfInventory : MonoBehaviour
     {
         var info = MousePosition.Instance.getNeededInfoForShelf();
 
-        Debug.Log(info.ID);
-        Debug.Log(info.Name);
-        Debug.Log(info.NumberOfFacings);
-        Debug.Log(info.ValueOfItem);
+        //Debug.Log(info.ID);
+        //Debug.Log(info.Name);
+        //Debug.Log(info.NumberOfFacings);
+        //Debug.Log(info.ValueOfItem);
         AddItem(info.ID, info.Name, info.NumberOfFacings, info.ValueOfItem);
     }
 
@@ -130,6 +137,25 @@ public class ShelfInventory : MonoBehaviour
         else
         {
             Debug.Log("Shelf empty");
+        }
+        
+    }
+
+    public void RemoveSetItemByName(string ItemToRemove)
+    {
+        var target = ItemsInShelf.Find(Item => Item._ItemName == ItemToRemove);
+        if (target != null)
+        {
+            ItemsInShelf.Remove(target);
+            Debug.Log("Removed " + target);
+        }
+    }
+
+    public void RemoveNamedItemForShelf(int shelfId, string ItemToRemove)
+    {
+        if (shelfId == ShelfID)
+        {
+            Debug.Log("Wants to remvoe " + ItemToRemove + " from shelf with id " + shelfId);
         }
         
     }

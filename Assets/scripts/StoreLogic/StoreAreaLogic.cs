@@ -4,7 +4,10 @@ using System.Collections.Generic;
 public class StoreAreaLogic : MonoBehaviour
 {
 
+    public static StoreAreaLogic Instance { get; private set; }
+
     public GameObject BuildButton;
+    public GameObject OpenStoreButton;
     public GameObject BuildMenu;
 
     public float storeAreaWidth = 10f;
@@ -18,6 +21,8 @@ public class StoreAreaLogic : MonoBehaviour
 
     private bool playerNearby = false;
 
+    public bool StoreIsOpen = false;
+
     public class Obstacle
     {
         public string Type;
@@ -27,9 +32,11 @@ public class StoreAreaLogic : MonoBehaviour
 
     public List<Obstacle> ListOfObstacles = new List<Obstacle>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
         BuildButton.SetActive(false);
+        OpenStoreButton.SetActive(false);
         //ListOfObstacles.Add(new Obstacle {Type = "Shelf", x = 6f, y = 4f});
         //ListOfObstacles.Add(new Obstacle {Type = "Shelf", x = 3f, y = 2f});
         //ListOfObstacles.Add(new Obstacle {Type = "Shelf", x = 8f, y = 3f});
@@ -53,6 +60,7 @@ public class StoreAreaLogic : MonoBehaviour
         {
             playerNearby = true;
             BuildButton.SetActive(true);
+            OpenStoreButton.SetActive(true);
         }
     }
 
@@ -62,6 +70,7 @@ public class StoreAreaLogic : MonoBehaviour
         {
             playerNearby = false;
             BuildButton.SetActive(false);
+            OpenStoreButton.SetActive(false);
         }
     }
 
@@ -73,8 +82,27 @@ public class StoreAreaLogic : MonoBehaviour
         BuildMenu.SetActive(true);
     }
 
+    public void OpenStoreButtonClicked()
+    {
+        Debug.Log(ShelfInventoryManager.Instance.ItmesInStore());
+        if (!playerNearby) return;
+        if (ShelfInventoryManager.Instance.allShelfData.Count > 0 && ShelfInventoryManager.Instance.ItmesInStore())
+        {
+            Debug.Log("open store");
+            StoreIsOpen = true;
+        }
+        else
+        {
+            Debug.Log("cant open store");
+            StoreIsOpen = false;
+        }
+        
+        
+    }
+
     void Awake() {
         creatObstacleWallAroundStore();
+        Instance = this;
     }
 
     public void addObstacle(string type ,float x, float y)

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class ShelfInventoryManager : MonoBehaviour
 {
     public static ShelfInventoryManager Instance { get; private set; }
+    public List<ShelfInventory> AllShelves = new List<ShelfInventory>();
 
     public class ShelfData
     {
@@ -99,7 +100,7 @@ public class ShelfInventoryManager : MonoBehaviour
         Debug.Log("           " + newShelfData.shelfPosition[0]);
     }
 
-    public Vector3 findShelfToMoveTo(string itemName)
+    public (Vector3, int) findShelfToMoveTo(string itemName)
     {
         for (int i = 0; i < allShelfData.Count; i++)
         {
@@ -109,10 +110,20 @@ public class ShelfInventoryManager : MonoBehaviour
                 // Move the costumer to the shelf's position
                 // You can implement the movement logic here, for example:
                 // costumer.transform.position = allShelfData[i].shelfPosition[0];
-                return allShelfData[i].shelfPosition[0];
+                return (allShelfData[i].shelfPosition[0], i+1);
             }
         }
         Debug.Log("No shelf found with item " + itemName);
-        return Vector3.zero; // Return a default position if no shelf is found
+        return (Vector3.zero, -2); // Return a default position if no shelf is found
+    }
+
+    public bool ItmesInStore()
+    {
+        if (allShelfData.Count == 0) return false;
+        for (int i = 0; i < allShelfData.Count; i++)
+        {
+            if (allShelfData[i].itemNames.Length != 0) return true;
+        }
+        return false;
     }
 }

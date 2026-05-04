@@ -6,8 +6,9 @@ using UnityEngine.InputSystem; // needed for the new Input System
 
 public class CostumerPathFinder : MonoBehaviour
 {
-    public StoreAreaLogic Area;
+    //public StoreAreaLogic Area;
     public GameObject Costumer;
+    public CostumerStates CostumerData;
     public float speed = 2f;
 
     private float PathFindingPositonX;
@@ -34,7 +35,7 @@ public class CostumerPathFinder : MonoBehaviour
 
     private bool isMoving = false;
 
-    public int stopps = 4;
+    public int stopps = 0;
     private int stoppsTaken = 0;
 
     private int LastStop;
@@ -60,17 +61,6 @@ public class CostumerPathFinder : MonoBehaviour
         
         PathFindingPositonX = transform.position.x;
         PathFindingPositonY = transform.position.y;
-        /*ListOfCordsToWalkTo.Add(new Cords {x = -8.5f, y = 21.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -11.5f, y = 18.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -13.5f, y = 21.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -5.5f, y = 17.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -14.5f, y = 17.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -6.5f, y = 22.5f});
-        ListOfCordsToWalkTo.Add(new Cords {x = -10.5f, y = 22.5f});*/
-        //StartCoroutine(MoveTo(new Vector3(positonX, positonY, 0)));
-        
-        
-        
     }
 
     void Start() {
@@ -109,20 +99,34 @@ public class CostumerPathFinder : MonoBehaviour
             ListOfCordsToWalkTo.Add(new Cords {x = transform.position.x, y = transform.position.y});
             Debug.Log("Total stops to take: " + ListOfCordsToWalkTo.Count);
         }
-        
+        stopps++;
     }
 
     IEnumerator atStopp()
     {
-        if (stoppsTaken > stopps)
+        if (stoppsTaken >= stopps)
         {
             Debug.Log("Done Moving " + stoppsTaken + " stops!");
+            CostumerSpawner.Instance.NumberOfCosstumersInStore --;
+            Destroy(gameObject,2f);
         }
         else
         {
             yield return new WaitForSeconds(PauseTimeAtStops); // waits 2 seconds
             //int randomNextStop = getRandomNextStop();
             //Debug.Log("Moving to stop " + (randomNextStop + 1));
+            Debug.Log(stoppsTaken);
+            Debug.Log(CostumerData.listOfItemsLookingfor[stoppsTaken] + " to remove at this stop");
+            if (CostumerData.listOfItemsLookingForShelfId.Count !=0)
+            {
+                foreach (ShelfInventory shelf in ShelfInventoryManager.Instance.AllShelves)
+                {
+                    shelf.RemoveNamedItemForShelf(CostumerData.listOfItemsLookingForShelfId[stoppsTaken], CostumerData.listOfItemsLookingfor[stoppsTaken+1]);
+                }
+            }
+            
+
+
             stoppsTaken++;
             creatPathwayTo(ListOfCordsToWalkTo[stoppsTaken-1].x,ListOfCordsToWalkTo[stoppsTaken-1].y);
             
@@ -133,7 +137,7 @@ public class CostumerPathFinder : MonoBehaviour
     {
         //Round to closest int 
 
-        foreach(StoreAreaLogic.Obstacle obstacle in Area.ListOfObstacles)
+        foreach(StoreAreaLogic.Obstacle obstacle in StoreAreaLogic.Instance.ListOfObstacles)
         {
             if (obstacle.x == x && obstacle.y == y)
             {
@@ -210,7 +214,7 @@ public class CostumerPathFinder : MonoBehaviour
             isMoving = false;
             errorCode1 = false;
             errorCode1ActiveInThisAttempt = false;
-            stoppsTaken ++;
+            //stoppsTaken ++;
             StartCoroutine(atStopp());
             
         }
@@ -387,10 +391,10 @@ public class CostumerPathFinder : MonoBehaviour
     {
         //Calculate the ideal path length using Manhattan distance
         idealPathLength = (int)(Mathf.Abs(transform.position.x - x) + Mathf.Abs(transform.position.y - y));
-        Debug.Log("Calculating path to X: " + x + " Y: " + y + " Ideal path length: " + idealPathLength);
+        //Debug.Log("Calculating path to X: " + x + " Y: " + y + " Ideal path length: " + idealPathLength);
         if (idealPathLength == 0)
         {
-            Debug.Log("Already at the destination!");
+            //Debug.Log("Already at the destination!");
             StartCoroutine(atStopp());
         }
         numberOfFindPathTriesSoFar = 0;
@@ -411,7 +415,7 @@ public class CostumerPathFinder : MonoBehaviour
                 CheepestPathWay.AddRange(currentPathWay);
                 if (CheepestPathWay.Count <= idealPathLength)
                 {
-                    Debug.Log("Found an optimal path! Ideal: " + idealPathLength + ", Actual: " + CheepestPathWay.Count);
+                    //Debug.Log("Found an optimal path! Ideal: " + idealPathLength + ", Actual: " + CheepestPathWay.Count);
                     break; // Found an optimal path, no need to continue
                 }
             }
