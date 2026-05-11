@@ -141,13 +141,41 @@ public class ShelfInventory : MonoBehaviour
         
     }
 
+    public void fixDisplayInsideShelf()
+    {
+        for (int i = 0; i < ItemsInShelf.Count; i++)
+        {
+            
+            if (ItemsInShelf[i] != null)
+            {
+                //Change spirte to the correct id for most cases its the same id.
+                itemPlaceHolders[i].GetComponent<SpriteRenderer>().sprite = _shelfInventoryDisplay.getSpriteByID(ItemsInShelf[i]._ItemId);
+                itemPlaceHolders[i].SetActive(true);
+            }
+            else
+            {
+                itemPlaceHolders[i].SetActive(false);
+            }
+            
+        }
+        if (ItemsInShelf.Count == 0)
+        {
+            itemPlaceHolders[0].SetActive(false);
+        }
+        itemPlaceHolders[ItemsInShelf.Count].SetActive(false);
+    }
+
     public void RemoveSetItemByName(string ItemToRemove)
     {
+        //finds item to remove by name
         var target = ItemsInShelf.Find(Item => Item._ItemName == ItemToRemove);
         if (target != null)
         {
+            //Remove the whole element, and fix so no null spacings left.
             ItemsInShelf.Remove(target);
-            Debug.Log("Removed " + target);
+            
+
+            fixDisplayInsideShelf();
         }
     }
 
@@ -155,7 +183,9 @@ public class ShelfInventory : MonoBehaviour
     {
         if (shelfId == ShelfID)
         {
-            Debug.Log("Wants to remvoe " + ItemToRemove + " from shelf with id " + shelfId);
+            //Removing from shelfmanager
+            ShelfInventoryManager.Instance.removeItemFromShelf(shelfId,ItemToRemove);
+            RemoveSetItemByName(ItemToRemove);
         }
         
     }

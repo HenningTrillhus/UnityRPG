@@ -13,6 +13,15 @@ public class CostumerSpawner : MonoBehaviour
     [SerializeField]public Sprite BrownMushroomSprite;
     [SerializeField]public Sprite DiamondSprite;
 
+    [Header("Item Refrence")]
+    [SerializeField]public ItemData Carrot;
+    [SerializeField]public ItemData Apple;
+    [SerializeField]public ItemData Potato;
+    [SerializeField]public ItemData Bread;
+    [SerializeField]public ItemData RedMushroom;
+    [SerializeField]public ItemData BrownMushroom;
+    [SerializeField]public ItemData Diamond;
+
     [Header("Tick Logic")]
     [SerializeField]public TickLogic tickLogic;
 
@@ -49,10 +58,10 @@ public class CostumerSpawner : MonoBehaviour
         if (StoreLogic.StoreIsOpen && NumberOfCosstumersInStore < maxNumberOfCostumers)
         {
             tickCount ++;
-            int randomSpawnTick = UnityEngine.Random.Range(0, 10);
+            int randomSpawnTick = UnityEngine.Random.Range(0, 6);
             if (randomSpawnTick == 5)
             {
-                Debug.Log("Spawn Costumer");
+                
                 NumberOfCosstumersInStore++;
                 Instantiate(Costumer, new Vector3 (-9.5f, 17.5f, 0f), Quaternion.identity);
             }
@@ -61,35 +70,71 @@ public class CostumerSpawner : MonoBehaviour
         
     }
 
+    public (int, Sprite) getItemValueAndSpriteByID(string itemName)
+    {
+        if (itemName == "Bread")
+        {
+            return (Bread.valueInGameCurrency,Bread.icon);
+        }
+        if (itemName == "Carrot")
+        {
+            return (Carrot.valueInGameCurrency, Carrot.icon);
+        }
+        if (itemName == "Apple")
+        {
+            return (Apple.valueInGameCurrency, Apple.icon);
+        }
+        if (itemName == "Potato")
+        {
+            return (Potato.valueInGameCurrency, Potato.icon);
+        }
+        if (itemName == "RedMushroom")
+        {
+            return (RedMushroom.valueInGameCurrency, RedMushroom.icon);
+        }
+        if (itemName == "BrownMushroom")
+        {
+            return (BrownMushroom.valueInGameCurrency, BrownMushroom.icon);
+        }
+        if (itemName == "Diamond")
+        {
+            return (Diamond.valueInGameCurrency, Diamond.icon);
+        }
+        else
+        {
+            return (0, null);
+        }
+    }
+
     public Sprite getSpriteByID(int id)
     {
         if (id == 7)
         {
-            return BreadSprite;
+            return Bread.icon;
         }
         if (id == 12)
         {
-            return CarrotSprite;
+            return Carrot.icon;
         }
         if (id == 13)
         {
-            return AppleSprite;
+            return Apple.icon;
         }
         if (id == 14)
         {
-            return PotatoSprite;
+            return Potato.icon;
         }
         if (id == 15)
         {
-            return RedMushroomSprite;
+            return RedMushroom.icon;
         }
         if (id == 16)
         {
-            return BrownMushroomSprite;
+            return BrownMushroom.icon;
         }
         if (id == 17)
         {
-            return DiamondSprite;
+            return Diamond.icon;
         }
         else
         {
@@ -132,6 +177,87 @@ public class CostumerSpawner : MonoBehaviour
         {
             Debug.Log("fuck balls, dont have the name for this id. id sendt in: " + id);
             return null;
+        }
+    }
+
+    public (string, Sprite, int) getItemInfoByID(int id, string itemName)
+    {
+        if (id != 0)
+        {
+            if (id == 7)
+            {
+                return (Bread.itemName, Bread.icon, Bread.valueInGameCurrency);
+            }
+            if (id == 12)
+            {
+                return (Carrot.itemName, Carrot.icon, Carrot.valueInGameCurrency);
+            }
+            if (id == 13)
+            {
+                return (Apple.itemName, Apple.icon, Apple.valueInGameCurrency);
+            }
+            if (id == 14)
+            {
+                return (Potato.itemName, Potato.icon, Potato.valueInGameCurrency);
+            }
+            if (id == 15)
+            {
+                return (RedMushroom.itemName, RedMushroom.icon, RedMushroom.valueInGameCurrency);
+            }
+            if (id == 16)
+            {
+                return (BrownMushroom.itemName, BrownMushroom.icon, BrownMushroom.valueInGameCurrency);
+            }
+            if (id == 17)
+            {
+                return (Diamond.itemName, Diamond.icon, Diamond.valueInGameCurrency);
+            }
+            else
+            {
+                Debug.Log("fuck balls, dont have the info for this id. id sendt in: " + id);
+                return (null, null, 0);
+            }
+        }
+        if (itemName != null)
+        {
+            if (itemName == "Bread")
+            {
+                return (Bread.itemName, Bread.icon, Bread.valueInGameCurrency);
+            }
+            if (itemName == "Carrot")
+            {
+                return (Carrot.itemName, Carrot.icon, Carrot.valueInGameCurrency);
+            }
+            if (itemName == "Apple")
+            {
+                return (Apple.itemName, Apple.icon, Apple.valueInGameCurrency);
+            }
+            if (itemName == "Potato")
+            {
+                return (Potato.itemName, Potato.icon, Potato.valueInGameCurrency);
+            }
+            if (itemName == "Red Mushroom")
+            {
+                return (RedMushroom.itemName, RedMushroom.icon, RedMushroom.valueInGameCurrency);
+            }
+            if (itemName == "Brown Mushroom")
+            {
+                return (BrownMushroom.itemName, BrownMushroom.icon, BrownMushroom.valueInGameCurrency);
+            }
+            if (itemName == "Diamond")
+            {
+                return (Diamond.itemName, Diamond.icon, Diamond.valueInGameCurrency);
+            }
+            else
+            {
+                Debug.Log("fuck balls, dont have the info for this id. id sendt in: " + id);
+                return (null, null, 0);
+            }
+        }
+        else
+        {
+            Debug.Log("fuck balls, dont have the info for this id. id sendt in: " + id);
+            return (null, null, 0);
         }
     }
 }

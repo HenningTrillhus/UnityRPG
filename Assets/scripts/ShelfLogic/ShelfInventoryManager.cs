@@ -117,6 +117,26 @@ public class ShelfInventoryManager : MonoBehaviour
         return (Vector3.zero, -2); // Return a default position if no shelf is found
     }
 
+    public bool isItemInsideShelf(string itemName, int shelfId)
+    {
+        if (itemName == "") return false;
+        for (int i = 1; i < allShelfData.Count; i++)
+        {
+            Debug.Log("From manager ids" + i +"     " + shelfId);
+            if (i == shelfId)
+            {
+                Debug.Log("From manager Found shelf id" + i + "   " + shelfId);
+                if (System.Array.Exists(allShelfData[i].itemNames, name => name == itemName))
+                {
+                    Debug.Log("From manager item: " + itemName + " is inside shelf id " + i + " matching id " + shelfId);
+                    return true;
+                }
+            }
+        }
+        Debug.Log("From manager item is not in shelf");
+        return false;
+    }
+
     public bool ItmesInStore()
     {
         if (allShelfData.Count == 0) return false;

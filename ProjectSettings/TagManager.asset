@@ -44,6 +44,12 @@ TagManager:
   - name: TileSets
     uniqueID: 232236585
     locked: 0
+  - name: OverTileSet
+    uniqueID: 181155773
+    locked: 0
+  - name: FrontHouseTile
+    uniqueID: 721530055
+    locked: 0
   - name: CropLayer
     uniqueID: 3900971783
     locked: 0

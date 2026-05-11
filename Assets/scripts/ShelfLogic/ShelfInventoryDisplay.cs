@@ -150,7 +150,6 @@ public class ShelfInventoryDisplay : MonoBehaviour
         found = false;
         if (ItemsInShelfForDisplay.Count != 0)
         {
-            Debug.Log("running");
             foreach (Item item in ItemsInShelfForDisplay)
             {
                 if (Name == item._ItemName)

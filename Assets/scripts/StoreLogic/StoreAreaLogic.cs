@@ -9,6 +9,9 @@ public class StoreAreaLogic : MonoBehaviour
     public GameObject BuildButton;
     public GameObject OpenStoreButton;
     public GameObject BuildMenu;
+    public GameObject StoreRoof;
+    public GameObject StoreFrontWalls;
+    public GameObject StoreDarknes;
 
     public float storeAreaWidth = 10f;
     public float storeAreaHight = 6f;
@@ -19,7 +22,7 @@ public class StoreAreaLogic : MonoBehaviour
     public float wallStartHightX = -15.5f;
     public float wallStartHightY = 17.5f;
 
-    private bool playerNearby = false;
+    public bool playerNearby = false;
 
     public bool StoreIsOpen = false;
 
@@ -37,6 +40,9 @@ public class StoreAreaLogic : MonoBehaviour
     {
         BuildButton.SetActive(false);
         OpenStoreButton.SetActive(false);
+        StoreRoof.SetActive(true);
+        StoreFrontWalls.SetActive(true);
+        StoreDarknes.SetActive(false);
         //ListOfObstacles.Add(new Obstacle {Type = "Shelf", x = 6f, y = 4f});
         //ListOfObstacles.Add(new Obstacle {Type = "Shelf", x = 3f, y = 2f});
         //ListOfObstacles.Add(new Obstacle {Type = "Shelf", x = 8f, y = 3f});
@@ -61,6 +67,9 @@ public class StoreAreaLogic : MonoBehaviour
             playerNearby = true;
             BuildButton.SetActive(true);
             OpenStoreButton.SetActive(true);
+            StoreRoof.SetActive(false);
+            StoreFrontWalls.SetActive(false);
+            StoreDarknes.SetActive(true);
         }
     }
 
@@ -71,6 +80,9 @@ public class StoreAreaLogic : MonoBehaviour
             playerNearby = false;
             BuildButton.SetActive(false);
             OpenStoreButton.SetActive(false);
+            StoreRoof.SetActive(true);
+            StoreFrontWalls.SetActive(true);
+            StoreDarknes.SetActive(false);
         }
     }
 
@@ -84,7 +96,6 @@ public class StoreAreaLogic : MonoBehaviour
 
     public void OpenStoreButtonClicked()
     {
-        Debug.Log(ShelfInventoryManager.Instance.ItmesInStore());
         if (!playerNearby) return;
         if (ShelfInventoryManager.Instance.allShelfData.Count > 0 && ShelfInventoryManager.Instance.ItmesInStore())
         {

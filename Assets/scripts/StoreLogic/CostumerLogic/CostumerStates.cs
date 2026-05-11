@@ -27,6 +27,9 @@ public class CostumerStates : MonoBehaviour
 
     public float hoverDistance = 0.5f;
 
+    //sat up 1y becuse the pathfinding moves it down one
+    private Vector3 LastPostion = new Vector3(-9.5f, 18.5f, 0f);
+
     [SerializeField] private TextMeshPro costumerNameBox;
     [SerializeField] private TextMeshPro costumerClassBox;
 
@@ -99,7 +102,6 @@ public class CostumerStates : MonoBehaviour
         lookingForItemSprite2.sprite = getSpriteByID(listOfPosibleItemsID[randomNumberForItem2]);
         lookingForItemSprite3.sprite = getSpriteByID(listOfPosibleItemsID[randomNumberForItem3]);
 
-        Debug.Log("Cosutmer Working");
         findShelfToMoveTo();        
     }
 
@@ -162,17 +164,21 @@ public class CostumerStates : MonoBehaviour
         //Debug.Log(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"));
         for (int i = 0; i < StoppsToTake; i++)
         {
+            //finds the shelf for each item, if not exists in any shelfs then add next stop to be at the same as last.
             if (i == 0)
             {
                 (Vector3 position, int index) = ShelfInventoryManager.Instance.findShelfToMoveTo(listOfItemsLookingfor[0]);
                 if (position != Vector3.zero)
                 {
-                    CostumerPathfinding.addStop(position,false);
                     listOfItemsLookingForShelfId.Add(index);
+                    LastPostion = position;
+                    CostumerPathfinding.addStop(position,false,listOfItemsLookingfor[0]);
                 }
                 else
                 {
                     listOfItemsLookingfor[0] = "";
+                    listOfItemsLookingForShelfId.Add(-2);
+                    CostumerPathfinding.addStop(LastPostion,false,"");
                 }
             }
             if (i == 1)
@@ -180,12 +186,15 @@ public class CostumerStates : MonoBehaviour
                 (Vector3 position, int index) = ShelfInventoryManager.Instance.findShelfToMoveTo(listOfItemsLookingfor[1]);
                 if (position != Vector3.zero)
                 {
-                    CostumerPathfinding.addStop(position,false);
                     listOfItemsLookingForShelfId.Add(index);
+                    LastPostion = position;
+                    CostumerPathfinding.addStop(position,false,listOfItemsLookingfor[1]);
                 }
                 else
                 {
                     listOfItemsLookingfor[1] = "";
+                    listOfItemsLookingForShelfId.Add(-2);
+                    CostumerPathfinding.addStop(LastPostion,false,"");
                 }
             }
             if (i == 2)
@@ -193,17 +202,21 @@ public class CostumerStates : MonoBehaviour
                 (Vector3 position, int index) = ShelfInventoryManager.Instance.findShelfToMoveTo(listOfItemsLookingfor[2]);
                 if (position != Vector3.zero)
                 {
-                    CostumerPathfinding.addStop(position,false);
                     listOfItemsLookingForShelfId.Add(index);
+                    LastPostion = position;
+                    CostumerPathfinding.addStop(position,false,listOfItemsLookingfor[2]);
                 }
                 else
                 {
                     listOfItemsLookingfor[2] = "";
+                    listOfItemsLookingForShelfId.Add(-2);
+                    CostumerPathfinding.addStop(LastPostion,false,"");
                 }
             }
         }
+        listOfItemsLookingfor.Add("");
         //Add the exit as the final stop
-        CostumerPathfinding.addStop(Vector3.zero, true);
+        CostumerPathfinding.addStop(Vector3.zero, true, "");
         CostumerPathfinding.incitateMovement();
         //CostumerPathfinding.addStop(ShelfInventoryManager.Instance.findShelfToMoveTo("Apple"));
 

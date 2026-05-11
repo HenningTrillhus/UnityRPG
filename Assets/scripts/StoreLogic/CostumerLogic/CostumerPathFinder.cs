@@ -40,6 +40,9 @@ public class CostumerPathFinder : MonoBehaviour
 
     private int LastStop;
     
+    private int indexFixer = 0;
+
+    private bool hasArrivedAtStop = false;
 
     //public int[] stopps = 
 
@@ -55,6 +58,8 @@ public class CostumerPathFinder : MonoBehaviour
     public List<int> CheepestPathWay = new List<int>();
     public List<int> currentPathWay = new List<int>();
     public List<Cords> ListOfCordsToWalkTo = new List<Cords>();
+    public List<string> ListOfItemsToRemove = new List<string>();
+    public List<float> ListOfPauseTimes = new List<float>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
@@ -65,6 +70,7 @@ public class CostumerPathFinder : MonoBehaviour
 
     void Start() {
         //creatPathwayTo(-8.5f,21.5f);
+        ListOfPauseTimes.Add(2f);
     }
 
     // Update is called once per frame
@@ -86,24 +92,37 @@ public class CostumerPathFinder : MonoBehaviour
         }
     }*/
 
-    public void addStop(Vector3 position, bool isLastStop)
+    public void addStop(Vector3 position, bool isLastStop, string ItemToRemove)
     {
         if (!isLastStop)
         {
             ListOfCordsToWalkTo.Add(new Cords {x = position.x, y = position.y - 1f});
+            ListOfItemsToRemove.Add(ItemToRemove);
             Debug.Log("Added stop at position: X " + position.x + " Y " + (position.y - 1f));
             Debug.Log("Total stops to take: " + ListOfCordsToWalkTo.Count);
+            if (ItemToRemove == "")
+            {
+                ListOfPauseTimes.Add(0f);
+            }
+            else
+            {
+                ListOfPauseTimes.Add(2f);
+            }
         }
         else
         {
             ListOfCordsToWalkTo.Add(new Cords {x = transform.position.x, y = transform.position.y});
             Debug.Log("Total stops to take: " + ListOfCordsToWalkTo.Count);
+            ListOfPauseTimes.Add(0f);
+            ListOfItemsToRemove.Add("");
         }
         stopps++;
     }
 
     IEnumerator atStopp()
     {
+        hasArrivedAtStop = false;
+        //Debug.Log("Pause time list : " + ListOfPauseTimes[0] + "   "+ ListOfPauseTimes[1] + "   "+ ListOfPauseTimes[2] + "   ");
         if (stoppsTaken >= stopps)
         {
             Debug.Log("Done Moving " + stoppsTaken + " stops!");
@@ -112,17 +131,35 @@ public class CostumerPathFinder : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(PauseTimeAtStops); // waits 2 seconds
+            
+            Debug.Log(ListOfPauseTimes.Count);
             //int randomNextStop = getRandomNextStop();
             //Debug.Log("Moving to stop " + (randomNextStop + 1));
-            Debug.Log(stoppsTaken);
-            Debug.Log(CostumerData.listOfItemsLookingfor[stoppsTaken] + " to remove at this stop");
+            Debug.Log(stoppsTaken+ "Stops taken rn");
+            //Debug.Log(CostumerData.listOfItemsLookingfor[stoppsTaken] + " to remove at this stop");
+            //If have items to look for. 
             if (CostumerData.listOfItemsLookingForShelfId.Count !=0)
             {
-                foreach (ShelfInventory shelf in ShelfInventoryManager.Instance.AllShelves)
+                //Needs an indexfixer to make sure the costumer dont remove items before they reach the correct shelf
+                //only works on all indexses after 0, so we dont get -1
+                if (stoppsTaken != 0)
                 {
-                    shelf.RemoveNamedItemForShelf(CostumerData.listOfItemsLookingForShelfId[stoppsTaken], CostumerData.listOfItemsLookingfor[stoppsTaken+1]);
+                    indexFixer = 1;
                 }
+                yield return new WaitForSeconds(ListOfPauseTimes[stoppsTaken]);
+                //if item looking for exsist, -2 id means no item.
+                if (CostumerData.listOfItemsLookingfor[stoppsTaken] != "" && CostumerData.listOfItemsLookingForShelfId[stoppsTaken] != -2)
+                {
+                    Debug.Log("inside pathfinding move done, check if item looked for : " + ListOfItemsToRemove[stoppsTaken] + " is in the shelf with id " + CostumerData.listOfItemsLookingForShelfId[stoppsTaken]+ ShelfInventoryManager.Instance.isItemInsideShelf(ListOfItemsToRemove[stoppsTaken],CostumerData.listOfItemsLookingForShelfId[stoppsTaken]));
+                    
+                    foreach (ShelfInventory shelf in ShelfInventoryManager.Instance.AllShelves)
+                    {
+                        shelf.RemoveNamedItemForShelf(CostumerData.listOfItemsLookingForShelfId[stoppsTaken], CostumerData.listOfItemsLookingfor[stoppsTaken]);
+                        
+                    }
+                    JustSoldItemDisplay.Instance.printSoldItemPanel(CostumerData.listOfItemsLookingfor[stoppsTaken]);
+                }
+                
             }
             
 
@@ -214,8 +251,12 @@ public class CostumerPathFinder : MonoBehaviour
             isMoving = false;
             errorCode1 = false;
             errorCode1ActiveInThisAttempt = false;
-            //stoppsTaken ++;
-            StartCoroutine(atStopp());
+            if (!hasArrivedAtStop)
+            {
+                hasArrivedAtStop = true;
+                // ... your cleanup code ...
+                StartCoroutine(atStopp());
+            }
             
         }
         else if (tilesMoved < CheepestPathWay.Count)
@@ -396,6 +437,7 @@ public class CostumerPathFinder : MonoBehaviour
         {
             //Debug.Log("Already at the destination!");
             StartCoroutine(atStopp());
+            return;
         }
         numberOfFindPathTriesSoFar = 0;
         errorCode1 = false;

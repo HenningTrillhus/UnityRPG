@@ -477,6 +477,8 @@ MonoBehaviour:
   CostumerPathfinding: {fileID: 7930813073260690633}
   costumerName: 
   costumerClass: 
+  listOfItemsLookingfor: []
+  listOfItemsLookingForShelfId: 
   hoverDistance: 0.5
   costumerNameBox: {fileID: 3774333714715347214}
   costumerClassBox: {fileID: 8270418481850341295}
@@ -514,6 +516,8 @@ MonoBehaviour:
   stopps: 0
   CheepestPathWay: 
   currentPathWay: 
+  ListOfItemsToRemove: []
+  ListOfPauseTimes: []
 --- !u!1 &3347658622399970681
 GameObject:
   m_ObjectHideFlags: 0
